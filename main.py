@@ -19,7 +19,7 @@ def formulaire():
 
 @app.route("/phrases")
 def formulaire2():
-	f = open('./form.html', 'r')
+	f = open('./static/form.html', 'r')
 	html = f.read()
 	return html
 
