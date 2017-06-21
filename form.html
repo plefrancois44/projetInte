@@ -8,7 +8,7 @@
             var verb = $("#verb").val()
             var compl = $("#complement").val()
             if(name!="" && verb!="" && compl!=""){
-                var url = "https://bushukan-imerir.herokuapp.com/elements/"+name+"/"+verb+"/"+compl
+                var url = "https://bushukan-imerir.herokuapp.com/phrases/elements/"+name+"/"+verb+"/"+compl
                 $.ajax(url)
                 .done(function(data){
                     $("#new").text("nouveaux elements ajoutes : "+data)
@@ -16,7 +16,7 @@
             }
         }
         function generateRandom(){
-            $.ajax("https://bushukan-imerir.herokuapp.com/random")
+            $.ajax("https://bushukan-imerir.herokuapp.com/phrases/random")
             .done(function(data){
                 $("#rand").text(data)
             })
