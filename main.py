@@ -13,6 +13,10 @@ app = Flask(__name__)
 def jsonResponse(data, status=200):
   return json.dumps(data), status, {'Content-Type': 'application/json'}
 
+@app.route("/")
+def formulaire():
+	return "hello world"
+
 @app.route("/phrases")
 def formulaire():
 	f = open('./form.html', 'r')
