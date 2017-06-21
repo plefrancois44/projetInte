@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src="jquery.js"></script>
+    <script>
+        function addToServeur(){
+            var name = $("#name").val()
+            var verb = $("#verb").val()
+            var compl = $("#complement").val()
+            if(name!="" && verb!="" && compl!=""){
+                var url = "http://bushukan-imerir.herokuapp.com/phrases/elements/"+name+"/"+verb+"/"+compl
+                $.ajax(url)
+                .done(function(data){
+                    $("#new").text("nouveaux elements ajoutes : "+data)
+                })
+            }
+        }
+        function generateRandom(){
+            $.ajax("http://bushukan-imerir.herokuapp.com/phrases/random")
+            .done(function(data){
+                $("#rand").text(data)
+            })
+        }
+    </script>
+    <style type="text/css">
+        div{
+            border-width: 0.5em;
+            border: black solid;
+            margin: 3px ;
+            margin-left:0px;
+        }
+
+        div *{
+            margin-left:15px;
+        }
+    </style>
+    </head>
+    <body>
+        <div>
+            <p>Add to the Serveur</p>
+            <label for="name">name<input type="text" name="name" id="name"></label>
+            <label for="verb">verb<input type="text" name="verb" id="verb"></label>
+            <label for="complement">complement<input type="text" name="complement" id="complement"></label>
+            </br>
+            <button onclick="addToServeur()" name="addToServeur">add sentence to serveur</button>
+            <p id="new"> </p>
+        </div>
+        <div>
+            <p>Down</p>
+            <button onclick="generateRandom()" name="randomSentence">get a random Sentence</button>
+            <p id="rand"> </p>
+        </div>
+    </body>
+</html>
