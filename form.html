@@ -16,7 +16,7 @@
             }
         }
         function generateRandom(){
-            $.ajax("http://127.0.0.1:5000/random")
+            $.ajax("http://dashboard.heroku.com/apps/bushukan-imerir/random")
             .done(function(data){
                 $("#rand").text(data)
             })
