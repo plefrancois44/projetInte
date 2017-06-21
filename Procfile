@@ -1,1 +1,1 @@
-web: gunicorn bushukan-imerir:app --log-file -
+web: gunicorn gettingstarted.wsgi --log-file -
