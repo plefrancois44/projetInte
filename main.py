@@ -41,7 +41,6 @@ def product_elem(name,verb,compl):
 @app.route('/arduino', methods=['POST']) #/<int:requested_glasses>
 def arduino():
   elements = request.get_json()
-  arduinoData = int(elements["text"])
   return jsonResponse(elements)
 
 if __name__ == "__main__":
