@@ -17,12 +17,6 @@ def jsonResponse(data, status=200):
 def formulaire():
 	return "hello world"
 
-@app.route("/test")
-def formulaire2():
-	f = open('./test.html', 'r')
-	html = f.read()
-	return html
-
 @app.route("/phrases")
 def formulaire2():
 	f = open('./form.html', 'r')
