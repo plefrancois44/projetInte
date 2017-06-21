@@ -38,5 +38,11 @@ def product_elem(name,verb,compl):
 	phrase = Names[-1]+' '+Verbs[-1]+' '+Compls[-1]
 	return jsonResponse(phrase)
 
+@app.route('/arduino', methods=['POST']) #/<int:requested_glasses>
+def arduino():
+  elements = request.get_json()
+  arduinoData = int(elements["text"])
+  return jsonResponse(elements)
+
 if __name__ == "__main__":
     app.run()
