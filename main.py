@@ -17,11 +17,6 @@ def jsonResponse(data, status=200):
 def formulaire():
 	return "hello world"
 
-@app.route("/phrases")
-def formulaire():
-	f = open('./form.html', 'r')
-	html = f.read()
-	return html
 
 @app.route("/phrases/random")
 def product_rand():
