@@ -81,7 +81,7 @@ def arduino():
   return jsonResponse(elements)
 
 # Route OK
-@app.route('/reset', methods=['GET'])
+@app.route('/admin/resetbase', methods=['GET'])
 @besoin_authentification_admin
 def route_dbinit():
   	"""Cette route sert a initialiser (ou nettoyer) la base de donnees."""
@@ -101,7 +101,7 @@ def authentification_admin():
 #-----------------------------------------------------------------
 
 # Route OK
-@app.route('/joueurs', methods=['GET'])
+@app.route('/admin/players', methods=['GET'])
 @besoin_authentification_admin
 def get_user():
 	db=Db()
@@ -112,7 +112,18 @@ def get_user():
 	reponse = make_response(json.dumps(resultat),200)
 	return reponse
 
+#-----------------------------------------------------------------
 
+# Route OK
+@app.route('/ingredients', methods=['GET'])
+def get_ingredient():
+	db=Db()
+	
+	resultat = db.select('SELECT * FROM Ingredient')
+	
+	db.close()
+	reponse = make_response(json.dumps(resultat),200)
+	return reponse
 
 
 if __name__ == "__main__":
