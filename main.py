@@ -119,7 +119,8 @@ def get_user():
 def get_ingredient():
 	db=Db()
 	
-	resultat = db.select('SELECT ing_nom AS name, ing_prix_unitaire AS cost, ing_alcool AS hasAlcohol, ing_froid AS isCold FROM Ingredient')
+	resultat = db.select('SELECT ing_nom AS name, ing_prix_unitaire AS cost, ing_alcool AS hasAlcohol, ing_froid AS isCold FROM Ingredient'
+			    'ORDER BY name, cost, hasAlcohol, isCold ASC')
 	
 	db.close()
 	reponse = make_response(json.dumps(resultat),200)
