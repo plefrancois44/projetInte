@@ -2,3 +2,4 @@ Flask
 flask-cors
 gunicorn==19.6.0
 psycopg2
+urlparse
