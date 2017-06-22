@@ -119,7 +119,7 @@ def get_user():
 def get_ingredient():
 	db=Db()
 	
-	resultat = db.select('SELECT ing_nom FROM Ingredient')
+	resultat = db.select('SELECT * FROM Ingredient')
 	
 	db.close()
 	reponse = make_response(json.dumps(resultat),200)
