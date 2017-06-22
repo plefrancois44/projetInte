@@ -7,17 +7,16 @@ from datetime import datetime
 from math import sqrt
 import random
 from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
+
 
 # OBLIGATOIRE SINON ERREUR
 import sys
 reload(sys)
 sys.setdefaultencoding("latin-1")
 ######################################
-
+app = Flask(__name__)
 app.debug = True
-
+CORS(app)
 
 Names = ["puppy", "car", "rabbit", "girl", "monkey"]
 Verbs = ["runs", "hits", "jumps", "drives", "barfs"]
