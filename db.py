@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import psycopg2, urlparse, re, os
+import psycopg2, urlparse2, re, os
 
 class Db:
   """Connexion à la base de données postgres de l'environnement Heroku."""
