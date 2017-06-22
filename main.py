@@ -6,6 +6,9 @@ from functools import wraps
 from datetime import datetime
 from math import sqrt
 import random
+from flask_cors import CORS
+app = Flask(__name__)
+CORS(app)
 
 # OBLIGATOIRE SINON ERREUR
 import sys
@@ -13,7 +16,6 @@ reload(sys)
 sys.setdefaultencoding("latin-1")
 ######################################
 
-app = Flask(__name__)
 app.debug = True
 
 
@@ -22,10 +24,7 @@ Verbs = ["runs", "hits", "jumps", "drives", "barfs"]
 Compls = ["crazily.", "dutifully.", "foolishly.", "merrily.", "occasionally."]
 randPhrase=[Names,Verbs,Compls]
 
-from flask import Flask, make_response, request
-from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
+
 
 def jsonResponse(data, status=200):
   return json.dumps(data), status, {'Content-Type': 'application/json'}
