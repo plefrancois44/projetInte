@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, make_response, Response
-import json, os, psycopg2, urlparse
+import json, os, psycopg2
 from db import Db
 from functools import wraps 
 from datetime import datetime
@@ -83,7 +83,7 @@ def arduino():
 @app.route('/debug/db/reset', methods=['GET'])
 @besoin_authentification_admin
 def route_dbinit():
-  	"""Cette route sert à initialiser (ou nettoyer) la base de données."""
+  	"""Cette route sert a initialiser (ou nettoyer) la base de donnees."""
   	db = Db()
   	db.executeFile("base.sql")
   	db.close()
