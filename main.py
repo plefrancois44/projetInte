@@ -81,7 +81,7 @@ def arduino():
   return jsonResponse(elements)
 
 # Route OK
-@app.route('/debug/db/reset', methods=['GET'])
+@app.route('/reset', methods=['GET'])
 @besoin_authentification_admin
 def route_dbinit():
   	"""Cette route sert a initialiser (ou nettoyer) la base de donnees."""
