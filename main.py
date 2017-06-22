@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import md5
 from flask import Flask, request, make_response, Response
 import json, os, psycopg2, urlparse
 from db import Db
@@ -35,7 +34,7 @@ def verif_authentification_admin(nom, mot_de_passe):
     result = db.select('SELECT COUNT(com_nom) AS nb FROM Compte '
                        'WHERE com_nom=%(Username)s AND com_mot_de_passe=%(Password)s AND com_est_admin = True;', {
                            'Username': nom,
-                           'Password': md5.new(mot_de_passe.encode('utf-8')).hexdigest()
+                           'Password': mot_de_passe
                        })
     db.close()
     return result[0]['nb'] >= 1
