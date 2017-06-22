@@ -55,15 +55,15 @@ def besoin_authentification_admin(f):
 def formulaire():
 	return "TOTO"
 
-@app.route("/phrases")
+@app.route("/html")
 def formulaire2():
 	f = open('./static/form.html', 'r')
 	html = f.read()
 	return html
 
-@app.route("/phrases/random")
+@app.route("/testhtml")
 def product_rand():
-	phrase = ' '.join([random.choice(i) for i in randPhrase]) 
+	phrase = 'toto'
 	return jsonResponse(phrase)
 
 @app.route("/phrases/elements/<name>/<verb>/<compl>")
