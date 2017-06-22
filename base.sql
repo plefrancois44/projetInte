@@ -89,4 +89,4 @@ ALTER TABLE vendre ADD CONSTRAINT FK_vendre_rec_nom FOREIGN KEY (rec_nom) REFERE
 ALTER TABLE produire ADD CONSTRAINT FK_produire_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE produire ADD CONSTRAINT FK_produire_rec_nom FOREIGN KEY (rec_nom) REFERENCES Recette(rec_nom);
 
-INSERT INTO Compte (com_nom, com_mot_de_passe, com_est_admin) VALUES ('admin', 'admin', TRUE);
+INSERT INTO Compte (com_nom, com_mot_de_passe, com_est_admin) VALUES ('admin', md5('admin'), TRUE);
