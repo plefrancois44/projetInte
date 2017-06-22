@@ -90,3 +90,14 @@ ALTER TABLE produire ADD CONSTRAINT FK_produire_jou_nom FOREIGN KEY (jou_nom) RE
 ALTER TABLE produire ADD CONSTRAINT FK_produire_rec_nom FOREIGN KEY (rec_nom) REFERENCES Recette(rec_nom);
 
 INSERT INTO Compte (com_nom, com_mot_de_passe, com_est_admin) VALUES ('admin', md5('admin'), TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('citron', 1, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('eau gazeuse', 1.5 , FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('sucre', 0.5, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('rhum', 5, TRUE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('menthe', 0.9, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('chocolat', 1.25, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('lait', 0.75, FALSE, FALSE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('fraise', 1.5, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('orange', 1 , FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('whisky', 4, TRUE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('eau', 0.75, FALSE, FALSE);
