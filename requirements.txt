@@ -4,4 +4,4 @@ gunicorn==19.6.0
 psycopg2
 blinker
 gevent
-md5
+md5==2.0
