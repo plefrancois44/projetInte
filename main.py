@@ -53,7 +53,7 @@ def besoin_authentification_admin(f):
 
 @app.route("/")
 def formulaire():
-	return "hello world"
+	return "TOTO"
 
 @app.route("/phrases")
 def formulaire2():
