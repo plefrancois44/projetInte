@@ -1,0 +1,61 @@
+
+Weather = {
+	"rainny": 0,
+	"cloudy": 1,
+	"sunny": 2,
+	"heatwave": 3,
+	"thunderstorm": 4
+}
+
+Forecast = {
+	"dnf": 0,
+	"weather": Weather
+}
+
+Temps = {
+	"timestamp": 0,
+	"weather": [Forecast]
+}
+
+Coordinates = {
+	"latitude": 0.0,
+	"longitude": 0.0
+}
+
+CoordinatesSpan = {
+	"latitudeSpan": 0.0,
+	"longitudeSpan": 0.0
+}
+
+Region = {
+	"center": Coordinates,
+	"span": CoordinatesSpan
+}
+
+MapItem = {
+	"kind": "stand || ad",
+	"owner": "playerName",
+	"location": Coordinates,
+	"influence": 0.0
+}
+
+PlayerInfo{
+	"cash": 0.0,
+	"sales": 0,
+	"profit": 0.0
+}
+
+DrinkInfo{
+	"name":"nomBoisson",
+	"price": 0.0
+}
+
+Map{
+	"region": Region,
+	"ranking": ["id/name"],
+	"itemsByPlayer": {
+		"id/name":[MapItem]
+	},
+	"playerInfo"
+
+}
