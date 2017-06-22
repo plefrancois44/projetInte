@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import md5
 from flask import Flask, request, make_response, Response
 import json, os, psycopg2, urlparse
 from db import Db
