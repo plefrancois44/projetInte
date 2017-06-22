@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, make_response, Response
-import json, os, psycopg2, urlparse
+import json, os, psycopg2
+from urlparse import urlparse
 from db import Db
 from functools import wraps 
 from datetime import datetime
