@@ -79,11 +79,11 @@ def product_elem(name,verb,compl):
 def sales():
   elements = request.get_json()
   nom=elements["nom"];
-  qteVenue=elements["qteVenue"];
+  qteVendue=elements["qteVendue"];
   nomRecette=elements["nomRecette"]
   jour=elements["jour"];
   db = Db()
-  db.execute('INSERT INTO vendre VALUES (?,?,?,?)',jour,qteVendu,nom,nomRecette)
+  db.execute('INSERT INTO vendre VALUES (?,?,?,?)',jour,qteVendue,nom,nomRecette)
   return jsonResponse(elements)
 
 
