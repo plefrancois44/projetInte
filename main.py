@@ -84,7 +84,7 @@ def sales():
 	nomRecette=elements["nomRecette"]
 	jour=elements["jour"];
 
-	db.execute('INSERT INTO vendre VALUES (%(jour)s , %(qteVendue)s),%(nom)s),%(nomRecette)s)',{
+	db.execute('INSERT INTO vendre VALUES (%(jour)s , %(qteVendue)s,%(nom)s,%(nomRecette)s)',{
 		'jour' : jour,
 		'qteVendue' : qteVendue,
 		'nom' : nom,
