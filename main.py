@@ -92,7 +92,7 @@ def sales():
 
 	})
 	db.close()
-	repons = make_response('Vente crée avec succès', 200)
+	reponse = make_response('Vente crée avec succès', 200)
 	return reponse
 
 @app.route('/arduino', methods=['POST'])
