@@ -76,24 +76,24 @@ def product_elem(name,verb,compl):
 	return jsonResponse(phrase)
 
 @app.route('/sales', methods=['POST']) 
-	def sales():
-	db=Db()
-	elements = request.get_json()
-	nom=elements["nom"];
-	qteVendue=elements["qteVendue"];
-	nomRecette=elements["nomRecette"]
-	jour=elements["jour"];
+def sales():
+db=Db()
+elements = request.get_json()
+nom=elements["nom"];
+qteVendue=elements["qteVendue"];
+nomRecette=elements["nomRecette"]
+jour=elements["jour"];
 
-	db.execute('INSERT INTO vendre VALUES (%(jour)s , %(qteVendue)s),%(nom)s),%(nomRecette)s)',{
-		'jour' : jour,
-		'qteVendue' : qteVendue,
-		'nom' : nom,
-		'nomRecette' : nomRecette
+db.execute('INSERT INTO vendre VALUES (%(jour)s , %(qteVendue)s),%(nom)s),%(nomRecette)s)',{
+	'jour' : jour,
+	'qteVendue' : qteVendue,
+	'nom' : nom,
+	'nomRecette' : nomRecette
 
-	})
-	db.close()
-	repons = make_response('Vente crée avec succès', 200)
-	return reponse
+})
+db.close()
+repons = make_response('Vente crée avec succès', 200)
+return reponse
 
 @app.route('/arduino', methods=['POST'])
 def arduino():
