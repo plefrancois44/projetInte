@@ -18,7 +18,8 @@ CREATE TABLE public.Ingredient(
 
 CREATE TABLE public.Recette(
         rec_nom        Varchar (50) NOT NULL ,
-        rec_cout_achat Float ,
+        rec_jour_achat Date NOT NULL,
+	rec_cout_achat Float ,
         jou_nom        Varchar (25) ,
         PRIMARY KEY (rec_nom )
 );
