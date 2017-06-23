@@ -78,7 +78,12 @@ def product_elem(name,verb,compl):
 @app.route('/sales', methods=['POST']) 
 def sales():
   elements = request.get_json()
-  print(elements["playerName"])
+  nom=elements["nom"];
+  qteVenue=elements["qteVenue"];
+  nomRecette=elements["nomRecette"]
+  jour=elements["jour"];
+  db = Db()
+  db.execute('INSERT INTO vendre VALUES (?,?,?,?)',jour,qteVendu,nom,nomRecette)
   return jsonResponse(elements)
 
 
