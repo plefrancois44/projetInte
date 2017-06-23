@@ -18,8 +18,8 @@ CREATE TABLE public.Ingredient(
 
 CREATE TABLE public.Recette(
         rec_nom        Varchar (50) NOT NULL ,
-        rec_jour_achat Date NOT NULL,
-	rec_cout_achat Float ,
+		rec_jour_achat Date,
+        rec_cout_achat Float ,
         jou_nom        Varchar (25) ,
         PRIMARY KEY (rec_nom )
 );
@@ -38,7 +38,6 @@ CREATE TABLE public.Meteo(
         met_jour            Date NOT NULL ,
         met_matin           Varchar (25) ,
         met_apres_midi      Varchar (25) ,
-        met_prevu_lendemain Varchar (25) ,
         PRIMARY KEY (met_jour )
 );
 
@@ -47,14 +46,16 @@ CREATE TABLE public.Pub(
         pub_pos_x Float NOT NULL ,
         pub_pos_y Float NOT NULL ,
         pub_rayon Float ,
+		pub_prix_achat Float ,
         jou_nom   Varchar (25) ,
         PRIMARY KEY (pub_pos_x ,pub_pos_y )
 );
 
 CREATE TABLE public.composer(
         rec_nom Varchar (50) NOT NULL ,
+		jou_nom Varchar (25) NOT NULL ,
         ing_nom Varchar (50) NOT NULL ,
-        PRIMARY KEY (rec_nom ,ing_nom )
+        PRIMARY KEY (rec_nom, jou_nom, ing_nom )
 );
 
 CREATE TABLE public.vendre(
@@ -85,6 +86,7 @@ ALTER TABLE Recette ADD CONSTRAINT FK_Recette_jou_nom FOREIGN KEY (jou_nom) REFE
 ALTER TABLE Pub ADD CONSTRAINT FK_Pub_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE composer ADD CONSTRAINT FK_composer_rec_nom FOREIGN KEY (rec_nom) REFERENCES Recette(rec_nom);
 ALTER TABLE composer ADD CONSTRAINT FK_composer_ing_nom FOREIGN KEY (ing_nom) REFERENCES Ingredient(ing_nom);
+ALTER TABLE composer ADD CONSTRAINT FK_composer_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE vendre ADD CONSTRAINT FK_vendre_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE vendre ADD CONSTRAINT FK_vendre_rec_nom FOREIGN KEY (rec_nom) REFERENCES Recette(rec_nom);
 ALTER TABLE produire ADD CONSTRAINT FK_produire_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
