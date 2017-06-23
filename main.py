@@ -76,7 +76,7 @@ def product_elem(name,verb,compl):
 	return jsonResponse(phrase)
 
 @app.route('/sales', methods=['POST']) 
-def testJava():
+def sales():
   elements = request.get_json()
   print(elements["playerName"])
   return jsonResponse(elements)
