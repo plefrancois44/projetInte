@@ -75,7 +75,14 @@ def product_elem(name,verb,compl):
 	phrase = Names[-1]+' '+Verbs[-1]+' '+Compls[-1]
 	return jsonResponse(phrase)
 
-@app.route('/arduino', methods=['POST']) #/<int:requested_glasses>
+@app.route('/sales', methods=['POST']) 
+def testJava():
+  elements = request.get_json()
+  print(elements["playerName"])
+  return jsonResponse(elements)
+
+
+@app.route('/arduino', methods=['POST'])
 def arduino():
   elements = request.get_json()
   return jsonResponse(elements)
