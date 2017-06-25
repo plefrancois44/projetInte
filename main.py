@@ -145,6 +145,139 @@ def get_ingredient():
 	reponse = make_response(json.dumps(resultat),200)
 	return reponse
 
+#-----------------------------------------------------------------
+
+# Route en maintenance reste la partie db à faire
+@app.route('/map', methods=['GET'])
+def get_map():
+	# données à générer par la BD pour chaque joueur (pour l'instant généré à la main):
+	Map = {
+		"region": {
+			"center": {
+				"latitude": 10.5,
+				"longitude": 15.2
+			},
+			"span": {
+				"latitudeSpan": 10.2,
+				"longitudeSpan": 15.5
+			}
+		},
+		"ranking":{
+			0: "playerName1",
+			1: "playerName2"
+		},
+		"itemsByPlayer": 
+		{
+			"playerName1":
+			[
+				{
+				 	"kind" : "stand",
+				 	"owner" : "playerName1",
+				 	"location" : {
+						"latitude": 10.5,
+						"longitude": 15.2
+					},
+				 	"influence" : 1.0
+				},
+				{
+				 	"kind" : "ad",
+				 	"owner" : "playerName1",
+				 	"location" : {
+						"latitude": 20.5,
+						"longitude": 25.2
+					},
+					"influence" : 2.0
+				}
+			],
+			"Toto":
+			[
+				{
+				 	"kind" : "stand",
+				 	"owner" : "Toto",
+				 	"location" : {
+						"latitude": 10.5,
+						"longitude": 15.2
+					},
+				 	"influence" : 1.0
+				},
+				{
+				 	"kind" : "ad",
+				 	"owner" : "Toto",
+				 	"location" : {
+						"latitude": 20.5,
+						"longitude": 25.2
+					},
+					"influence" : 2.0
+				}
+			]
+		},
+		"playerInfo": [
+			{
+				"cash": 3000,
+				"sales": 30,
+				"profit": 2000.0,
+				"pseudo": "playerName1",
+				"drinkOffered": 
+				[
+					{
+						"name":"limonade",
+						"price": 1.8,
+						"hasAlcohol" : "false",
+						"isCold" : "true"
+					}
+				]
+			},
+			{
+				"cash": 4000,
+				"sales": 40,
+				"profit": 3000.0,
+				"pseudo": "Toto",
+				"drinkOffered": 
+				[
+					{
+						"name":"limonade",
+						"price": 2.2,
+						"hasAlcohol" : "false",
+						"isCold" : "true"
+					},
+					{
+						"name":"coca",
+						"price": 2.5,
+						"hasAlcohol" : "false",
+						"isCold" : "true"
+					}
+				]
+			}
+		],
+		"drinksByPlayer": {
+			"playerName1": 
+			[
+				{
+					"name":"limonade",
+					"price": 1.8,
+					"hasAlcohol" : "false",
+					"isCold" : "true"
+				}
+			],
+			"Toto": 
+			[
+				{
+					"name":"limonade",
+					"price": 2.2,
+					"hasAlcohol" : "false",
+					"isCold" : "true"
+				},
+				{
+					"name":"coca",
+					"price": 2.5,
+					"hasAlcohol" : "false",
+					"isCold" : "true"
+				}	
+			]
+		}
+	}
+	return json.dumps(Map)
+
 
 if __name__ == "__main__":
     app.run()
