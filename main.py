@@ -131,25 +131,33 @@ def get_ingredient():
 	return reponse
 
 #---- Route qui gere les actions joueur
-'''
-@app.route('/action/<player>', methods=['Post'])
+@app.route('/action/<player>', methods=['POST'])
 def action_player(player):
 	data = request.get_json()
 	kind = data["kind"]
+	
 	coutLimonade = 0.5 #recupéré par la bd
 	if kind == "drinks":
-		boisson = data["prepare"][0]
-		nb = data["prepare"][1]
+		prepare = data["prepare"][0]
+		boisson = prepare["boisson"]
+		nb = int(prepare["quantite"])
+		print(boisson)
+		coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
+			{
+				'Boisson': boisson
+			})
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
-			"totalCost" : coutLimonade*nb
+			"totalCost" : coutBoisson[0]*nb
 		}
+
+		db.close()
 		return jsonResponse(reponse)
 	#else if(data["kind"]=="ad")
 
 	#else if(data["kind"]=="price")
-'''	
+
 	
 #---- Route qui permet d'afficher la map de tout les joueurs
 # Route en maintenance reste la partie db à faire
