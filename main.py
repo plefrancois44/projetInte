@@ -326,6 +326,17 @@ def post_players():
 		retour = make_response(json.dumps(reponse),200)
 		return retour
 
+#---- Route metrology, enregistrment de la meteo dans la BDD
+@app.route('/metrology',methods=['POST'])
+def post_metrology():
+	db = Db()
+	data = request.get_json()
+	
+	arduino = {"timestamp" : 60,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
+	
+	retour = make_response(json.dumps(arduino),200)
+	return retour
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
