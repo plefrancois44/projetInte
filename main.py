@@ -274,6 +274,35 @@ def get_map():
 	return json.dumps(Map)
 
 
+
+#---- Route qui gere les actions joueur
+@app.route('/action/<player>', methods=['POST'])
+def action_player(player):
+	data = request.get_json()
+	kind = data["kind"]
+	
+	coutLimonade = 0.5 #recupéré par la bd
+	if kind == "drinks":
+		prepare = data["prepare"][0]
+		boisson = prepare["boisson"]
+		nb = int(prepare["quantite"])
+		print(boisson)
+		coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
+			{
+				'Boisson': boisson
+			})
+		#à insérer dans la bd avec le pseudo
+		reponse = {
+			"sufficientFunds" : True,
+			"totalCost" : coutBoisson[0]*nb
+		}
+
+		db.close()
+		return jsonResponse(reponse)
+	#else if(data["kind"]=="ad")
+
+	#else if(data["kind"]=="price")
+
 #---- Route qui permet de rejoindre une partie
 # Route à tester
 @app.route('/players',methods=['POST'])
@@ -345,6 +374,7 @@ def post_players():
 		return retour
 
 #---- Route metrology, enregistrment de la meteo dans la BDD
+'''
 @app.route('/metrology',methods=['GET'])
 def get_metrology():
 	db = Db()
@@ -375,7 +405,7 @@ def get_metrology():
 	
 	retour = make_response(json.dumps(weather[0]['weather']),200)
 	return retour
-
+'''
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
