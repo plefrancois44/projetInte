@@ -358,7 +358,7 @@ def get_metrology():
 			"weather" : "sunny"}
 		]}
 	
-	print(json.dumps(arduino))
+	#print(json.dumps(arduino))
 	
 	weather = arduino['weather']
 	
