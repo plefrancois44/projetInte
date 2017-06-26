@@ -299,7 +299,7 @@ def get_map():
 def post_players():
 	db = Db()
 	data = request.get_json()
-	verif = db.select("SELECT * FROM Joueur where name = @(nom)", {'nom' : data['user']});
+	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : data['user']});
 	if(len(verif) != 0) :
 		return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
 	
