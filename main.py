@@ -381,11 +381,11 @@ def post_players():
 				coutProd = coutProd + cout
 
 				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if(alcoolIngredient == true AND alcool == false) :
+				if alcoolIngredient == true && alcool == false :
 					alcool = true
 
 				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if(froidIngredient == false AND froid == true) :
+				if froidIngredient == false && froid == true :
 					froid = false
 			
 			drinkInfo = {}
