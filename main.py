@@ -328,44 +328,20 @@ def post_players():
 			'mdp' : data['password']
 		})
 		
-		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",
-			{'nom' : data['user']
-		})
+		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",{'nom' : data['user']})
 		
-		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",
-			{'nom' : data['user']
-		})
+		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",{'nom' : data['user']})
 		
-		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",
-			{'nom' : data['user']
-		})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",
-			{'nom' : data['user']
-		})
+		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",{'nom' : data['user']})
 		
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = @(nom)", {'nom' : data['user']})
 		for recette in range(0,len(recetteJoueur)):
@@ -381,11 +357,11 @@ def post_players():
 				coutProd = coutProd + cout
 
 				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if alcoolIngredient == true && alcool == false :
+				if alcoolIngredient == true & alcool == false :
 					alcool = true
 
 				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if froidIngredient == false && froid == true :
+				if froidIngredient == false & froid == true :
 					froid = false
 			
 			drinkInfo = {}
