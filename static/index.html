@@ -16,27 +16,13 @@
                 //window.location.replace("http://127.0.0.1:5000/html");
             </script>
             <script>
-           /*      function connecter(){
-                        let data = {
-                            "user": $("#user").val()+">",
-                            "password": $("#password").val(),
-                            }
-                        $.ajax("http://127.0.0.1:5000/login", {
-                            type: "POST",
-                            data: JSON.stringify(data),
-                            contentType: "application/json",
-            }).done(function(data) {
-                $("#login").text(data);
-                if(data=="ok")
-                window.location.replace("http://127.0.0.1:5000/html/<"+$("#user").val()+">");
-            })*/
-
+         
             function connecter(){
                 $.ajax("/login")
                     .done(function(data){
                         $("#login").text(data)
                         if(data=="ok")
-                            window.location.replace("http://127.0.0.1:5000/html?pseudo="+$("#user").val());
+                            window.location.replace("/html?pseudo="+$("#user").val());
                     })
             }
        
