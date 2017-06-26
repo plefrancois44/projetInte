@@ -131,6 +131,7 @@ def get_ingredient():
 	return reponse
 
 #---- Route qui gere les actions joueur
+'''
 @app.route('/action/<player>', methods=['Post'])
 def action_player(player):
 	data = request.get_json()
@@ -148,6 +149,8 @@ def action_player(player):
 	#else if(data["kind"]=="ad")
 
 	#else if(data["kind"]=="price")
+'''	
+	
 #---- Route qui permet d'afficher la map de tout les joueurs
 # Route en maintenance reste la partie db à faire
 @app.route('/map', methods=['GET'])
