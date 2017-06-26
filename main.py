@@ -381,7 +381,6 @@ def post_players():
 		return retour
 
 #---- Route metrology, enregistrment de la meteo dans la BDD
-'''
 @app.route('/metrology',methods=['GET'])
 def get_metrology():
 	db = Db()
@@ -399,7 +398,7 @@ def get_metrology():
 	timestamp = arduino ['timestamp']
 	
 	
-	temps = timestamp./24
+	temps = timestamp//24
 	jour = int(temps) + 1
 	reste = temps % 1
 	
@@ -412,7 +411,7 @@ def get_metrology():
 	
 	retour = make_response(json.dumps(weather[0]['weather']),200)
 	return retour
-'''
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
