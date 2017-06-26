@@ -2,12 +2,15 @@
 #include <math.h>
 #include <string.h>
 
+bool depart = false;
+
 //***************VAR_AFFICHAGE***************
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int lcd_key     = 0;
 int adc_key_in  = 0;
 #define btnUP     1
 #define btnDOWN   2
+#define btnSELECT 4
 bool Click1 =0;
 bool Click2 =0;
 unsigned long tmp=millis();
@@ -28,10 +31,11 @@ bool tic;
 long randNumber;
 int q;
 String tabMeteo[]= {"rainny","cloudy","sunny","heatwave","thunderS"};
-String meteo;
-String prevision;
+int meteo;
+int prevision;
 bool midDay;
 int temporisation;
+bool envoi = false;
 
 //*******************************************
 
@@ -59,13 +63,13 @@ void Init_Affichage(){
 void affichage(){
     lcd.clear();
     lcd.setCursor(0,0);  // init cursor on the first line
-    lcd.print(meteo);
+    lcd.print(tabMeteo[meteo]);
     lcd.setCursor(9,0);
     lcd.print("T:");
     lcd.print(tempo);
     lcd.print("s");
     lcd.setCursor(0,1);  // move to the begining of the second line  
-    lcd.print(prevision);
+    lcd.print(tabMeteo[prevision]);
     lcd.setCursor(9,1);
     lcd.print("H:");
     lcd.print(heure);
@@ -89,14 +93,14 @@ void Update_1(){
 {
     case IDLE_1:
       if (0<=p<10){
-        if(q != 4)meteo = tabMeteo[q+1];
-        else meteo = tabMeteo[1];
+        if(q != 4)meteo = q+1;
+        else meteo = 1;
         q = randNumber = random(5);
         NextState_1 = FUTUR_1;
       }
       else if (10<=p<12 && midDay == false){
         randNumber = random(5);
-        meteo = tabMeteo[randNumber];
+        meteo = randNumber;
         q = randNumber = random(5);
         NextState_1 = FUTUR_1;
       }
@@ -136,18 +140,24 @@ void Output_1(){
        break;
 
     case FUTUR_1:
-       prevision = tabMeteo[q];
+       prevision = q;
        midDay = false;
        break;
 
     case ENVOYER_1:
+    if(envoi == true){
        Serial.write(45);
-       int trans_1 = Serial.print(meteo);
-       int sent_meteo = Serial.write(trans_1);
-       int trans_2 = Serial.print(prevision);
-       int sent_prev = Serial.write(trans_2);
-       int sent_3 = Serial.write(heure);
+       int debut = Serial.write("#");
+       int donne_meteo = Serial.print(tabMeteo[meteo]);
+       Serial.print(",");
+       int donne_prevision = Serial.print(tabMeteo[prevision]);
+       Serial.print(",");
+       int h = Serial.print(heure);
+       int fin = Serial.write("!");
+       envoi = false;
        break;
+       
+    }
   }
 }
 
@@ -155,8 +165,8 @@ void Init_1(){
  
   int i = randNumber = random(5);
   q = randNumber = random(5);
-  meteo = tabMeteo[i];
-  prevision = tabMeteo[q];
+  meteo = i;
+  prevision = q;
   midDay = false;
   tic = false;
 
@@ -287,6 +297,7 @@ void Output_3(){
       
     case HEURE_3:
        tic = true;
+       envoi = true;
        heure++;
        break;
   }
@@ -310,14 +321,18 @@ Init_Affichage();
 
 void loop() {
   // put your main code here, to run repeatedly:
+if(adc_key_in < 850){
+  depart = true;
+}
+if(depart==true){
+  Output_3();
+  Output_1();
+  Output_2();
 
-Output_3();
-Output_1();
-Output_2();
-
-Update_3();
-Update_1();
-Update_2();
+  Update_3();
+  Update_1();
+  Update_2();
+  }
 }
 
 
