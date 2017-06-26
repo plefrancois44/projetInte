@@ -24,12 +24,13 @@
                             type: "POST",
                             data: JSON.stringify(data),
                             contentType: "application/json",
-            }).done(function(data) {
-                $("#login").text(data);
-                if(data=="ok")
-                window.location.replace("/html?pseudo="+$("#user").val());
-            })
-			    
+			    }).done(function(data) {
+				$("#login").text(data);
+				if(data=="ok")
+				window.location.replace("/html?pseudo="+$("#user").val());
+			    })
+		    }		 
+		    
 		    function connecterGet(){
 			$.ajax("/players")
 			    .done(function(data){
