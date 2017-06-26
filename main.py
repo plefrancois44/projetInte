@@ -305,7 +305,7 @@ def post_players():
 	
 	else :
 		#----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
-		bugdet = 6000.0
+		budget = 6000.0
 		posX =random.randint(0,100)*1.0
 		posY=random.randint(0,100)*1.0
 		rayon = 15
