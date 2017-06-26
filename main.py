@@ -23,29 +23,29 @@ CORS(app)
 #-------------------------------- DEFINITION ---------------------------------------#
 #---- Retour des reponses
 def jsonResponse(data, status=200):
-  return json.dumps(data), status, {'Content-Type': 'application/json'}
+	return json.dumps(data), status, {'Content-Type': 'application/json'}
 
 #---- Verification de l'authentification de l'admin
 def verif_authentification_admin(nom, mot_de_passe):
-    db = Db()
-    result = db.select('SELECT COUNT(com_nom) AS nb FROM Compte '
-                       'WHERE com_nom=%(Username)s AND com_mot_de_passe=%(Password)s AND com_est_admin = True;', {
-                           'Username': nom,
-                           'Password': md5.new(mot_de_passe.encode('utf-8')).hexdigest()
-                       })
-    db.close()
-    return result[0]['nb'] >= 1
+	db = Db()
+	result = db.select('SELECT COUNT(com_nom) AS nb FROM Compte '
+						'WHERE com_nom=%(Username)s AND com_mot_de_passe=%(Password)s AND com_est_admin = True;', {
+							'Username': nom,
+							'Password': md5.new(mot_de_passe.encode('utf-8')).hexdigest()
+						})
+	db.close()
+	return result[0]['nb'] >= 1
 
 #---- Utilise pour le besoin d'authentification de l'admin
 def besoin_authentification_admin(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not verif_authentification_admin(auth.username, auth.password):
-            return Response('Authentification FAIL', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
-        return f(*args, **kwargs)
+	@wraps(f)
+	def decorated(*args, **kwargs):
+		auth = request.authorization
+		if not auth or not verif_authentification_admin(auth.username, auth.password):
+			return Response('Authentification FAIL', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+		return f(*args, **kwargs)
 
-    return decorated
+	return decorated
 
 #---------------------------------------- ROUTES -----------------------------------#
 #---- Route initiale
@@ -82,17 +82,17 @@ def sales():
 #---- Route pour la recupoeration des donnes de l'arduino
 @app.route('/arduino', methods=['POST'])
 def arduino():
-  elements = request.get_json()
-  return jsonResponse(elements)
+	elements = request.get_json()
+	return jsonResponse(elements)
 
 #---- Route pour initialiser la base de donnees en admin
 @app.route('/admin/resetbase', methods=['GET'])
 @besoin_authentification_admin
 def route_dbinit():
-  	db = Db()
-  	db.executeFile("base.sql")
-  	db.close()
-  	return "Done."
+	db = Db()
+	db.executeFile("base.sql")
+	db.close()
+	return "Done."
 		
 #---- Route pour s'authentifier en admin
 @app.route('/admin', methods=['GET'])
@@ -260,33 +260,33 @@ def get_map():
 # Route à tester
 @app.route('/players',methods=['POST'])
 def post_players():
-    db = Db()
-    data = request.get_json()
-    verif = db.select("SELECT * FROM Joueur where name = '%s'", (data['user']));
-    if(len(verif) != 0) :
-        return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
-    else :
-
-        #----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
-        bugdet = 6000.0
-        posX =randint(0,100)*1.0
-        posY=randint(0,100)*1.0
-        rayon = 15
-        actif = true
-        #---------------------------------------------------------------#
+	db = Db()
+	data = request.get_json()
+	verif = db.select("SELECT * FROM Joueur where name = '%s'", (data['user']));
+	if(len(verif) != 0) :
+		return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
+	
+	else :
+		#----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
+		bugdet = 6000.0
+		posX =randint(0,100)*1.0
+		posY=randint(0,100)*1.0
+		rayon = 15
+		actif = true
+		#---------------------------------------------------------------#
 
 		recette = {}
 		drinksInfos = {}
-        db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s')", (data['user'],budget,posX,posY,rayon,actif))
-        db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
+		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s')", (data['user'],budget,posX,posY,rayon,actif))
+		db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
-        for recette in range(0,len(recetteJoueur)):
-        	ingredient = {}
+		for recette in range(0,len(recetteJoueur)):
+			ingredient = {}
 			coutProd = 0.0
 			alcool = false
 			froid = true
-
 			ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom='%s' AND jou_nom='%s'", (recetteJoueur[recette]["rec_nom"], recetteJoueur[recette]["jou_nom"])))
+
 			for ingredient in range(0,len(ingredientRecette)):
 				cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
 				coutProd = coutProd + cout
@@ -308,24 +308,24 @@ def post_players():
 
 		db.close()
 
-        playerInfo = {}
-        playerInfo["cash"] = bugdet
-        playerInfo["sales"] = "0"
-        playerInfo["profit"] = "0"
-        playerInfo["drinksOffered"] = drinkInfo
+		playerInfo = {}
+		playerInfo["cash"] = bugdet
+		playerInfo["sales"] = "0"
+		playerInfo["profit"] = "0"
+		playerInfo["drinksOffered"] = drinkInfo
 
-        coordinates = {}
-        coordinates["lattitude"] = posX
-        coordinates["longitude"] = posY
+		coordinates = {}
+		coordinates["lattitude"] = posX
+		coordinates["longitude"] = posY
 
-        reponse = {}
-        reponse["name"] = data['name']
-        reponse["location"] = coordinates
-        reponse["info"] = playerInfo
+		reponse = {}
+		reponse["name"] = data['name']
+		reponse["location"] = coordinates
+		reponse["info"] = playerInfo
 
-        retour = make_response(json.dumps(reponse),200)
+		retour = make_response(json.dumps(reponse),200)
 		return retour
 
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
-    app.run()
+	app.run()
