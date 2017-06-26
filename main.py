@@ -309,7 +309,7 @@ def post_players():
 		posX =random.randint(0,100)*1.0
 		posY=random.randint(0,100)*1.0
 		rayon = 15
-		actif = true
+		actif = True
 		#---------------------------------------------------------------#
 
 		recette = {}
@@ -347,8 +347,8 @@ def post_players():
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
 			coutProd = 0.0
-			alcool = false
-			froid = true
+			alcool = False
+			froid = True
 			ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 
@@ -357,12 +357,12 @@ def post_players():
 				coutProd = coutProd + cout
 
 				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if alcoolIngredient == true & alcool == false :
-					alcool = true
+				if alcoolIngredient == True & alcool == False :
+					alcool = True
 
 				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if froidIngredient == false & froid == true :
-					froid = false
+				if froidIngredient == False & froid == True :
+					froid = False
 			
 			drinkInfo = {}
 			drinkInfo["name"] = recetteJoueur[recette]["rec_nom"]
