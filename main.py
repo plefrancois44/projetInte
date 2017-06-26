@@ -7,29 +7,25 @@ from functools import wraps
 from datetime import datetime
 from math import sqrt
 import random
+from flask_cors import CORS
+
 ######################################
 # OBLIGATOIRE SINON ERREUR
 import sys
 reload(sys)
 sys.setdefaultencoding("latin-1")
-######################################
 
 app = Flask(__name__)
 app.debug = True
-from flask_cors import CORS
-app = Flask(__name__)
 CORS(app)
+######################################
 
-Names = ["puppy", "car", "rabbit", "girl", "monkey"]
-Verbs = ["runs", "hits", "jumps", "drives", "barfs"]
-Compls = ["crazily.", "dutifully.", "foolishly.", "merrily.", "occasionally."]
-randPhrase=[Names,Verbs,Compls]
-
-
-
+#-------------------------------- DEFINITION ---------------------------------------#
+#---- Retour des reponses
 def jsonResponse(data, status=200):
   return json.dumps(data), status, {'Content-Type': 'application/json'}
 
+#---- Verification de l'authentification de l'admin
 def verif_authentification_admin(nom, mot_de_passe):
     db = Db()
     result = db.select('SELECT COUNT(com_nom) AS nb FROM Compte '
@@ -39,7 +35,8 @@ def verif_authentification_admin(nom, mot_de_passe):
                        })
     db.close()
     return result[0]['nb'] >= 1
-	
+
+#---- Utilise pour le besoin d'authentification de l'admin
 def besoin_authentification_admin(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -50,77 +47,60 @@ def besoin_authentification_admin(f):
 
     return decorated
 
-
+#---------------------------------------- ROUTES -----------------------------------#
+#---- Route initiale
 @app.route("/")
 def formulaire():
 	return "TOTO"
 
+#---- Route pour acceder a la page html
 @app.route("/html")
 def formulaire2():
 	f = open('./static/form.html', 'r')
 	html = f.read()
 	return html
 
-@app.route("/testhtml")
-def product_rand():
-	phrase = 'toto'
-	return jsonResponse(phrase)
-
-@app.route("/phrases/elements/<name>/<verb>/<compl>")
-def product_elem(name,verb,compl):
-	global Names, Verbs, Compls
-	Names.append(name)
-	Verbs.append(verb)
-	Compls.append(compl)
-	phrase = Names[-1]+' '+Verbs[-1]+' '+Compls[-1]
-	return jsonResponse(phrase)
-
+#---- Route pour acceder aux ventes
 @app.route('/sales', methods=['POST']) 
 def sales():
 	db=Db()
-	elements = request.get_json()
-	nom=elements["nom"];
-	qteVendue=elements["qteVendue"];
-	nomRecette=elements["nomRecette"]
-	jour=elements["jour"];
+	data = request.get_json()
+	element = {}
+	
+	for element in range(0,len(data)):
+		nom = data[element]["nom"];
+		qteVendue = data[element]["qteVendue"];
+		nomRecette = data[element]["nomRecette"]
+		jour = data[element]["jour"];
 
-	db.execute('INSERT INTO vendre VALUES (%(jour)s , %(qteVendue)s,%(nom)s,%(nomRecette)s)',{
-		'jour' : jour,
-		'qteVendue' : qteVendue,
-		'nom' : nom,
-		'nomRecette' : nomRecette
-
-	})
+		db.execute("INSERT INTO vendre VALUES ('%s', '%s', '%s', '%s')",(jour, qteVendue, nom, nomRecette))
+	
 	db.close()
 	reponse = make_response('Vente crée avec succès', 200)
 	return reponse
 
+#---- Route pour la recupoeration des donnes de l'arduino
 @app.route('/arduino', methods=['POST'])
 def arduino():
   elements = request.get_json()
   return jsonResponse(elements)
 
-# Route OK
+#---- Route pour initialiser la base de donnees en admin
 @app.route('/admin/resetbase', methods=['GET'])
 @besoin_authentification_admin
 def route_dbinit():
-  	"""Cette route sert a initialiser (ou nettoyer) la base de donnees."""
   	db = Db()
   	db.executeFile("base.sql")
   	db.close()
   	return "Done."
 		
-#-----------------------------------------------------------------
-
-# Route OK
+#---- Route pour s'authentifier en admin
 @app.route('/admin', methods=['GET'])
 @besoin_authentification_admin
 def authentification_admin():
 	return Response('Authentification OK', 200, {'WWW-Authenticate': 'Basic realm="Credentials valid"'})
 	
-#-----------------------------------------------------------------
-
-# Route OK
+#---- Route qui permet d'afficher tous les joueurs actifs en admin
 @app.route('/admin/players', methods=['GET'])
 @besoin_authentification_admin
 def get_user():
@@ -132,9 +112,7 @@ def get_user():
 	reponse = make_response(json.dumps(resultat),200)
 	return reponse
 
-#-----------------------------------------------------------------
-
-# Route OK
+#---- Route qui retourne toute la liste d'ingredient present dans la base
 @app.route('/ingredients', methods=['GET'])
 def get_ingredient():
 	db=Db()
@@ -145,8 +123,7 @@ def get_ingredient():
 	reponse = make_response(json.dumps(resultat),200)
 	return reponse
 
-#-----------------------------------------------------------------
-
+#---- Route qui permet d'afficher la map de tout les joueurs
 # Route en maintenance reste la partie db à faire
 @app.route('/map', methods=['GET'])
 def get_map():
@@ -279,7 +256,7 @@ def get_map():
 	return json.dumps(Map)
 
 
-#------------------------- R4 - REJOINDRE/QUITTER UNE PARTIE -----------------------#
+#---- Route qui permet de rejoindre une partie
 # Route à tester
 @app.route('/players',methods=['POST'])
 def post_players():
@@ -290,64 +267,65 @@ def post_players():
         return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
     else :
 
-          #----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
-          bugdet = 6000.0
-          posX =randint(0,100)*1.0
-          posY=randint(0,100)*1.0
-          rayon = 15
-          actif = true
-          #---------------------------------------------------------------#
+        #----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
+        bugdet = 6000.0
+        posX =randint(0,100)*1.0
+        posY=randint(0,100)*1.0
+        rayon = 15
+        actif = true
+        #---------------------------------------------------------------#
 
-          recette = {}
-	  drinksInfos = {}
-          db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s');", (data['user'],budget,posX,posY,rayon,actif))
-          db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
-	  recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
-          for recette in range(0,len(recetteJoueur)):
-          	ingredient = {}
-		coutProd = 0.0
-		alcool = false
-		froid = true
+		recette = {}
+		drinksInfos = {}
+        db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s')", (data['user'],budget,posX,posY,rayon,actif))
+        db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
+		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
+        for recette in range(0,len(recetteJoueur)):
+        	ingredient = {}
+			coutProd = 0.0
+			alcool = false
+			froid = true
 
-		ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom='%s' AND jou_nom='%s'", (recetteJoueur[recette]["rec_nom"], recetteJoueur[recette]["jou_nom"])))
-	  	for ingredient in range(0,len(ingredientRecette)):
-			cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
-			coutProd = coutProd + cout
+			ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom='%s' AND jou_nom='%s'", (recetteJoueur[recette]["rec_nom"], recetteJoueur[recette]["jou_nom"])))
+			for ingredient in range(0,len(ingredientRecette)):
+				cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+				coutProd = coutProd + cout
 
-			alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
-			if(alcoolIngredient == true AND alcool == false) :
-        			alcool = true
+				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+				if(alcoolIngredient == true AND alcool == false) :
+					alcool = true
 
-			froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
-			if(froidIngredient == false AND froid == true) :
-        			froid = false
-		drinkInfo = {}
-	  	drinkInfo["name"] = recetteJoueur[recette]["rec_nom"]
-	  	drinkInfo["price"] = coutProd
-	  	drinkInfo["hasAlcohol"] = alcool
-	  	drinkInfo["isCold"] = froid
-		
-		drinksInfos.append(drinkInfo)
+				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+				if(froidIngredient == false AND froid == true) :
+					froid = false
+			
+			drinkInfo = {}
+			drinkInfo["name"] = recetteJoueur[recette]["rec_nom"]
+			drinkInfo["price"] = coutProd
+			drinkInfo["hasAlcohol"] = alcool
+			drinkInfo["isCold"] = froid
+			drinksInfos.append(drinkInfo)
 
-	  db.close()
+		db.close()
 
-          playerInfo = {}
-          playerInfo["cash"] = bugdet
-          playerInfo["sales"] = "0"
-          playerInfo["profit"] = "0"
-          playerInfo["drinksOffered"] = drinkInfo
+        playerInfo = {}
+        playerInfo["cash"] = bugdet
+        playerInfo["sales"] = "0"
+        playerInfo["profit"] = "0"
+        playerInfo["drinksOffered"] = drinkInfo
 
-          coordinates = {}
-          coordinates["lattitude"] = posX
-          coordinates["longitude"] = posY
+        coordinates = {}
+        coordinates["lattitude"] = posX
+        coordinates["longitude"] = posY
 
-          reponse = {}
-          reponse["name"] = data['name']
-          reponse["location"] = coordinates
-          reponse["info"] = playerInfo
+        reponse = {}
+        reponse["name"] = data['name']
+        reponse["location"] = coordinates
+        reponse["info"] = playerInfo
 
-          retour = make_response(json.dumps(reponse),200)
-	  return retour
+        retour = make_response(json.dumps(reponse),200)
+		return retour
 
+#----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
     app.run()
