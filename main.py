@@ -317,6 +317,7 @@ def action_player(player):
 
 		db.close()
 		return jsonResponse(reponse)
+	return "ko"
 	#else if(data["kind"]=="ad")
 
 	#else if(data["kind"]=="price")
