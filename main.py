@@ -367,7 +367,7 @@ def get_metrology():
 	reste = temps % 1
 	
 	if reste <= 0.5:
-		print("jour machin matin")
+		print(reste)
 	else:
 		print("jour machin aprem")
 	
