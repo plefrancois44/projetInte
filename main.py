@@ -368,17 +368,12 @@ def post_metrology():
 	db = Db()
 	data = request.get_json()
 	
-	arduino = {"timestamp" : 60,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
+	arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
 	
 	weather = arduino['weather']
 	timestamp = arduino ['timestamp']
 	
-	
-	temps = timestamp / 24.0
-	jour = int(temps) + 1
-	reste = temps % 1
-	
-	if reste <=0.5:
+	if timestamp == 1:
 		maintenant = weather[0]['dfn']
 		if maintenant == 0:
 			matin = weather[0]['weather']
@@ -386,34 +381,58 @@ def post_metrology():
 		else:
 			matin = weather[1]['weather']
 			aprem = weather[0]['weather']
-		
-		
-		db.execute("UPDATE Meteo SET met_matin=@(matin), met_aprem=@(aprem) WHERE met_jour=@(jour)",
-			{'matin' : matin,
-			'aprem' : aprem,
-			'jour' : jour
+			
+		db.execute("INSERT INTO Meteo VALUES (@(jour), @(matin), @(aprem))",
+			{'jour' : 1,
+			'matin' : matin,
+			'aprem' : aprem
 		})
+		
 	else:
-		maintenant = weather[0]['dfn']
-		if maintenant == 0:
-			aprem = weather[0]['weather']
-			matin = weather[1]['weather']
+		temps = timestamp / 24.0
+		jour = int(temps) + 1
+		reste = temps % 1
+		
+		if reste <=0.5:
+			maintenant = weather[0]['dfn']
+			if maintenant == 0:
+				matin = weather[0]['weather']
+				aprem = weather[1]['weather']
+			else:
+				matin = weather[1]['weather']
+				aprem = weather[0]['weather']
+			
+			
+			db.execute("UPDATE Meteo SET met_matin=@(matin), met_aprem=@(aprem) WHERE met_jour=@(jour)",
+				{'matin' : matin,
+				'aprem' : aprem,
+				'jour' : jour
+			})
+
 		else:
-			aprem = weather[1]['weather']
-			matin = weather[0]['weather']
-		
-		db.execute("UPDATE Meteo SET met_aprem=@(aprem) WHERE met_jour=@(jour)",
-			{'aprem' : aprem,
-			'jour' : jour
-		})
-		
-		db.execute("INSERT INTO Meteo (met_jour, met_matin) VALUES (@(jour), @(matin))",
-			{'jour' : jour + 1,
-			'matin' : matin
-		})
-	
+			maintenant = weather[0]['dfn']
+			if maintenant == 0:
+				aprem = weather[0]['weather']
+				matin = weather[1]['weather']
+			else:
+				aprem = weather[1]['weather']
+				matin = weather[0]['weather']
+			
+			db.execute("UPDATE Meteo SET met_aprem=@(aprem) WHERE met_jour=@(jour)",
+				{'aprem' : aprem,
+				'jour' : jour
+			})
+			
+			db.execute("INSERT INTO Meteo (met_jour, met_matin) VALUES (@(jour), @(matin))",
+				{'jour' : jour + 1,
+				'matin' : matin
+			})
+			
+			
 	retour = make_response(json.dumps(weather[0]['weather']),200)
 	return retour
+
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
