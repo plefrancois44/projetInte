@@ -364,7 +364,7 @@ def get_metrology():
 	
 	temps=timestamp / 24
 	jour = int(temps) + 1
-	reste = floor(temps % 1)
+	reste = temps % 1
 	
 	if reste <= 0.5:
 		print("jour machin matin")
