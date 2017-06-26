@@ -67,23 +67,31 @@
         var prix = $("#prixBoisson").val();
         let data = {
             "kind": "drinks",
-            "prepare": {
-                boisson : quantite
-            },
-            "price":{
-                boisson : prix
+            "prepare": 
+                [
+                    {
+                        "boisson" : boisson,
+                        "quantite" : quantite
+                    }
+                ],
+            "price": 
+                [
+                    {
+                        "boisson": boisson,
+                        "prix" : prix
+                    }
+                ]
             }
-        }
         
          $.ajax("/action/<"+pseudo+">", {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficentFunds"]!="True") $("#valide").text(data["totalCost"]);
-                else $("#valide").text("fond insuffisant");
+                if(data["sufficentFunds"]!="True") $("#valideBoisson").text(data["totalCost"]);
+                else $("#valideBoisson").text("fond insuffisant");
             })       
-      }
+        } 
     </script>
 <?---------------------------------------------------------------------------------------------------->
 
@@ -160,7 +168,7 @@
 
                         <div class="col-sm-3">
                                 <h2>Total à régler:</h2>
-                                
+				<span id="valideBoisson"></span>
 
                                 
                             </div>
