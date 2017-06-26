@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Page de connexion</title>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="static/index.css" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		</head>
+
+		<body>        
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+            <script>
+                //window.location.replace("http://127.0.0.1:5000/html");
+            </script>
+            <script>
+		    function connecter(){
+                        let data = {
+                            "user": $("#user").val(),
+                            "password": $("#password").val()
+                            }
+                        $.ajax("/players", {
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+			    }).done(function(data) {
+				$("#login").text(data);
+				if(data=="ok")
+				window.location.replace("http://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
+			    })
+		    }		 
+		    
+		    function connecterGet(){
+			$.ajax("/players")
+			    .done(function(data){
+				$("#login").text(data)
+				if(data=="ok")
+				    window.location.replace("/html?pseudo="+$("#user").val());
+			    })
+		    }
+       
+            </script>
+
+            <?-- Titre de la page ------------------------------------------->
+            <div id="main_title" class="jumbotron">
+                <h1>Lemonade Wars</h1> 
+		<p>If you're not with me, you're my enemy...</p>
+            </div>
+            <?--------------------------------------------------------------->
+    		<form>
+
+    			<p>
+    				Nom d'utilisateur : <input type="text" id="user" />
+        			Mot de passe : <input type="password" id="password" />
+        			<input type="button" onclick="connecter()" value="Se connecter" />
+    			</p>
+
+    		</form>
+
+		</body>
+	</html>
