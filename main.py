@@ -334,6 +334,8 @@ def get_metrology():
 	
 	arduino = {"timestamp" : 60,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
 	
+	print(arduino[0])
+	
 	retour = make_response(json.dumps(arduino),200)
 	return retour
 
