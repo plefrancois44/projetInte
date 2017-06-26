@@ -400,15 +400,12 @@ def get_metrology():
 	weather = arduino['weather']
 	timestamp = arduino ['timestamp']
 	
-	
 	temps = timestamp / 24.0
 	jour = int(temps) + 1
 	reste = temps % 1
 	
 	if reste <= 0.5:
-		print(reste)
-		print(jour)
-		print(temps)
+		print("matin")
 	else:
 		print("jour machin aprem")
 	
