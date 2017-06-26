@@ -359,8 +359,19 @@ def get_metrology():
 		]}
 	
 	weather = arduino['weather']
-	test = weather[0]['weather']
-	retour = make_response(json.dumps(arduino['timestamp']),200)
+	timestamp = arduino ['timestamp']
+	
+	
+	temps=timestamp / 24
+	jour = int(temps) + 1
+	reste = floor(temps % 1)
+	
+	if reste <= 0.5:
+		print ("jour machin matin")
+	else:
+		print("jour machin aprem")
+	
+	retour = make_response(json.dumps(weather[0]['weather']),200)
 	return retour
 
 #----------------------------------- LANCE L'APP -----------------------------------#
