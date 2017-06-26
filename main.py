@@ -136,6 +136,7 @@ def action_player(player):
 	data = request.get_json()
 	kind = data["kind"]
 	db=Db()
+	print("hello")
 	coutLimonade = 0.5 #recupéré par la bd
 	if kind == "drinks":
 		prepare = data["prepare"][0]
