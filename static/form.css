@@ -1,0 +1,24 @@
+.jumbotron{
+	text-align: center;
+	background-color: #000000!important;
+	height:180px;
+
+}
+h1{
+	color: #FFFF00!important;
+	font-weight: bold;
+}
+h2{
+	color: black;
+	font-weight: bold;
+}
+body{
+	background-color: #99FF66!important;
+}
+p{
+	color: yellow;
+	font-family:"Times New Roman",Times,Serif;
+}
+label{
+	color: black;
+}
