@@ -401,7 +401,7 @@ def get_metrology():
 	timestamp = arduino ['timestamp']
 	
 	
-	temps = timestamp//24
+	temps = timestamp / 24.0
 	jour = int(temps) + 1
 	reste = temps % 1
 	
