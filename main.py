@@ -279,5 +279,49 @@ def get_map():
 	return json.dumps(Map)
 
 
+#---------------------------------- R4 - REJOINDRE/QUITTER UNE PARTIE -----------------------------------#
+# Route à tester
+@app.route('/players',methods=['POST'])
+def post_players():
+    db = Db()
+    data = request.get_json()
+    verif = db.select("SELECT * FROM Joueur where name = '%s'"%(data['nom']));
+    if(len(verif) != 0) :
+        return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
+    else :
+
+          #---------------- VARIABLES POUR GENERER UN JOUEUR ------------------------#
+          bugdet = 1000.0
+          posX =randint(0,100)*1.0
+          posY=randint(0,100)*1.0
+          rayon = 15
+          actif = true
+	  #-------------------------------------------------------------------------#
+
+          recette = {}
+          db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (%s,%s,%s,%s,%s,%s);", (data['nom'],budget,posX,posY,rayon,actif))
+          drinkInfo = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['nom']))
+          for recette in range(0,len(drinkInfo)):
+            recette.apprend(db.select("SELECT * FROM Recette WHERE rec_nom='%s' AND jou_nom='%s'", (drinkInfo[recette]["rec_nom"], drinkInfo[recette]["jou_nom"])))
+          db.close()
+
+          playerInfo = {}
+          playerInfo["cash"] = bugdet
+          playerInfo["sales"] = "etete"
+          playerInfo["profit"] = "tete"
+          playerInfo["drinksOffered"] = drinkInfo
+
+          coordinates = {}
+          coordinates["lattitude"] = posX
+          coordinates["longitude"] = posY
+
+          reponse = {}
+          reponse["name"] = data['name']
+          reponse["location"] = coordinates
+          reponse["info"] = playerInfo
+
+          retour = make_response(json.dumps(reponse),200)
+	  return retour
+
 if __name__ == "__main__":
     app.run()
