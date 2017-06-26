@@ -154,8 +154,8 @@ def action_player(player):
 
 		db.close()
 		return jsonResponse(reponse)
+	return jsonResponse("ok")
 	#else if(data["kind"]=="ad")
-
 	#else if(data["kind"]=="price")
 
 	
