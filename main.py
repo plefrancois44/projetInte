@@ -359,6 +359,10 @@ def get_metrology():
 		]}
 	
 	print(json.dumps(arduino))
+	
+	test = json.dumps(arduino)
+	
+	print(test['weather'][1]['weather'])
 
 	retour = make_response(json.dumps(arduino),200)
 	return retour
