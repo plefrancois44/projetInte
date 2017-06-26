@@ -353,10 +353,10 @@ def get_metrology():
 			   "weather" : "sunny"}
 		   ]}
 	
-	print(len(arduino))
+	test = print(len(arduino))
 	
 	retour = make_response(json.dumps(arduino),200)
-	return retour
+	return test
 
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
