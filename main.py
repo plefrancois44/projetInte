@@ -362,7 +362,7 @@ def get_metrology():
 	
 	weather = arduino['weather']
 	
-	print(weather)
+	print(weather[0])
 
 	retour = make_response(json.dumps(arduino),200)
 	return retour
