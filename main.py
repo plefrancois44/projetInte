@@ -307,8 +307,8 @@ def post_players():
 
           playerInfo = {}
           playerInfo["cash"] = bugdet
-          playerInfo["sales"] = "etete"
-          playerInfo["profit"] = "tete"
+          playerInfo["sales"] = "0"
+          playerInfo["profit"] = "0"
           playerInfo["drinksOffered"] = drinkInfo
 
           coordinates = {}
