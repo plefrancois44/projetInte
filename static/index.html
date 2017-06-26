@@ -16,15 +16,28 @@
                 //window.location.replace("http://127.0.0.1:5000/html");
             </script>
             <script>
-         
-            function connecter(){
-                $.ajax("/login")
-                    .done(function(data){
-                        $("#login").text(data)
-                        if(data=="ok")
-                            window.location.replace("/html?pseudo="+$("#user").val());
-                    })
-            }
+		    function connecter(){
+                        let data = {
+                            "user": $("#user").val()+">"
+                            }
+                        $.ajax("/players", {
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+            }).done(function(data) {
+                $("#login").text(data);
+                if(data=="ok")
+                window.location.replace("/html?pseudo="+$("#user").val());
+            })
+			    
+		    function connecterGet(){
+			$.ajax("/players")
+			    .done(function(data){
+				$("#login").text(data)
+				if(data=="ok")
+				    window.location.replace("/html?pseudo="+$("#user").val());
+			    })
+		    }
        
             </script>
 
