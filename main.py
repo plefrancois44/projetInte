@@ -350,15 +350,14 @@ def get_metrology():
 	db = Db()
 	data = request.get_json()
 	
-	arduino = {
-		"timestamp" : 60,
+	arduino = {"timestamp" : 60,
 		"weather": [
 			{"dfn" : 0,
 			"weather" : "cloudy"},
 			{"dfn" : 1,
 			"weather" : "sunny"}
 		]}
-	print(arduino)
+	print(arduino[0])
 	retour = make_response(json.dumps(arduino),200)
 	return retour
 
