@@ -358,6 +358,7 @@ def get_metrology():
 			"weather" : "sunny"}
 		]}
 	print(arduino[0])
+	var_dump(arduino)
 	retour = make_response(json.dumps(arduino),200)
 	return retour
 
