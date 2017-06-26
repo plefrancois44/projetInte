@@ -323,7 +323,7 @@ def post_players():
 			'actif' : actif
 		})
 	
-		db.execute("INSERT INTO Compte VALUES (@(nom),@(mdp), false)",{'nom' : data['user'],'mdp' : md5(data['password'])})
+		db.execute("INSERT INTO Compte VALUES (@(nom),@(mdp), false)",{'nom' : data['user'],'mdp' : md5.new(data['password'].encode('utf-8')).hexdigest()})
 		
 		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",{'nom' : data['user']})
