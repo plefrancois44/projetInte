@@ -279,31 +279,57 @@ def get_map():
 	return json.dumps(Map)
 
 
-#---------------------------------- R4 - REJOINDRE/QUITTER UNE PARTIE -----------------------------------#
+#------------------------- R4 - REJOINDRE/QUITTER UNE PARTIE -----------------------#
 # Route à tester
 @app.route('/players',methods=['POST'])
 def post_players():
     db = Db()
     data = request.get_json()
-    verif = db.select("SELECT * FROM Joueur where name = '%s'"%(data['nom']));
+    verif = db.select("SELECT * FROM Joueur where name = '%s'"%(data['user']));
     if(len(verif) != 0) :
         return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
     else :
 
-          #---------------- VARIABLES POUR GENERER UN JOUEUR ------------------------#
-          bugdet = 1000.0
+          #----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
+          bugdet = 6000.0
           posX =randint(0,100)*1.0
           posY=randint(0,100)*1.0
           rayon = 15
           actif = true
-	  #-------------------------------------------------------------------------#
+          #---------------------------------------------------------------#
 
           recette = {}
-          db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (%s,%s,%s,%s,%s,%s);", (data['nom'],budget,posX,posY,rayon,actif))
-          drinkInfo = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['nom']))
-          for recette in range(0,len(drinkInfo)):
-            recette.apprend(db.select("SELECT * FROM Recette WHERE rec_nom='%s' AND jou_nom='%s'", (drinkInfo[recette]["rec_nom"], drinkInfo[recette]["jou_nom"])))
-          db.close()
+	  drinksInfos = {}
+          db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s');", (data['user'],budget,posX,posY,rayon,actif))
+          db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
+	  recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
+          for recette in range(0,len(recetteJoueur)):
+          	ingredient = {}
+		coutProd = 0.0
+		alcool = false
+		froid = true
+
+		ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom='%s' AND jou_nom='%s'", (recetteJoueur[recette]["rec_nom"], recetteJoueur[recette]["jou_nom"])))
+	  	for ingredient in range(0,len(ingredientRecette)):
+			cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+			coutProd = coutProd + cout
+
+			alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+			if(alcoolIngredient == true AND alcool == false) :
+        			alcool = true
+
+			froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+			if(froidIngredient == false AND froid == true) :
+        			froid = false
+		drinkInfo = {}
+	  	drinkInfo["name"] = recetteJoueur[recette]["rec_nom"]
+	  	drinkInfo["price"] = coutProd
+	  	drinkInfo["hasAlcohol"] = alcool
+	  	drinkInfo["isCold"] = froid
+		
+		drinksInfos.append(drinkInfo)
+
+	  db.close()
 
           playerInfo = {}
           playerInfo["cash"] = bugdet
