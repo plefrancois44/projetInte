@@ -18,7 +18,8 @@
             <script>
 		    function connecter(){
                         let data = {
-                            "user": $("#user").val()
+                            "user": $("#user").val(),
+                            "password": $("#password").val()
                             }
                         $.ajax("/players", {
                             type: "POST",
@@ -27,7 +28,7 @@
 			    }).done(function(data) {
 				$("#login").text(data);
 				if(data=="ok")
-				window.location.replace("/html?pseudo="+$("#user").val());
+				window.location.replace("http://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
 			    })
 		    }		 
 		    
