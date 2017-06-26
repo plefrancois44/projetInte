@@ -357,8 +357,9 @@ def get_metrology():
 			   {"dfn" : 1,
 			   "weather" : "sunny"}
 		   ]}
-	retour = make_response(json.dumps(arduino[0][weather[0][weather]]),200)
-	return retour
+	test = arduino[0][weather[0][weather]]
+	retour = make_response(json.dumps(arduino),200)
+	return test
 
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
