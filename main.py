@@ -299,7 +299,7 @@ def get_map():
 def post_players():
 	db = Db()
 	data = request.get_json()
-	verif = db.select("SELECT * FROM Joueur where name = '%s'", (data['user']));
+	verif = db.select("SELECT * FROM Joueur where name = @(nom)", {'nom' : data['user']});
 	if(len(verif) != 0) :
 		return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
 	
@@ -314,42 +314,78 @@ def post_players():
 
 		recette = {}
 		drinksInfos = {}
-		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s')", (data['user'],budget,posX,posY,rayon,actif))
-		db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
-				
-		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')", {'nom' : data['user']})
+		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (@(nom),@(budget),@(posX),@(posY),@(rayon),@(actif))", 
+			{'nom' : data['user'],
+			'budget' : budget,
+			'posX' : posX,
+			'posY' : posY,
+			'rayon' : rayon,
+			'actif' : actif
+		})
+	
+		db.execute("INSERT INTO Compte VALUES (@(nom),@(mdp), false)",
+			{'nom' : data['user'],
+			'mdp' : data['password']
+		})
 		
-		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')", {'nom' : data['user']})
+		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",
+			{'nom' : data['user']
+		})
 		
-		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')", {'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')", {'nom' : data['user']})
+		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",
+			{'nom' : data['user']
+		})
 		
-		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
+		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",
+			{'nom' : data['user']
+		})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",
+			{'nom' : data['user']
+		})
+		
+		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = @(nom)", {'nom' : data['user']})
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
 			coutProd = 0.0
 			alcool = false
 			froid = true
-			ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom='%s' AND jou_nom='%s'", (recetteJoueur[recette]["rec_nom"], recetteJoueur[recette]["jou_nom"])))
+			ingredientRecette = recette.apprend(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 
 			for ingredient in range(0,len(ingredientRecette)):
-				cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
+				cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + cout
 
-				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
-				if alcoolIngredient == true and alcool == false :
+				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				if(alcoolIngredient == true AND alcool == false) :
 					alcool = true
 
-				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom='%s'", (ingredientRecette[ingredient]["ing_nom"])))
-				if froidIngredient == false and froid == true :
+				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				if(froidIngredient == false AND froid == true) :
 					froid = false
 			
 			drinkInfo = {}
@@ -378,7 +414,7 @@ def post_players():
 
 		retour = make_response(json.dumps(reponse),200)
 		return retour
-
+	
 #---- Route metrology, enregistrment de la meteo dans la BDD
 @app.route('/metrology',methods=['POST'])
 def post_metrology():
