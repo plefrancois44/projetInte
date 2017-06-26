@@ -316,6 +316,22 @@ def post_players():
 		drinksInfos = {}
 		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES ('%s','%s','%s','%s','%s','%s')", (data['user'],budget,posX,posY,rayon,actif))
 		db.execute("INSERT INTO Compte VALUES ('%s','%s', false)", (data['user'], data['password']))
+				
+		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')", {'nom' : data['user']})
+		
+		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')", {'nom' : data['user']})
+		
+		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')", {'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')", {'nom' : data['user']})
+		
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = '%s'", (data['user']))
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
