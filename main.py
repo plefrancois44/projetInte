@@ -51,7 +51,14 @@ def besoin_authentification_admin(f):
 #---- Route initiale
 @app.route("/")
 def formulaire():
-	return "TOTO"
+	f = open('./static/index.html', 'r')
+	html = f.read()
+	return html
+
+#------- login
+@app.route("/login")
+def log():
+	return jsonResponse("ok")
 
 #---- Route pour acceder a la page html
 @app.route("/html")
