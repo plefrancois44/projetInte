@@ -362,12 +362,14 @@ def get_metrology():
 	timestamp = arduino ['timestamp']
 	
 	
-	temps=timestamp / 24
+	temps = timestamp / 24
 	jour = int(temps) + 1
 	reste = temps % 1
 	
 	if reste <= 0.5:
 		print(reste)
+		print(jour)
+		print(temps)
 	else:
 		print("jour machin aprem")
 	
