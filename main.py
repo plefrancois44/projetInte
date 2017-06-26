@@ -327,8 +327,8 @@ def post_players():
 		return retour
 
 #---- Route metrology, enregistrment de la meteo dans la BDD
-@app.route('/metrology',methods=['POST'])
-def post_metrology():
+@app.route('/metrology',methods=['GET'])
+def get_metrology():
 	db = Db()
 	data = request.get_json()
 	
