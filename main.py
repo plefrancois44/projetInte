@@ -5,7 +5,7 @@ import json, os, psycopg2, urlparse
 from db import Db
 from functools import wraps 
 from datetime import datetime
-from math import sqrt
+from math import *
 import random
 from flask_cors import CORS
 
