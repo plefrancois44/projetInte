@@ -18,7 +18,7 @@ CREATE TABLE public.Ingredient(
 
 CREATE TABLE public.Recette(
         rec_nom        Varchar (50) NOT NULL ,
-		rec_jour_achat Date,
+	rec_jour_achat Date,
         rec_cout_achat Float ,
         jou_nom        Varchar (25) ,
         PRIMARY KEY (rec_nom )
@@ -30,19 +30,19 @@ CREATE TABLE public.Joueur(
         jou_pos_x  Float ,
         jou_pos_y  Float ,
         jou_rayon  Float ,
-		jou_actif Bool NOT NULL,
+	jou_actif Bool NOT NULL,
         PRIMARY KEY (jou_nom )
 );
 
 CREATE TABLE public.Meteo(
-        met_jour            Date NOT NULL ,
+        met_jour            Int ,
         met_matin           Varchar (25) ,
         met_apres_midi      Varchar (25) ,
         PRIMARY KEY (met_jour )
 );
 
 CREATE TABLE public.Pub(
-        pub_jour  Date ,
+        pub_jour  Int ,
         pub_pos_x Float NOT NULL ,
         pub_pos_y Float NOT NULL ,
         pub_rayon Float ,
@@ -53,13 +53,13 @@ CREATE TABLE public.Pub(
 
 CREATE TABLE public.composer(
         rec_nom Varchar (50) NOT NULL ,
-		jou_nom Varchar (25) NOT NULL ,
+	jou_nom Varchar (25) NOT NULL ,
         ing_nom Varchar (50) NOT NULL ,
         PRIMARY KEY (rec_nom, jou_nom, ing_nom )
 );
 
 CREATE TABLE public.vendre(
-        ven_jour     Date ,
+        ven_jour     Int ,
         ven_quantite Int ,
         jou_nom      Varchar (25) NOT NULL ,
         rec_nom      Varchar (50) NOT NULL ,
@@ -67,7 +67,7 @@ CREATE TABLE public.vendre(
 );
 
 CREATE TABLE public.produire(
-        pro_jour       Date ,
+        pro_jour       Int ,
         pro_prix_vente Float ,
         pro_quantite   Int ,
         jou_nom        Varchar (25) NOT NULL ,
