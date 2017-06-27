@@ -143,6 +143,7 @@ def action_player(player):
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
 		print(prepare)
+		recettes={}
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
