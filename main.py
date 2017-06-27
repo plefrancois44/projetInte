@@ -348,7 +348,7 @@ def post_players():
 			coutProd = 0.0
 			alcool = False
 			froid = True
-			recettes[recettte]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 
 			for ingredient in range(0,len(recettes[recette])):
