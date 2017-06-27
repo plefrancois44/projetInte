@@ -142,7 +142,6 @@ def action_player(player):
 		prepare = data["prepare"][0]
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
-		print(prepare["quantite"])
 		print(prepare)
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
