@@ -326,16 +326,16 @@ def post_players():
 	
 		db.execute("INSERT INTO Compte VALUES (@(nom),@(mdp), false)",{'nom' : data['user'],'mdp' : md5.new(data['password'].encode('utf-8')).hexdigest()})
 		
-		db.execute("INSERT INTO Recette VALUES ('Limonade', 1, 500, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO Recette (rec_nom, rec_jour_achat, rec_cout_achat,jou_nom) VALUES ('Limonade', 1, 500, @(nom))",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",{'nom' : data['user']})
 		
-		db.execute("INSERT INTO Recette VALUES ('Chocolat chaud', 1, 550, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO Recette (rec_nom, rec_jour_achat, rec_cout_achat,jou_nom) VALUES ('Chocolat chaud', 1, 550, @(nom))",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",{'nom' : data['user']})
 		
-		db.execute("INSERT INTO Recette VALUES ('Mojito', 1, 650, @(nom))",{'nom' : data['user']})
+		db.execute("INSERT INTO Recette (rec_nom, rec_jour_achat, rec_cout_achat,jou_nom) VALUES ('Mojito', 1, 650, @(nom))",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : data['user']})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",{'nom' : data['user']})
