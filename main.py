@@ -314,7 +314,7 @@ def post_players():
 
 		recettes = {}
 		recette = {}
-		drinksInfos = {}
+		drinksInfos = []
 		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (@(nom),@(budget),@(posX),@(posY),@(rayon),@(actif))", 
 			{'nom' : data['user'],
 			'budget' : budget,
@@ -355,16 +355,13 @@ def post_players():
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				print(cout[ingredient]['ing_prix_unitaire'])
 				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
 
 				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				print(ingredientAlcool[ingredient]['ing_alcool'])
 				if ingredientAlcool[ingredient]['ing_alcool'] == True & alcool == False :
 					alcool = True
 
 				ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				print(ingredientFroid[ingredient]['ing_froid'])
 				if ingredientFroid[ingredient]['ing_froid'] == False & froid == True :
 					froid = False
 			
@@ -373,7 +370,7 @@ def post_players():
 			drinkInfo["price"] = coutProd
 			drinkInfo["hasAlcohol"] = alcool
 			drinkInfo["isCold"] = froid
-			drinksInfos.append(drinkInfo)
+			drinksInfos += drinkInfo
 
 		db.close()
 
@@ -381,7 +378,7 @@ def post_players():
 		playerInfo["cash"] = bugdet
 		playerInfo["sales"] = "0"
 		playerInfo["profit"] = "0"
-		playerInfo["drinksOffered"] = drinkInfo
+		playerInfo["drinksOffered"] = drinksInfos
 
 		coordinates = {}
 		coordinates["lattitude"] = posX
