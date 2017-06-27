@@ -136,7 +136,7 @@ def action_player(player):
 	data = request.get_json()
 	kind = data["kind"]
 	db=Db()
-	coutLimonade = 0.5 #recupéré par la bd
+	coutProd = 0.0
 	if kind == "drinks":
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
@@ -146,15 +146,13 @@ def action_player(player):
 			nb = int(prepare["quantite"])
 			ingredient = {}
 			cout=[]
-			coutProd = 0.0
 			print(player)
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : player}))
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)
-				print(cout[ingredient]['ing_prix_unitaire']*nb)		
+				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
 			print("cout prod =")
 			print(coutProd)
 		#à insérer dans la bd avec le pseudo
