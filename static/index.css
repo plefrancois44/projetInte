@@ -12,6 +12,9 @@ form{
 	text-align: center;
 	background-color: ##99FF66!important;
 }
-span{
+p{
 	color: #FFFF00!important;
+}
+label{
+	color: #000000!important;
 }
