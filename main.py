@@ -439,7 +439,7 @@ def post_players():
 def post_metrology():
 	db = Db()
 	arduino = request.get_json()
-	
+	print(arduino)
 	#--- EXEMPLE :  arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
 	
 	weather = arduino['weather']
