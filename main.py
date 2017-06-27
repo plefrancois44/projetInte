@@ -181,7 +181,6 @@ def action_player(player):
 		recettes={}
 		for recette in range(0,len(recetteJoueur)):
 			prepare = data["prepare"][recette]
-			print(prepare["quantite"])
 			nb = int(prepare["quantite"])
 			ingredient = {}
 			cout=[]
@@ -192,7 +191,13 @@ def action_player(player):
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
-		
+			db.execute("INSERT INTO vendre(ven_jour,ven_quantite,rec_nom,jou_nom) VALUES (@(jour)@(quantite),@(recette),@(joueur))", 
+			{
+				'joueur' : player,
+				'quantite' : nb,
+				'recette' : prepare["boisson"],
+				'jour' : 1
+			})
 		reponse = {
 			"sufficientFunds" : True,
 			"totalCost" : coutProd
