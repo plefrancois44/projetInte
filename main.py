@@ -548,12 +548,12 @@ def get_reset():
 @app.route('/players/<playerName>', methods=['GET'])
 def delete_player(playerName):
 	db = Db()
-	db.execute("DELETE FROM joueur WHERE jou_nom=@(nom)", {'nom' : playerName})
 	db.execute("DELETE FROM composer WHERE jou_nom=@(nom)", {'nom' : playerName})
 	db.execute("DELETE FROM vendre WHERE jou_nom=@(nom)", {'nom' : playerName})
 	db.execute("DELETE FROM pub WHERE jou_nom=@(nom)", {'nom' : playerName})
 	db.execute("DELETE FROM produire WHERE jou_nom=@(nom)", {'nom' : playerName})
-
+	db.execute("DELETE FROM joueur WHERE jou_nom=@(nom)", {'nom' : playerName})
+	
 	db.close()
 	return json.dumps("Suppression joueur OK"), 200, {'Content-Type': 'application/json'}
 
