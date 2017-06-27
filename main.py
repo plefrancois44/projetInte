@@ -142,7 +142,8 @@ def action_player(player):
 		prepare = data["prepare"][0]
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
-		print(boisson)
+		print(prepare["quantite"])
+		print(prepare)
 		coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
 			{
 				'Boisson': boisson
