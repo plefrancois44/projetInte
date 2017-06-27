@@ -15,20 +15,28 @@
             <script>
 		    function connecter(){
                         let data = {
-                            "user": $("#user").val(),
-                            "password": $("#password").val()
+                            "name": $("#name").val()
                             }
-                        $.ajax("https://bushukan-imerir.herokuapp.com/players", {
+                        $.ajax("/players", {
                             type: "POST",
                             data: JSON.stringify(data),
                             contentType: "application/json",
 			    }).done(function(data) {
 				$("#login").text(data);
-				if(data=="NOK")
-					window.alert('pseudo déja utilisé');
-				window.location.replace("https://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
+				if(data=="ok")
+				window.location.replace("http://bushukan-imerir.herokuapp.com/html?pseudo="+$("#name").val());
 			    })
 		    }		 
+		    
+		    function connecterGet(){
+			$.ajax("/players")
+			    .done(function(data){
+				$("#login").text(data)
+				if(data=="ok")
+				    window.location.replace("/html?pseudo="+$("#name").val());
+			    })
+		    }
+       
             </script>
 
             <?-- Titre de la page ------------------------------------------->
@@ -39,11 +47,10 @@
             <?--------------------------------------------------------------->
     		<form>
 
-    			<span>
-    				Nom d'utilisateur : <input type="text" id="user" />
-        			Mot de passe : <input type="password" id="password" />
+    			<p>
+    				Nom d'utilisateur : <input type="text" id="name" />
         			<input type="button" onclick="connecter()" value="Se connecter" />
-    			</span>
+    			</p>
 
     		</form>
 
