@@ -151,7 +151,6 @@ def action_player(player):
 			coutProd = 0.0
 			ingredient = {}
 			cout=[]
-			print(player)
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : player}))
 			ingredientRecette = recettes[recette]
@@ -169,8 +168,9 @@ def action_player(player):
 
 		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 			'nom' : player
-			})		
-		if budget>coutTotal:
+			})	
+		
+		if int(budget)>int(coutTotal):
 			db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
 				'newBudget': budget-coutTotal ,
 				'nom' : player
