@@ -140,7 +140,6 @@ def action_player(player):
 	data = request.get_json()
 	kind = data["kind"]
 	db=Db()
-	coutProd = 0.0
 	if kind == "drinks":
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
@@ -148,6 +147,7 @@ def action_player(player):
 			prepare = data["prepare"][recette]
 			print(prepare["quantite"])
 			nb = int(prepare["quantite"])
+			coutProd = 0.0
 			ingredient = {}
 			cout=[]
 			print(player)
@@ -157,7 +157,7 @@ def action_player(player):
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
-		
+			coutTotal=coutTotal+coutProd
 			db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 			{'nom' : player,
 			'jour' : 1,
