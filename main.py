@@ -144,10 +144,23 @@ def action_player(player):
 		nb = int(prepare["quantite"])
 		print(prepare["quantite"])
 		print(prepare)
-		coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
+		for recette in range(0,len(recetteJoueur)):
+			ingredient = {}
+			cout=[]
+			coutProd = 0.0
+			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : data['user']}))
+			ingredientRecette = recettes[recette]
+			for ingredient in range(0,len(ingredientRecette)):
+				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
+			print(coutProd)	
+			'''	
+			coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
 			{
 				'Boisson': boisson
 			})
+			'''
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
@@ -395,7 +408,7 @@ def post_players():
 def post_metrology():
 	db = Db()
 	arduino = request.get_json()
-	print(arduino)
+	
 	#--- EXEMPLE :  arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
 	
 	weather = arduino['weather']
