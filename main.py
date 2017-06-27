@@ -139,8 +139,7 @@ def action_player(player):
 				'recette' : action["prepare"][recette]["boisson"]
 				})
 
-		if simulation == False :
-			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 				'nom' : player
 				})	
 			
