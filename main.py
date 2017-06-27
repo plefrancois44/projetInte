@@ -508,20 +508,20 @@ def get_metrology():
 		forecasts = {}
 		forecasts["dfn"] = 1
 		forecasts["weather"] = meteo[0]['met_apres_midi']
-		forecast += forecasts
+		forecast.append(forecasts)
 		forecasts = {}
 		forecasts["dfn"] = 0
 		forecasts["weather"] = meteo[0]['met_matin']
-		forecast += forecasts
+		forecast.append(forecasts)
 	else :
 		forecasts = {}
 		forecasts["dfn"] = 1
 		forecasts["weather"] = meteo[0]['met_matin']
-		forecast += forecasts
+		forecast.append(forecasts)
 		forecasts = {}
 		forecasts["dfn"] = 0
 		forecasts["weather"] = meteo[1]['met_apres_midi']
-		forecast += forecasts
+		forecast.append(forecasts)
 		
 	reponse = {}
 	reponse["timestamp"] = meteo[0]['met_heure_ecoule']
