@@ -19,6 +19,20 @@
             })
     }
 
+	function budget(){
+		$.ajax("/budget")
+		    .done(function(data){
+			$("#budget").text(data)
+		    })
+	    }
+
+	function panneau(){
+			$.ajax("/panneau")
+			    .done(function(data){
+				$("#panneau").text(data)
+			    })
+		    }
+
     function $_GET(param) {
         var vars = {};
         window.location.href.replace( location.hash, '' ).replace( 
@@ -161,9 +175,9 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Situation actuelle:</h2>
-                                    <label><input type="button" onclick="jour()" name="jour" value="Afficher le jour"></input></label><br>
+                                    <label><input type="button" onclick="metrology()" name="jour" value="Afficher le jour et l'heure"></input></label><br>
                                     <label id="jour"> </label><br>                   
-                                    <label><input type="button" onclick="meteo()"" name="meteo" value="Afficher la météo"></input></label><br>     
+                                    <label><input type="button" onclick="metrology()"" name="meteo" value="Afficher la météo"></input></label><br>     
                                     <label id="meteo"> </label><br>                   
                                     <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                                     <label id="budget"> </label><br>
