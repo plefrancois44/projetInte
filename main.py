@@ -103,6 +103,7 @@ def action_player(player):
 	action = data["actions"][0]
 	kind = action["kind"]
 	simulation=data["simulated"]
+	reponse={}
 	db=Db()
 
 	if kind == "drinks":
@@ -142,20 +143,23 @@ def action_player(player):
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 				'nom' : player
 				})	
-			if int(budget[0]['jou_budget'])>int(coutTotal):
+			
+		if int(budget[0]['jou_budget'])>int(coutTotal):
+			if simulation == False :
 				db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
-					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
-					'nom' : player
-					})	
-				reponse = {
-					"sufficientFunds" : True,
-					"totalCost" : coutTotal
-				}
-			else:
-				reponse = {
-					"sufficientFunds" : False,
-					"totalCost" : coutTotal
-				}
+				'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
+				'nom' : player
+				})	
+			reponse = {
+				"sufficientFunds" : True,
+				"totalCost" : coutTotal
+			}
+		else:
+			reponse = {
+				"sufficientFunds" : False,
+				"totalCost" : coutTotal
+			}
+			
 		db.close()
 		return jsonResponse(reponse)
 		#else if(data["kind"]=="ad")
