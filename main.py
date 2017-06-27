@@ -149,7 +149,7 @@ def action_player(player):
 			cout=[]
 			coutProd = 0.0
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
-				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : data['user']}))
+				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : player}))
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
