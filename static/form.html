@@ -14,24 +14,10 @@
 
     function metrology(){
         $.ajax("/metrology")
-            .done(function(data){
+            .done(function(data)){
                 $("#metrology").text(data)
-            })
+            }
     }
-
-	function budget(){
-		$.ajax("/budget")
-		    .done(function(data){
-			$("#budget").text(data)
-		    })
-	    }
-
-	function panneau(){
-			$.ajax("/panneau")
-			    .done(function(data){
-				$("#panneau").text(data)
-			    })
-		    }
 
     function $_GET(param) {
         var vars = {};
@@ -130,7 +116,7 @@
                 ]
             }
         
-         $.ajax("/action/"+pseudo, {
+         $.ajax("/actions/"+pseudo, {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
@@ -139,25 +125,6 @@
                 else $("#valideBoisson").text("fond insuffisant");
             })       
         } 
-    </script>
-<?---------------------------------------------------------------------------------------------------->
-
-<?---POST--------------------------------------------------------------------------------------------->
-    <script>
-    function send_position(){
-    	var pseudo = $_GET('pseudo');
-    	let data = {
-          "x": $("#x").val(),
-          "y": $("#y").val()
-        }
-        $.ajax("/check/"+pseudo, {
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType: "application/json",
-    }) .done(function(data) {
-				$("#validePosition").text(data)
-			})       
-      }	
     </script>
 <?---------------------------------------------------------------------------------------------------->
 
@@ -175,9 +142,9 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Situation actuelle:</h2>
-                                    <label><input type="button" onclick="metrology()" name="jour" value="Afficher le jour et l'heure"></input></label><br>
+                                    <label><input type="button" onclick="jour()" name="jour" value="Afficher le jour et l'heure"></input></label><br>
                                     <label id="jour"> </label><br>                   
-                                    <label><input type="button" onclick="metrology()"" name="meteo" value="Afficher la météo"></input></label><br>     
+                                    <label><input type="button" onclick="meteo()"" name="meteo" value="Afficher la météo"></input></label><br>     
                                     <label id="meteo"> </label><br>                   
                                     <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                                     <label id="budget"> </label><br>
@@ -240,10 +207,11 @@
 
                         <div class="col-sm-3">
                                 <h2>Facture:</h2>
-								     <label>Total à payer: <label id="valideBoisson"> €</label></label><br>
+								    <label>Total à payer: <label id="valideBoisson"> €</label></label><br>
 								    <label id="validePosition"></label><br>
 
                                     <label><input type="button" onclick="envoyerDecision()" name="envoyerDecision" value="Valider mes choix"></input></label>
+
 
                             </div>
         </div>
