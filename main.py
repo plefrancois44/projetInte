@@ -444,7 +444,8 @@ def post_metrology():
 	
 	weather = arduino['weather']
 	timestamp = arduino ['timestamp']
-	
+	print("timestamp")
+	print(timestamp)
 	if timestamp == 1:
 		matin = weather[0]['weather']
 		aprem = weather[1]['weather']
@@ -460,7 +461,12 @@ def post_metrology():
 		temps = timestamp / 24.0
 		jour = int(temps) + 1
 		reste = temps % 1
-		
+		print("temps")
+		print(temps)
+		print("jour")
+		print(jour)
+		print("reste")
+		print(reste)
 		if reste <=0.5:
 			matin = weather[0]['weather']
 			aprem = weather[1]['weather']			
@@ -489,7 +495,7 @@ def post_metrology():
 			})
 			
 			
-	retour = make_response(json.dumps(weather[0]['weather']),200)
+	retour = make_response(json.dumps(arduino),200)
 	return retour
 
 
