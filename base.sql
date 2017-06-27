@@ -17,12 +17,10 @@ CREATE TABLE public.Ingredient(
 );
 
 CREATE TABLE public.Recette(
-        rec_id SERIAL,
-	rec_nom        Varchar (50) NOT NULL ,
+        rec_nom        Varchar (50) NOT NULL ,
 	rec_jour_achat Int,
         rec_cout_achat Float ,
-        jou_nom        Varchar (25) ,
-        PRIMARY KEY (rec_id)
+        PRIMARY KEY (rec_nom)
 );
 
 CREATE TABLE public.Joueur(
@@ -83,7 +81,6 @@ CREATE TABLE public.Compte (
   PRIMARY KEY (com_nom)
 );
 
-ALTER TABLE Recette ADD CONSTRAINT FK_Recette_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE Pub ADD CONSTRAINT FK_Pub_jou_nom FOREIGN KEY (jou_nom) REFERENCES Joueur(jou_nom);
 ALTER TABLE composer ADD CONSTRAINT FK_composer_rec_nom FOREIGN KEY (rec_nom) REFERENCES Recette(rec_nom);
 ALTER TABLE composer ADD CONSTRAINT FK_composer_ing_nom FOREIGN KEY (ing_nom) REFERENCES Ingredient(ing_nom);
