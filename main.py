@@ -394,9 +394,9 @@ def post_players():
 @app.route('/metrology',methods=['POST'])
 def post_metrology():
 	db = Db()
-	data = request.get_json()
+	arduino = request.get_json()
 	
-	arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
+	#--- EXEMPLE :  arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
 	
 	weather = arduino['weather']
 	timestamp = arduino ['timestamp']
