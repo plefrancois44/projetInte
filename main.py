@@ -170,7 +170,7 @@ def action_player(player):
 			'nom' : player
 			})	
 		
-		if int(budget)>int(coutTotal):
+		if int(budget[0])>int(coutTotal):
 			db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
 				'newBudget': budget-coutTotal ,
 				'nom' : player
