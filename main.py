@@ -138,13 +138,12 @@ def action_player(player):
 	db=Db()
 	coutLimonade = 0.5 #recupéré par la bd
 	if kind == "drinks":
-		print("hello")
-		prepare = data["prepare"][0]
-		boisson = prepare["boisson"]
-		nb = int(prepare["quantite"])
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
+		i = 0
 		for recette in range(0,len(recetteJoueur)):
+			prepare = data["prepare"][i]
+			nb = int(prepare["quantite"])
 			ingredient = {}
 			cout=[]
 			coutProd = 0.0
@@ -154,8 +153,8 @@ def action_player(player):
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
-				print(cout[ingredient]['ing_prix_unitaire'])
+				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)
+				print(cout[ingredient]['ing_prix_unitaire'])		
 				
 			
 		#à insérer dans la bd avec le pseudo
