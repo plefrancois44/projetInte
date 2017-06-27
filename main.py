@@ -481,18 +481,33 @@ def post_metrology():
 		else:
 			aprem = weather[0]['weather']
 			matin = weather[1]['weather']
+			existe = db.select("SELECT * FROM Meteo WHERE met_jour=@(jour)",
+				  {'jour' : jour + 1})
+			if len(existe) != 0 :
+				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
+					{'heure' : timestamp,
+					'aprem' : aprem,
+					'jour' : jour
+				})
+				
+				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_matin=@(aprem) WHERE met_jour=@(jour)",
+					{'heure' : timestamp,
+					'matin' : matin,
+					'jour' : jour + 1
+				})
 
-			db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
-				{'heure' : timestamp,
-				'aprem' : aprem,
-				'jour' : jour
-			})
-			
-			db.execute("INSERT INTO Meteo (met_jour, met_heure_ecoule, met_matin) VALUES (@(jour), @(heure), @(matin))",
-				{'jour' : jour + 1,
-				'heure' : timestamp,
-				'matin' : matin
-			})
+			else :
+				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
+					{'heure' : timestamp,
+					'aprem' : aprem,
+					'jour' : jour
+				})
+				
+				db.execute("INSERT INTO Meteo (met_jour, met_heure_ecoule, met_matin) VALUES (@(jour), @(heure), @(matin))",
+					{'jour' : jour + 1,
+					'heure' : timestamp,
+					'matin' : matin
+				})
 			
 			
 	retour = make_response(json.dumps(arduino),200)
