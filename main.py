@@ -528,6 +528,22 @@ def get_ingredients():
 	retour = make_response(json.dumps(reponse),200)
 	return retour
 
+#---- Permet de mettre tout les joueurs au même niveau (remise du budget initial et remise a zero des tables vendre, produire et pub)
+@app.route('/reset',methods=['GET'])
+def get_reset():
+	db = Db()
+	db.execute("TRUNCATE TABLE pub, produire, vendre")
+	joueurs = db.select("SELECT * FROM joueur")
+	
+	for joueur in range(0,len(joueurs)):
+		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
+				{'budget' : 6000.0,
+				'nom' : joueurs[joueur]['jou_nom']
+			})
+
+	db.close()
+	return json.dumps("Reset effectué"), 200, {'Content-Type': 'application/json'}
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
