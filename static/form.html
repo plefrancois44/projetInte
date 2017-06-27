@@ -14,9 +14,9 @@
 
     function metrology(){
         $.ajax("/metrology")
-            .done(function(data)){
+            .done(function(data){
                 $("#metrology").text(data)
-            }
+            })
     }
 
     function $_GET(param) {
