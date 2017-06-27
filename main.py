@@ -206,7 +206,7 @@ def action_player(player):
 			})		
 		if budget>coutTotal:
 			db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
-				'newBudget' budget-coutTotal ,
+				'newBudget': budget-coutTotal ,
 				'nom' : player
 				})	
 			reponse = {
