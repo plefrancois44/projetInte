@@ -27,7 +27,6 @@
                             contentType: "application/json",
 			    }).done(function(data) {
 				$("#login").text(data);
-				if(data=="ok")
 				window.location.replace("http://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
 			    })
 		    }		 
