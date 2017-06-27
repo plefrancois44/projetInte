@@ -35,6 +35,7 @@ CREATE TABLE public.Joueur(
 
 CREATE TABLE public.Meteo(
         met_jour            Int ,
+	met_heure_ecoule    Int ,
         met_matin           Varchar (25) ,
         met_apres_midi      Varchar (25) ,
         PRIMARY KEY (met_jour )
