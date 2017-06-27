@@ -375,7 +375,7 @@ def post_players():
 		db.close()
 
 		playerInfo = {}
-		playerInfo["cash"] = bugdet
+		playerInfo["cash"] = budget
 		playerInfo["sales"] = "0"
 		playerInfo["profit"] = "0"
 		playerInfo["drinksOffered"] = drinksInfos
