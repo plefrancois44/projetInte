@@ -10,40 +10,14 @@
 
 <?------------------------------------------------- GET------------------------->
     <script>
-    function jour(){
-        $.ajax("/jour")
-            .done(function(data){
-                $("#jour").text(data)
-            })
-        }
+    
 
-	function meteo(){
-		$.ajax("/meteo")
-            .done(function(data){
-                $("#meteo").text(data)
-            })
-        }
-
-    function budget(){
-		$.ajax("/budget")
-            .done(function(data){
-                $("#budget").text(data)
-            })
-        }    
-
-    function panneau(){
-        $.ajax("/panneau")
-            .done(function(data){
-                $("#panneau").text(data)
-            })
-        }
-
-	function prix(){
-			$.ajax("/prix")
-	            .done(function(data){
-	                $("#prix").text(data)
-	            })
-	        }    
+    function metrology(){
+        $.ajax("/metrology")
+            .done(function(data)){
+                $("#metrology").text(data)
+            }
+    }
 
     function $_GET(param) {
         var vars = {};
@@ -59,6 +33,52 @@
         }
         return vars;
     }
+
+    function visualiserDecision(){
+        var pseudo = $_GET('pseudo');
+        let data = {
+            "kind": "drinks",
+            "prepare": 
+                [
+                    {
+                        "boisson" : "Limonade",
+                        "quantite" : $("#nbLimonade").val()
+                    },
+                    {
+                        "boisson" : "Chocolat",
+                        "quantite" : $("#nbChocolat").val()
+                    },
+                    {
+                        "boisson" : "Mojito",
+                        "quantite" : $("#nbMojito").val()
+                    }
+                ],
+            "price": 
+                [
+                    {
+                        "boisson": "Limonade",
+                        "prix" : $("#prixLimonade").val()
+                    },
+                    {
+                        "boisson": "Chocolat",
+                        "prix" : $("#prixChocolat").val()
+                    },
+                    {
+                        "boisson": "Mojito",
+                        "prix" : $("#prixMojito").val()
+                    }
+                ]
+            }
+        
+         $.ajax("/prevision/"+pseudo, {
+          type: "POST",
+          data: JSON.stringify(data),
+          contentType: "application/json",
+            }).done(function(data) {
+                if(data["sufficentFunds"]!="True") $("#valideBoisson").text(data["totalCost"]);
+                else $("#valideBoisson").text("fond insuffisant");
+            })       
+        } 
 
     function envoyerDecision(){
         var pseudo = $_GET('pseudo');
@@ -116,7 +136,7 @@
           "x": $("#x").val(),
           "y": $("#y").val()
         }
-        $.ajax("/check/<"+pseudo+">", {
+        $.ajax("/check/"+pseudo, {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
@@ -135,7 +155,6 @@
                     <p>If you're not with me, you're my enemy...</p>                
                 </div>
                 <?--------------------------------------------------------------->
-
 
 
                     <div class="container">
@@ -169,11 +188,14 @@
                                 <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
                                 <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
 
-                                <label><input type="button" onclick="envoyerDecision()" name="envoyer" value="Valider mes choix"></input></label>
-                                <p id="valide"></p>
+
+                                <label><input type="button" onclick="visualiserDecision()" name="verifier" value="Visualiser ses choix"></input></label>
+
                         </form>
                         
             		    <form id="position">
+
+                            <label>Acheter un panneau publicitaire:</label><br>
                             <div id="map" style="width:400px;height:400px;background:yellow"></div>
 
                                 <script>
@@ -196,7 +218,6 @@
 
                                 }
                                 </script>
-
                                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGI-jC0lAN0WTkOMaYhlDEUoJ-wGyfTI&callback=myMap" type="text/javascript"></script>
                             <label>Améliorer le panneau:</label>
                             <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
@@ -206,7 +227,11 @@
                         <div class="col-sm-3">
                                 <h2>Total à régler:</h2>
 								    <label id="valideBoisson"></label><br>
-								    <label id="validePosition"></label>                                
+								    <label id="validePosition"></label><br>
+
+                                    <label><input type="button" onclick="envoyerDecision()" name="envoyerDecision" value="Valider mes choix"></input></label>
+
+
                             </div>
         </div>
     </div>    
