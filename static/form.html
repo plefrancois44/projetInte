@@ -129,13 +129,13 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Situation actuelle:</h2>
-                                    <label>Afficher le jour: <input type="button" onclick="jour()" name="jour">Jour</input></label>
+                                    <label>Afficher le jour: <input type="button" onclick="jour()" name="jour" value="Jour"></input></label>
                                     <label id="jour"> </label>                    
-                                    <label>Afficher la météo: <input type="button" onclick="meteo()"" name="meteo">Météo</input></label>       
+                                    <label>Afficher la météo: <input type="button" onclick="meteo()"" name="meteo" value="Météo"></input></label>       
                                     <label id="meteo"> </label>                   
-                                    <label>Afficher le budget: <input type="button" onclick="budget()" name="budget">Mon budget</input></label>
+                                    <label>Afficher le budget: <input type="button" onclick="budget()" name="budget" value="Mon budget"></input></label>
                                     <label id="budget"> </label>
-                                    <label>Afficher les panneaux possédés: <button onclick="panneau()" name="panneau">Mes panneaux</input></label>
+                                    <label>Panneaux possédés: <button onclick="panneau()" name="panneau" value="Mes panneaux"></input></label>
                                     <label id="panneau"> </label>
                             </div>        
                             <?------------------colum1------------------------------->
@@ -151,7 +151,7 @@
                                 </select></label><br>
                                 <label>Quantité : <input type='number' id="nbBoisson"></label>
                                 <label>Prix : <input type='number' id="prixBoisson"></label><br>
-                                <label><input type="button" onclick="envoyerDecision()" name="envoyer">Valider mes choix</input></label>
+                                <label><input type="button" onclick="envoyerDecision()" name="envoyer" value="Valider mes choix"></input></label>
                                 <p id="valide"></p>
                         </form>
                         
@@ -159,16 +159,16 @@
                             <label>Acheter et positionner un panneau publicitaire:</label>
             		        <label>x: <input type='number' id="x"></label>
             		        <label>y: <input type='number' id="y"></label>
-            		        <label><input type="button" onclick="send_position()" name="send">
-                            Valider la position du panneau</input></label>
+            		        <label><input type="button" onclick="send_position()" name="send" value="Valider la position du panneau">
+                            </input></label>
                             <label>Améliorer le panneau:</label>
-                            <label><input type="button" onclick="level_up()" name="level_up"> + </input></label>
+                            <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
                         </form>                
                         </div>
 
                         <div class="col-sm-3">
                                 <h2>Total à régler:</h2>
-				<span id="valideBoisson"></span>
+								<span id="valideBoisson"></span>
 
                                 
                             </div>
