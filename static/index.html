@@ -21,7 +21,7 @@
                             "user": $("#user").val(),
                             "password": $("#password").val()
                             }
-                        $.ajax("/players", {
+                        $.ajax("http://bushukan-imerir.herokuapp.com/players", {
                             type: "POST",
                             data: JSON.stringify(data),
                             contentType: "application/json",
