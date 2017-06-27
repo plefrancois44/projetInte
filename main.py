@@ -501,7 +501,7 @@ def post_metrology():
 def get_metrology():
 	db = Db()
 	meteo = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo ORDER BY met_jour DESC LIMIT 2")
-	forecast = {}
+	forecast = []
 	reste = int(meteo[0]['met_heure_ecoule'] / 24.0)%1
 		
 	if reste <=0.5:
