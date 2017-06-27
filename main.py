@@ -481,8 +481,9 @@ def post_metrology():
 		else:
 			aprem = weather[0]['weather']
 			matin = weather[1]['weather']
+			jourSup = jour + 1
 			existe = db.select("SELECT * FROM Meteo WHERE met_jour=@(jour)",
-				  {'jour' : jour + 1})
+				  {'jour' : jourSup})
 			if len(existe) != 0 :
 				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
 					{'heure' : timestamp,
@@ -493,7 +494,7 @@ def post_metrology():
 				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_matin=@(aprem) WHERE met_jour=@(jour)",
 					{'heure' : timestamp,
 					'matin' : matin,
-					'jour' : jour + 1
+					'jour' : jourSup
 				})
 
 			else :
@@ -504,7 +505,7 @@ def post_metrology():
 				})
 				
 				db.execute("INSERT INTO Meteo (met_jour, met_heure_ecoule, met_matin) VALUES (@(jour), @(heure), @(matin))",
-					{'jour' : jour + 1,
+					{'jour' : jourSup,
 					'heure' : timestamp,
 					'matin' : matin
 				})
