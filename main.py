@@ -545,7 +545,7 @@ def get_reset():
 	return json.dumps("Reset OK"), 200, {'Content-Type': 'application/json'}
 
 #---- Route qui supprime un joueur de la base de données
-@app.route('/players/<playerName>', methods=['DELETE'])
+@app.route('/players/<playerName>', methods=['GET'])
 def delete_player(playerName):
 	db = Db()
 	db.execute("DELETE FROM joueur WHERE jou_nom=@(nom)", {'nom' : playerName})
