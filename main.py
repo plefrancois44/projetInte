@@ -312,7 +312,7 @@ def post_players():
 		actif = True
 		#---------------------------------------------------------------#
 
-		recette = {}
+		recettes = {}
 		drinksInfos = {}
 		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (@(nom),@(budget),@(posX),@(posY),@(rayon),@(actif))", 
 			{'nom' : data['user'],
@@ -342,23 +342,22 @@ def post_players():
 		
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = @(nom)", {'nom' : data['user']})
 		for recette in range(0,len(recetteJoueur)):
-			ingredient = {}
-			ingredientRecette = []
+			ingredients = {}
 			coutProd = 0.0
 			alcool = False
 			froid = True
-			ingredientRecette = recette.append(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+			ingredientRecette = recettes.append(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 
 			for ingredient in range(0,len(ingredientRecette)):
-				cout = ingredient.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				cout = ingredients.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + cout
 
-				alcoolIngredient = ingredient.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				alcoolIngredient = ingredients.append(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if alcoolIngredient == True & alcool == False :
 					alcool = True
 
-				froidIngredient = ingredient.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				froidIngredient = ingredients.append(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if froidIngredient == False & froid == True :
 					froid = False
 			
