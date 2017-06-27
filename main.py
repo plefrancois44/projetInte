@@ -110,7 +110,7 @@ def action_player(player):
 		recettes={}
 		coutTotal=0
 		for recette in range(0,len(recetteJoueur)):
-			prepare = data["prepare"][recette]
+			prepare = action["prepare"][recette]
 			print(prepare["quantite"])
 			nb = int(prepare["quantite"])
 			coutProd = 0.0
@@ -133,9 +133,9 @@ def action_player(player):
 				db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 				{'nom' : player,
 				'jour' : 1,
-				'prix' : data["price"][recette]["prix"],
-				'quantite' : data["prepare"][recette]["quantite"],
-				'recette' : data["prepare"][recette]["boisson"]
+				'prix' : action["price"][recette]["prix"],
+				'quantite' : action["prepare"][recette]["quantite"],
+				'recette' : action["prepare"][recette]["boisson"]
 				})
 
 		if simulation == False :
@@ -161,7 +161,7 @@ def action_player(player):
 		#else if(data["kind"]=="ad")
 		#else if(data["kind"]=="price")
 	return jsonResponse("NOK",403)
-
+	
 	
 #---- Route qui permet d'afficher la map de tout les joueurs
 # Route en maintenance reste la partie db à faire
