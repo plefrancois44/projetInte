@@ -502,9 +502,9 @@ def post_metrology():
 def get_metrology():
 	db = Db()
 	meteo = []
-	meteo = db.execute("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM Meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	meteo = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM Meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
 	
-	print(meteo)
+	print(meteo['met_heure_ecoule'])
 	
 	retour = make_response(json.dumps(meteo),200)
 	return retour
