@@ -497,6 +497,17 @@ def post_metrology():
 	retour = make_response(json.dumps(arduino),200)
 	return retour
 
+#---- Route metrology, renvoie la meteo du jour
+@app.route('/metrology',methods=['GET'])
+def get_metrology():
+	db = Db()
+	
+	meteo = db.execute("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM Meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	
+	print(meteo[0][met_heure_ecoule])
+	
+	retour = make_response(json.dumps(meteo[0][met_heure_ecoule]),200)
+	return retour
 
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
