@@ -17,7 +17,7 @@ CREATE TABLE public.Ingredient(
 );
 
 CREATE TABLE public.Recette(
-        rec_id int Auto_increment NOT NULL,
+        rec_id SERIAL NOT NULL,
 	rec_nom        Varchar (50) NOT NULL ,
 	rec_jour_achat Int,
         rec_cout_achat Float ,
