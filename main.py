@@ -143,6 +143,7 @@ def action_player(player):
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
 		print(prepare)
+		recetteJoueur=["Limonade","Chocolat Chaud","Mojito"]
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
 			cout=[]
