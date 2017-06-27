@@ -164,7 +164,7 @@ def action_player(player):
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
-			"totalCost" : coutBoisson*nb
+			"totalCost" : coutProd*nb
 		}
 
 		db.close()
