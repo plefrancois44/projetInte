@@ -333,7 +333,7 @@ def post_players():
 	username = data['name']
 	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : username});
 	if(len(verif) != 0) :
-		return json.dumps("NOK"), 401, {'Content-Type': 'application/json'}
+		return json.dumps("NOK"), 403, {'Content-Type': 'application/json'}
 	
 	else :
 		#----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
