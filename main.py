@@ -344,7 +344,9 @@ def post_players():
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = @(nom)", {'nom' : data['user']})
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
-			ingredients = {}
+			cout=[]
+			ingredientAlcool =[]
+			ingredientFroid=[]
 			coutProd = 0.0
 			alcool = False
 			froid = True
@@ -352,16 +354,18 @@ def post_players():
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
-				cout = (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				print(cout[0]['ing_prix_unitaire'])
-				coutProd = coutProd + cout[0]['ing_prix_unitaire']
+				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				print(cout[ingredient]['ing_prix_unitaire'])
+				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
 
-				ingredients[ingredient]=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredients[ingredient]["ing_alcool"] == True & alcool == False :
+				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				print(ingredientAlcool[ingredient]['ing_alcool'])
+				if ingredientAlcool[ingredient]['ing_alcool'] == True & alcool == False :
 					alcool = True
 
-				ingredients[ingredient]=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredients[ingredient]["ing_froid"] == False & froid == True :
+				ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				print(ingredientFroid[ingredient]['ing_froid'])
+				if ingredientFroid[ingredient]['ing_froid'] == False & froid == True :
 					froid = False
 			
 			drinkInfo = {}
