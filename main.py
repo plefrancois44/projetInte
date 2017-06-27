@@ -222,16 +222,16 @@ def get_map():
 			}
 		},
 		"ranking":{
-			0: "playerName1",
-			1: "playerName2"
+			0: "pierre",
+			1: "Toto"
 		},
 		"itemsByPlayer": 
 		{
-			"playerName1":
+			"pierre":
 			[
 				{
 				 	"kind" : "stand",
-				 	"owner" : "playerName1",
+				 	"owner" : "pierre",
 				 	"location" : {
 						"latitude": 100.5,
 						"longitude": 150.2
@@ -240,7 +240,7 @@ def get_map():
 				},
 				{
 				 	"kind" : "ad",
-				 	"owner" : "playerName1",
+				 	"owner" : "pierre",
 				 	"location" : {
 						"latitude": 20.5,
 						"longitude": 25.2
@@ -275,7 +275,7 @@ def get_map():
 				"cash": 3000,
 				"sales": 30,
 				"profit": 2000.0,
-				"pseudo": "playerName1",
+				"pseudo": "pierre",
 				"drinkOffered": 
 				[
 					{
@@ -309,7 +309,7 @@ def get_map():
 			}
 		],
 		"drinksByPlayer": {
-			"playerName1": 
+			"pierre": 
 			[
 				{
 					"name":"limonade",
@@ -336,7 +336,6 @@ def get_map():
 		}
 	}
 	return json.dumps(Map)
-
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
