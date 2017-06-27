@@ -181,6 +181,7 @@ def action_player(player):
 		recettes={}
 		for recette in range(0,len(recetteJoueur)):
 			prepare = data["prepare"][recette]
+			print(prepare["quantite"])
 			nb = int(prepare["quantite"])
 			ingredient = {}
 			cout=[]
@@ -191,13 +192,7 @@ def action_player(player):
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
-			db.execute("INSERT INTO vendre(ven_jour,ven_quantite,rec_nom,jou_nom) VALUES (@(jour)@(quantite),@(recette),@(joueur))", 
-			{
-				'joueur' : player,
-				'quantite' : nb,
-				'recette' : prepare["boisson"],
-				'jour' : 1
-			})
+		
 		reponse = {
 			"sufficientFunds" : True,
 			"totalCost" : coutProd
@@ -454,8 +449,9 @@ def post_metrology():
 		matin = weather[0]['weather']
 		aprem = weather[1]['weather']
 			
-		db.execute("INSERT INTO Meteo VALUES (@(jour), @(matin), @(aprem))",
+		db.execute("INSERT INTO Meteo VALUES (@(jour), @(heure), @(matin), @(aprem))",
 			{'jour' : 1,
+			'heure' : timestamp,
 			'matin' : matin,
 			'aprem' : aprem
 		})
@@ -469,8 +465,9 @@ def post_metrology():
 			matin = weather[0]['weather']
 			aprem = weather[1]['weather']			
 			
-			db.execute("UPDATE Meteo SET met_matin=@(matin), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
-				{'matin' : matin,
+			db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_matin=@(matin), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
+				{'heure' : timestamp,
+				'matin' : matin,
 				'aprem' : aprem,
 				'jour' : jour
 			})
@@ -479,13 +476,15 @@ def post_metrology():
 			aprem = weather[0]['weather']
 			matin = weather[1]['weather']
 
-			db.execute("UPDATE Meteo SET met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
-				{'aprem' : aprem,
+			db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
+				{'heure' : timestamp,
+				'aprem' : aprem,
 				'jour' : jour
 			})
 			
-			db.execute("INSERT INTO Meteo (met_jour, met_matin) VALUES (@(jour), @(matin))",
+			db.execute("INSERT INTO Meteo (met_jour, met_heure_ecoule, met_matin) VALUES (@(jour), @(heure), @(matin))",
 				{'jour' : jour + 1,
+				'heure' : timestamp,
 				'matin' : matin
 			})
 			
