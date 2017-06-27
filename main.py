@@ -542,7 +542,7 @@ def get_reset():
 			})
 
 	db.close()
-	return json.dumps("Reset effectué"), 200, {'Content-Type': 'application/json'}
+	return json.dumps("Reset OK"), 200, {'Content-Type': 'application/json'}
 
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
