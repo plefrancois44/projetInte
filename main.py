@@ -188,8 +188,8 @@ def get_map():
 				 	"kind" : "stand",
 				 	"owner" : "playerName1",
 				 	"location" : {
-						"latitude": 10.5,
-						"longitude": 15.2
+						"latitude": 100.5,
+						"longitude": 150.2
 					},
 				 	"influence" : 1.0
 				},
@@ -209,8 +209,8 @@ def get_map():
 				 	"kind" : "stand",
 				 	"owner" : "Toto",
 				 	"location" : {
-						"latitude": 10.5,
-						"longitude": 15.2
+						"latitude": 150.5,
+						"longitude": 100.2
 					},
 				 	"influence" : 1.0
 				},
