@@ -491,7 +491,7 @@ def post_metrology():
 					'jour' : jour
 				})
 				
-				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_matin=@(aprem) WHERE met_jour=@(jour)",
+				db.execute("UPDATE Meteo SET met_heure_ecoule=@(heure), met_matin=@(matin) WHERE met_jour=@(jour)",
 					{'heure' : timestamp,
 					'matin' : matin,
 					'jour' : jourSup
