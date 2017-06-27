@@ -144,6 +144,7 @@ def action_player(player):
 		nb = int(prepare["quantite"])
 		print(prepare)
 		recetteJoueur = db.select("SELECT * FROM Recette")
+		recettes={}
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
 			cout=[]
