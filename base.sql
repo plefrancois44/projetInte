@@ -17,12 +17,12 @@ CREATE TABLE public.Ingredient(
 );
 
 CREATE TABLE public.Recette(
-        rec_id SERIAL NOT NULL,
+        rec_id SERIAL,
 	rec_nom        Varchar (50) NOT NULL ,
 	rec_jour_achat Int,
         rec_cout_achat Float ,
         jou_nom        Varchar (25) ,
-        PRIMARY KEY (rec_id)
+        PRIMARY KEY (rec_id, rec_nom)
 );
 
 CREATE TABLE public.Joueur(
