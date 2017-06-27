@@ -143,7 +143,6 @@ def action_player(player):
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
 		print(prepare)
-		recettes={}
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
@@ -416,13 +415,8 @@ def post_metrology():
 	timestamp = arduino ['timestamp']
 	
 	if timestamp == 1:
-		maintenant = weather[0]['dfn']
-		if maintenant == 0:
-			matin = weather[0]['weather']
-			aprem = weather[1]['weather']
-		else:
-			matin = weather[1]['weather']
-			aprem = weather[0]['weather']
+		matin = weather[0]['weather']
+		aprem = weather[1]['weather']
 			
 		db.execute("INSERT INTO Meteo VALUES (@(jour), @(matin), @(aprem))",
 			{'jour' : 1,
@@ -436,31 +430,20 @@ def post_metrology():
 		reste = temps % 1
 		
 		if reste <=0.5:
-			maintenant = weather[0]['dfn']
-			if maintenant == 0:
-				matin = weather[0]['weather']
-				aprem = weather[1]['weather']
-			else:
-				matin = weather[1]['weather']
-				aprem = weather[0]['weather']
+			matin = weather[0]['weather']
+			aprem = weather[1]['weather']			
 			
-			
-			db.execute("UPDATE Meteo SET met_matin=@(matin), met_aprem=@(aprem) WHERE met_jour=@(jour)",
+			db.execute("UPDATE Meteo SET met_matin=@(matin), met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
 				{'matin' : matin,
 				'aprem' : aprem,
 				'jour' : jour
 			})
 
 		else:
-			maintenant = weather[0]['dfn']
-			if maintenant == 0:
-				aprem = weather[0]['weather']
-				matin = weather[1]['weather']
-			else:
-				aprem = weather[1]['weather']
-				matin = weather[0]['weather']
-			
-			db.execute("UPDATE Meteo SET met_aprem=@(aprem) WHERE met_jour=@(jour)",
+			aprem = weather[0]['weather']
+			matin = weather[1]['weather']
+
+			db.execute("UPDATE Meteo SET met_apres_midi=@(aprem) WHERE met_jour=@(jour)",
 				{'aprem' : aprem,
 				'jour' : jour
 			})
