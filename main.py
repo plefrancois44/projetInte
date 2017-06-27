@@ -500,11 +500,36 @@ def post_metrology():
 @app.route('/metrology',methods=['GET'])
 def get_metrology():
 	db = Db()
-	meteo = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	meteos = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo ORDER BY met_jour DESC LIMIT 2")
+	forecast = {}
 	
-	print(meteo[0]['met_heure_ecoule'])
+	reste = int(meteos[meteo]['met_heure_ecoule'] / 24.0)%1
+		
+	if reste <=0.5:
 	
-	retour = make_response(json.dumps(meteo[0]['met_heure_ecoule']),200)
+		forecasts = {}
+		forecasts["dfn"] = 1
+		forecasts["weather"] = meteos[0]['met_apres_midi']
+		forecast += forecasts
+		forecasts = {}
+		forecasts["dfn"] = 0
+		forecasts["weather"] = meteos[0]['met_matin']
+		forecast += forecasts
+	else :
+		forecasts = {}
+		forecasts["dfn"] = 1
+		forecasts["weather"] = meteos[0]['met_matin']
+		forecast += forecasts
+		forecasts = {}
+		forecasts["dfn"] = 0
+		forecasts["weather"] = meteos[1]['met_apres_midi']
+		forecast += forecasts
+		
+	reponse = {}
+	reponse["timestamp"] = meteo[0]['met_heure_ecoule']
+	reponse["weather"] = forecast
+	
+	retour = make_response(json.dumps(reponse),200)
 	return retour
 
 #----------------------------------- LANCE L'APP -----------------------------------#
