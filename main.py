@@ -353,7 +353,7 @@ def post_players():
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout = (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + cout
+				coutProd = coutProd + cout["ing_prix_unitaire"]
 
 				ingredients[ingredient]=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if ingredients[ingredient]["ing_alcool"] == True & alcool == False :
