@@ -157,7 +157,7 @@ def prevision_player(player):
 		budget = db.select("SELECT jou_budget FROM Joueur where jou_nom=@(nom)",{'nom':player})
 		sufficientFunds = False
 		if coutProd > budget: sufficientFunds=True
-		else sufficientFunds = False
+		else: sufficientFunds = False
 		reponse = {
 			"sufficientFunds" : sufficientFunds,
 			"totalCost" : coutProd
