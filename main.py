@@ -504,6 +504,29 @@ def get_metrology():
 	retour = make_response(json.dumps(reponse),200)
 	return retour
 
+#---- Route ingredients, renvoie les informations de tout les ingredients
+@app.route('/ingredients',methods=['GET'])
+def get_ingredients():
+	db = Db()
+	ingredientInfo = db.select("SELECT * FROM ingredient")
+	Info
+	ingredient = []
+	
+	for ing in range(0,len(ingredientInfo)):
+	
+		ingredients={}
+		ingredients["name"] = ingredientInfo[ing]['ing_nom']
+		ingredients["cost"] = ingredientInfo[ing]['ing_prix_unitaire']
+		ingredients["hasAlcohol"] = ingredientInfo[ing]['ing_alcool']
+		ingredients["isCold"] = ingredientInfo[ing]['ing_froid']
+		ingredient.append(ingredients)
+	
+	reponse = {}
+	reponse["ingredients"] = ingredient
+	
+	retour = make_response(json.dumps(reponse),200)
+	return retour
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
