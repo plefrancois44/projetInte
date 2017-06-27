@@ -343,7 +343,7 @@ def post_players():
 		recetteJoueur = db.select("SELECT * FROM Recette WHERE jou_nom = @(nom)", {'nom' : data['user']})
 		for recette in range(0,len(recetteJoueur)):
 			ingredient = {}
-			ingredientRecette = {}
+			ingredientRecette = []
 			coutProd = 0.0
 			alcool = False
 			froid = True
