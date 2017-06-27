@@ -218,8 +218,8 @@ def get_map():
 				 	"kind" : "ad",
 				 	"owner" : "Toto",
 				 	"location" : {
-						"latitude": 40.5,
-						"longitude": 25.2
+						"latitude": 60.5,
+						"longitude": 100.2
 					},
 					"influence" : 2.0
 				}
