@@ -509,7 +509,6 @@ def get_metrology():
 def get_ingredients():
 	db = Db()
 	ingredientInfo = db.select("SELECT * FROM ingredient")
-	Info
 	ingredient = []
 	
 	for ing in range(0,len(ingredientInfo)):
