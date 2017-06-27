@@ -346,10 +346,10 @@ def post_players():
 			coutProd = 0.0
 			alcool = False
 			froid = True
-			ingredientRecette = recettes.append(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+			recettes[recettte]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 
-			for ingredient in range(0,len(ingredientRecette)):
+			for ingredient in range(0,len(recettes[recette])):
 				cout = ingredients.append(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + cout
 
