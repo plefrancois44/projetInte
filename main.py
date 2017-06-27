@@ -379,10 +379,13 @@ def post_players():
 			froid = True
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : username}))
+			
+			coutProd = (db.select('SELECT count(ing_prix_unitaire) AS price FROM Ingredient, Recette, Composer WHERE ingredient.ing_nom=composer.ing_nom AND '
+						'recette.rec_nom=composer.rec_nom AND recette.rec_nom=@(recette)',
+						{'recette' : recetteJoueur[recette]["rec_nom"]}))
+	
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
-				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
 
 				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if ingredientAlcool[ingredient]['ing_alcool'] == True & alcool == False :
@@ -394,7 +397,7 @@ def post_players():
 			
 			drinkInfo = {}
 			drinkInfo["name"] = recetteJoueur[recette]["rec_nom"]
-			drinkInfo["price"] = coutProd
+			drinkInfo["price"] = coutProd[0]["price"]
 			drinkInfo["hasAlcohol"] = alcool
 			drinkInfo["isCold"] = froid
 			drinksInfos += drinkInfo
