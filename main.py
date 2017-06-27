@@ -193,16 +193,38 @@ def action_player(player):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
 		
-		reponse = {
-			"sufficientFunds" : True,
-			"totalCost" : coutProd
-		}
+			db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
+			{'nom' : player,
+			'jour' : 1,
+			'prix' : data["price"][recette]["prix"],
+			'quantite' : data["prepare"][recette]["quantite"],
+			'recette' : data["prepare"][recette]["boisson"]
+			})
+
+		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+			'nom' : player
+			})		
+		if budget>coutTotal:
+			db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
+				'newBudget' budget-coutTotal: ,
+				'nom' : player
+				})	
+			reponse = {
+				"sufficientFunds" : True,
+				"totalCost" : coutTotal
+			}
+		else:
+			reponse = {
+				"sufficientFunds" : False,
+				"totalCost" : coutTotal
+			}
 
 		db.close()
 		return jsonResponse(reponse)
-	return jsonResponse("ok")
 	#else if(data["kind"]=="ad")
 	#else if(data["kind"]=="price")
+	return jsonResponse("ok")
+	
 
 	
 #---- Route qui permet d'afficher la map de tout les joueurs
