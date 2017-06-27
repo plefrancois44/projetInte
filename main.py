@@ -385,7 +385,7 @@ def post_players():
 		coordinates["longitude"] = posY
 
 		reponse = {}
-		reponse["name"] = data['name']
+		reponse["name"] = data['user']
 		reponse["location"] = coordinates
 		reponse["info"] = playerInfo
 
