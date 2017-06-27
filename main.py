@@ -352,15 +352,15 @@ def post_players():
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : recetteJoueur[recette]["jou_nom"]}))
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
-				ingredients[ingredient]=(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + ingredients[ingredient]
+				ingredients[ingredient][0]=(db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				coutProd = coutProd + ingredients[ingredient][0]
 
-				ingredients[ingredient]=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredients[ingredient] == True & alcool == False :
+				ingredients[ingredient][1]=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				if ingredients[ingredient][1] == True & alcool == False :
 					alcool = True
 
-				ingredients[ingredient]=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredients[ingredient] == False & froid == True :
+				ingredients[ingredient][2]=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				if ingredients[ingredient][2] == False & froid == True :
 					froid = False
 			
 			drinkInfo = {}
