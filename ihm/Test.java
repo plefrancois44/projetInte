@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ihm.Communication;
+import ihm.model.Region;
 
 
 /**
@@ -24,6 +25,8 @@ public class Test {
             Communication comm = new Communication();
                
             MapGame map = comm.getMap();
+            
+            Region region;
             
             
             

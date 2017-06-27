@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 /**
  *
- * @author Nicolas
+ * @author Nicolas, Pierre
  */
 public class MapGame {
     

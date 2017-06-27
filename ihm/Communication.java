@@ -167,6 +167,7 @@ private void sendSales(MapGame mapGame) throws Exception {
 	int i=0;
     for(Player p : mapGame.getPlayerInfo()){
     	JSONObject jsPlayer = new JSONObject();
+        
     	jsPlayer.put("nom",p.getPseudo());
     	jsPlayer.put("qteVendue", Math.random()*100);
     	jsPlayer.put("nomRecette", "Limonade");
@@ -183,6 +184,7 @@ private void sendSales(MapGame mapGame) throws Exception {
 	wr.close();
 
 	int responseCode = con.getResponseCode();
+        
 	System.out.println("\nSending 'POST' request to URL : " + url);
 	System.out.println("Post parameters : " + jsArray.toString());
 	System.out.println("Response Code : " + responseCode);
