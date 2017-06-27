@@ -45,8 +45,8 @@
                         "quantite" : $("#nbLimonade").val()
                     },
                     {
-                        "boisson" : "Chocolat",
-                        "quantite" : $("#nbChocolat").val()
+                        "boisson" : "Chocolat_chaud",
+                        "quantite" : $("#nbChocolat_chaud").val()
                     },
                     {
                         "boisson" : "Mojito",
@@ -60,8 +60,8 @@
                         "prix" : $("#prixLimonade").val()
                     },
                     {
-                        "boisson": "Chocolat",
-                        "prix" : $("#prixChocolat").val()
+                        "boisson": "Chocolat_chaud",
+                        "prix" : $("#prixChocolat_chaud").val()
                     },
                     {
                         "boisson": "Mojito",
@@ -91,8 +91,8 @@
                         "quantite" : $("#nbLimonade").val()
                     },
                     {
-                        "boisson" : "Chocolat",
-                        "quantite" : $("#nbChocolat").val()
+                        "boisson" : "Chocolat_chaud",
+                        "quantite" : $("#nbChocolat_chaud").val()
                     },
                     {
                         "boisson" : "Mojito",
@@ -107,7 +107,7 @@
                     },
                     {
                         "boisson": "Chocolat",
-                        "prix" : $("#prixChocolat").val()
+                        "prix" : $("#prixChocolat_chaud").val()
                     },
                     {
                         "boisson": "Mojito",
@@ -161,9 +161,9 @@
                                 <label>Quantité : <input type='number' id="nbLimonade" placeholder="0"></label>
                                 <label>Prix : <input type='number' id="prixLimonade" placeholder="0"></label><br>
 
-                                <label value="Chocolat">Chocolat</label><br>
-                                <label>Quantité : <input type='number' id="nbChocolat" placeholder="0"></label>
-                                <label>Prix : <input type='number' id="prixChocolat" placeholder="0"></label><br>
+                                <label value="Chocolat_chaud">Chocolat Chaud</label><br>
+                                <label>Quantité : <input type='number' id="nbChocolat_chaud" placeholder="0"></label>
+                                <label>Prix : <input type='number' id="prixChocolat_chaud" placeholder="0"></label><br>
 
                                 <label value="Mojito">Mojito</label><br>
                                 <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
@@ -200,6 +200,9 @@
                                 }
                                 </script>
                                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGI-jC0lAN0WTkOMaYhlDEUoJ-wGyfTI&callback=myMap" type="text/javascript"></script>
+
+
+                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="+"></input></label>
                             <label>Améliorer le panneau:</label>
                             <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
                         </form>                
