@@ -83,7 +83,7 @@
                 ]
             }
         
-         $.ajax("/action/<"+pseudo+">", {
+         $.ajax("/action/"+pseudo, {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
