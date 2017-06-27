@@ -27,19 +27,11 @@
                             contentType: "application/json",
 			    }).done(function(data) {
 				$("#login").text(data);
+				if(data=="NOK")
+					window.alert('pseudo déja utilisé');
 				window.location.replace("https://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
 			    })
 		    }		 
-		    
-		    function connecterGet(){
-			$.ajax("/players")
-			    .done(function(data){
-				$("#login").text(data)
-				if(data=="ok")
-				    window.location.replace("/html?pseudo="+$("#user").val());
-			    })
-		    }
-       
             </script>
 
             <?-- Titre de la page ------------------------------------------->
