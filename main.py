@@ -10,7 +10,7 @@ import random
 from flask_cors import CORS
   
 ######################################
-# OBLIGATOIRE SINON ER REUR
+# OBLIGATOIRE SINON ERREUR
 import sys
 reload(sys)
 sys.setdefaultencoding("latin-1")
@@ -86,12 +86,6 @@ def sales():
 	reponse = make_response('Vente crée avec succès', 200)
 	return reponse
 
-#---- Route pour la recupoeration des donnes de l'arduino
-@app.route('/arduino', methods=['POST'])
-def arduino():
-	elements = request.get_json()
-	return jsonResponse(elements)
-
 #---- Route pour initialiser la base de donnees en admin
 @app.route('/admin/resetbase', methods=['GET'])
 @besoin_authentification_admin
@@ -100,35 +94,6 @@ def route_dbinit():
 	db.executeFile("base.sql")
 	db.close()
 	return "Done."
-		
-#---- Route pour s'authentifier en admin
-@app.route('/admin', methods=['GET'])
-@besoin_authentification_admin
-def authentification_admin():
-	return Response('Authentification OK', 200, {'WWW-Authenticate': 'Basic realm="Credentials valid"'})
-	
-#---- Route qui permet d'afficher tous les joueurs actifs en admin
-@app.route('/admin/players', methods=['GET'])
-@besoin_authentification_admin
-def get_user():
-	db=Db()
-	
-	resultat = db.select('SELECT * FROM Joueur WHERE jou_actif=TRUE')
-	
-	db.close()
-	reponse = make_response(json.dumps(resultat),200)
-	return reponse
-
-#---- Route qui retourne toute la liste d'ingredient present dans la base
-@app.route('/ingredients', methods=['GET'])
-def get_ingredient():
-	db=Db()
-	
-	resultat = db.select('SELECT ing_nom AS name, ing_prix_unitaire AS cost, ing_alcool AS hasAlcohol, ing_froid AS isCold FROM Ingredient')
-	
-	db.close()
-	reponse = make_response(json.dumps(resultat),200)
-	return reponse
 
 #---- Route qui gere les actions joueur
 @app.route('/prevision/<player>', methods=['POST'])
@@ -365,9 +330,10 @@ def get_map():
 def post_players():
 	db = Db()
 	data = request.get_json()
-	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : data['user']});
+	username = data['name']
+	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : username});
 	if(len(verif) != 0) :
-		return jsonResponse("NOK")
+		return json.dumps("NOK"), 401, {'Content-Type': 'application/json'}
 	
 	else :
 		#----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
@@ -382,7 +348,7 @@ def post_players():
 		recette = {}
 		drinksInfos = []
 		db.execute("INSERT INTO Joueur(jou_nom,jou_budget,jou_pos_x, jou_pos_y, jou_rayon, jou_actif) VALUES (@(nom),@(budget),@(posX),@(posY),@(rayon),@(actif))", 
-			{'nom' : data['user'],
+			{'nom' : username,
 			'budget' : budget,
 			'posX' : posX,
 			'posY' : posY,
@@ -390,19 +356,17 @@ def post_players():
 			'actif' : actif
 		})
 	
-		db.execute("INSERT INTO Compte VALUES (@(nom),@(mdp), false)",{'nom' : data['user'],'mdp' : md5.new(data['password'].encode('utf-8')).hexdigest()})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",{'nom' : username})
 		
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'citron')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",{'nom' : username})
 		
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",{'nom' : data['user']})
-		
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",{'nom' : data['user']})
-		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",{'nom' : data['user']})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",{'nom' : username})
 		
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		for recette in range(0,len(recetteJoueur)):
@@ -414,7 +378,7 @@ def post_players():
 			alcool = False
 			froid = True
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
-				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : data['user']}))
+				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : username}))
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
@@ -448,7 +412,7 @@ def post_players():
 		coordinates["longitude"] = posY
 
 		reponse = {}
-		reponse["name"] = data['user']
+		reponse["name"] = username
 		reponse["location"] = coordinates
 		reponse["info"] = playerInfo
 
@@ -482,12 +446,7 @@ def post_metrology():
 		temps = timestamp / 24.0
 		jour = int(temps) + 1
 		reste = temps % 1
-		print("temps")
-		print(temps)
-		print("jour")
-		print(jour)
-		print("reste")
-		print(reste)
+		
 		if reste <=0.5:
 			matin = weather[0]['weather']
 			aprem = weather[1]['weather']			
