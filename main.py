@@ -8,7 +8,7 @@ from datetime import datetime
 from math import *
 import random
 from flask_cors import CORS
- 
+  
 ######################################
 # OBLIGATOIRE SINON ER REUR
 import sys
