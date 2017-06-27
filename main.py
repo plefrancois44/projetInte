@@ -218,7 +218,7 @@ def get_map():
 				 	"kind" : "ad",
 				 	"owner" : "Toto",
 				 	"location" : {
-						"latitude": 20.5,
+						"latitude": 40.5,
 						"longitude": 25.2
 					},
 					"influence" : 2.0
@@ -308,7 +308,7 @@ def post_players():
 		budget = 6000.0
 		posX =random.randint(0,100)*1.0
 		posY=random.randint(0,100)*1.0
-		rayon = 15
+		rayon = 5
 		actif = True
 		#---------------------------------------------------------------#
 
