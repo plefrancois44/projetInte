@@ -155,7 +155,8 @@ def action_player(player):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)
 				print(cout[ingredient]['ing_prix_unitaire']*nb)		
-			print("cout prod ="+coutProd)
+			print("cout prod =")
+			print(coutProd)
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
