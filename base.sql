@@ -20,7 +20,7 @@ CREATE TABLE public.Recette(
         rec_nom        Varchar (50) NOT NULL ,
 	rec_jour_achat Int,
         rec_cout_achat Float ,
-        jou_nom        Varchar (25) ,
+        jou_nom        Varchar (25) NOT NULL ,
         PRIMARY KEY (rec_nom, jou_nom )
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE public.Pub(
         pub_pos_x Float NOT NULL ,
         pub_pos_y Float NOT NULL ,
         pub_rayon Float ,
-		pub_prix_achat Float ,
+	pub_prix_achat Float ,
         jou_nom   Varchar (25) ,
         PRIMARY KEY (pub_pos_x ,pub_pos_y )
 );
@@ -76,7 +76,7 @@ CREATE TABLE public.produire(
 );
 
 CREATE TABLE public.Compte (
-  com_nom    VARCHAR,
+  com_nom    VARCHAR NOT NULL,
   com_mot_de_passe VARCHAR,
   com_est_admin    BOOLEAN NOT NULL,
   PRIMARY KEY (com_nom)
