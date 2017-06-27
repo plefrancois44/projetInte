@@ -21,7 +21,7 @@ CREATE TABLE public.Recette(
 	rec_jour_achat Int,
         rec_cout_achat Float ,
         jou_nom        Varchar (25) NOT NULL ,
-        PRIMARY KEY (rec_nom )
+        PRIMARY KEY (rec_nom, jou_nom)
 );
 
 CREATE TABLE public.Joueur(
