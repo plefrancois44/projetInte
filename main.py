@@ -500,29 +500,27 @@ def post_metrology():
 @app.route('/metrology',methods=['GET'])
 def get_metrology():
 	db = Db()
-	meteos = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo ORDER BY met_jour DESC LIMIT 2")
+	meteo = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo ORDER BY met_jour DESC LIMIT 2")
 	forecast = {}
-	
-	reste = int(meteos[meteo]['met_heure_ecoule'] / 24.0)%1
+	reste = int(meteo[0]['met_heure_ecoule'] / 24.0)%1
 		
 	if reste <=0.5:
-	
 		forecasts = {}
 		forecasts["dfn"] = 1
-		forecasts["weather"] = meteos[0]['met_apres_midi']
+		forecasts["weather"] = meteo[0]['met_apres_midi']
 		forecast += forecasts
 		forecasts = {}
 		forecasts["dfn"] = 0
-		forecasts["weather"] = meteos[0]['met_matin']
+		forecasts["weather"] = meteo[0]['met_matin']
 		forecast += forecasts
 	else :
 		forecasts = {}
 		forecasts["dfn"] = 1
-		forecasts["weather"] = meteos[0]['met_matin']
+		forecasts["weather"] = meteo[0]['met_matin']
 		forecast += forecasts
 		forecasts = {}
 		forecasts["dfn"] = 0
-		forecasts["weather"] = meteos[1]['met_apres_midi']
+		forecasts["weather"] = meteo[1]['met_apres_midi']
 		forecast += forecasts
 		
 	reponse = {}
