@@ -38,7 +38,7 @@ CREATE TABLE public.Meteo(
 	met_heure_ecoule    Int ,
         met_matin           Varchar (25) ,
         met_apres_midi      Varchar (25) ,
-        PRIMARY KEY (met_jour )
+        PRIMARY KEY (met_jour, met_heure_ecoule)
 );
 
 CREATE TABLE public.Pub(
