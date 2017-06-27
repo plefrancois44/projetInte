@@ -62,28 +62,41 @@
 
     function envoyerDecision(){
         var pseudo = $_GET('pseudo');
-        var boisson = $("#boisson").val();
-        var quantite = $("#nbBoisson").val();
-        var prix = $("#prixBoisson").val();
         let data = {
             "kind": "drinks",
             "prepare": 
                 [
                     {
                         "boisson" : "Limonade",
-                        "quantite" : quantite
+                        "quantite" : $("#nbLimonade").val()
+                    },
+                    {
+                        "boisson" : "Chocolat",
+                        "quantite" : $("#nbChocolat").val()
+                    },
+                    {
+                        "boisson" : "Mojito",
+                        "quantite" : $("#nbMojito").val()
                     }
                 ],
             "price": 
                 [
                     {
-                        "boisson": boisson,
-                        "prix" : prix
+                        "boisson": "Limonade",
+                        "prix" : $("#prixLimonade").val()
+                    },
+                    {
+                        "boisson": "Chocolat",
+                        "prix" : $("#prixChocolat").val()
+                    },
+                    {
+                        "boisson": "Mojito",
+                        "prix" : $("#prixMojito").val()
                     }
                 ]
             }
         
-         $.ajax("/action/"+pseudo, {
+         $.ajax("/action/<"+pseudo+">", {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
@@ -98,17 +111,17 @@
 <?---POST--------------------------------------------------------------------------------------------->
     <script>
     function send_position(){
+    	var pseudo = $_GET('pseudo');
     	let data = {
           "x": $("#x").val(),
-          "y": $("#y").val(),
-          "level": $("#level").val(),
+          "y": $("#y").val()
         }
-        $.ajax("/check", {
+        $.ajax("/check/<"+pseudo+">", {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
     }) .done(function(data) {
-				$("#position").text(data)
+				$("#validePosition").text(data)
 			})       
       }	
     </script>
@@ -129,38 +142,62 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Situation actuelle:</h2>
-                                    <label>Afficher le jour: <input type="button" onclick="jour()" name="jour" value="Jour"></input></label>
-                                    <label id="jour"> </label>                    
-                                    <label>Afficher la météo: <input type="button" onclick="meteo()"" name="meteo" value="Météo"></input></label>       
-                                    <label id="meteo"> </label>                   
-                                    <label>Afficher le budget: <input type="button" onclick="budget()" name="budget" value="Mon budget"></input></label>
-                                    <label id="budget"> </label>
-                                    <label>Panneaux possédés: <button onclick="panneau()" name="panneau" value="Mes panneaux"></input></label>
-                                    <label id="panneau"> </label>
+                                    <label><input type="button" onclick="jour()" name="jour" value="Afficher le jour"></input></label><br>
+                                    <label id="jour"> </label><br>                   
+                                    <label><input type="button" onclick="meteo()"" name="meteo" value="Afficher la météo"></input></label><br>     
+                                    <label id="meteo"> </label><br>                   
+                                    <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
+                                    <label id="budget"> </label><br>
+                                    <label><input type="button" onclick="panneau()" name="panneau" value="Panneaux possédés"></input></label><br>
+                                    <label id="panneau"> </label><br>
                             </div>        
                             <?------------------colum1------------------------------->
 
             		<div class="col-sm-5">
             			<h2>Décisions:</h2>
                         <form id="boisson">
-                            <label>Acheter boisson:</label>
-                                <label><select id="boisson">
-                                  <option value="Limonade" selected>Limonade</option> 
-                                  <option value="Coca">Coca</option>
-                                  <option value="Mojito">Mojito</option>
-                                </select></label><br>
-                                <label>Quantité : <input type='number' id="nbBoisson"></label>
-                                <label>Prix : <input type='number' id="prixBoisson"></label><br>
+                            <label id="boisson">Acheter boisson:</label><br>
+                                <label value="Limonade">Limonade</label><br>
+                                <label>Quantité : <input type='number' id="nbLimonade" placeholder="0"></label>
+                                <label>Prix : <input type='number' id="prixLimonade" placeholder="0"></label><br>
+
+                                <label value="Chocolat">Chocolat</label><br>
+                                <label>Quantité : <input type='number' id="nbChocolat" placeholder="0"></label>
+                                <label>Prix : <input type='number' id="prixChocolat" placeholder="0"></label><br>
+
+                                <label value="Mojito">Mojito</label><br>
+                                <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
+                                <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
+
                                 <label><input type="button" onclick="envoyerDecision()" name="envoyer" value="Valider mes choix"></input></label>
                                 <p id="valide"></p>
                         </form>
                         
             		    <form id="position">
-                            <label>Acheter et positionner un panneau publicitaire:</label>
-            		        <label>x: <input type='number' id="x"></label>
-            		        <label>y: <input type='number' id="y"></label>
-            		        <label><input type="button" onclick="send_position()" name="send" value="Valider la position du panneau">
-                            </input></label>
+                            <div id="map" style="width:400px;height:400px;background:yellow"></div>
+
+                                <script>
+                                function myMap() {
+                                var mapOptions = {
+                                    center: new google.maps.LatLng(42.696792, 2.896178),
+                                    zoom: 15,
+                                    mapTypeId: google.maps.MapTypeId.HYBRID
+                                }
+                                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                                var marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(42.696792, 2.896178),
+                                    title:"Position de la pub",
+                                    draggable:true
+
+                                });
+
+                                // To add the marker to the map, call setMap();
+                                marker.setMap(map);
+
+                                }
+                                </script>
+
+                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGI-jC0lAN0WTkOMaYhlDEUoJ-wGyfTI&callback=myMap" type="text/javascript"></script>
                             <label>Améliorer le panneau:</label>
                             <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
                         </form>                
@@ -168,9 +205,8 @@
 
                         <div class="col-sm-3">
                                 <h2>Total à régler:</h2>
-								<span id="valideBoisson"></span>
-
-                                
+								    <label id="valideBoisson"></label><br>
+								    <label id="validePosition"></label>                                
                             </div>
         </div>
     </div>    
