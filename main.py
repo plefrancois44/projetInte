@@ -135,7 +135,7 @@ def prevision_player(player):
 	#else if(data["kind"]=="price")
 
 #---- Route qui gere les actions joueur
-@app.route('/action/<player>', methods=['POST'])
+@app.route('/actions/<player>', methods=['POST'])
 def action_player(player):
 	data = request.get_json()
 	kind = data["kind"]
