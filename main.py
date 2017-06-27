@@ -301,7 +301,7 @@ def post_players():
 	data = request.get_json()
 	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : data['user']});
 	if(len(verif) != 0) :
-		return json.dumps("Le pseudo choisi est déjà utilisé"), 400, {'Content-Type': 'application/json'}
+		return jsonResponse("NOK")
 	
 	else :
 		#----------- VARIABLES POUR GENERER UN JOUEUR ------------------#
