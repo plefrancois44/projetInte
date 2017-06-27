@@ -121,7 +121,10 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficentFunds"]!="True") $("#valideBoisson").text(data["totalCost"]);
+                if(data["sufficentFunds"]!="True"){
+                    $("#valideBoisson").text(data["totalCost"]);
+                    window.alert('Décisions prises et bien envoyés au serveur.')
+                } 
                 else $("#valideBoisson").text("fond insuffisant");
             })       
         } 
