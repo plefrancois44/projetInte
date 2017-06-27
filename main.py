@@ -466,7 +466,7 @@ def post_metrology():
 					'matin' : matin
 				})
 			
-			
+	db.close()		
 	retour = make_response(json.dumps(arduino),200)
 	return retour
 
@@ -497,6 +497,7 @@ def get_metrology():
 		forecasts["weather"] = meteo[1]['met_apres_midi']
 		forecast.append(forecasts)
 		
+	db.close()
 	reponse = {}
 	reponse["timestamp"] = meteo[0]['met_heure_ecoule']
 	reponse["weather"] = forecast
@@ -520,6 +521,7 @@ def get_ingredients():
 		ingredients["isCold"] = ingredientInfo[ing]['ing_froid']
 		ingredient.append(ingredients)
 	
+	db.close()
 	reponse = {}
 	reponse["ingredients"] = ingredient
 	
