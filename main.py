@@ -142,7 +142,7 @@ def action_player(player):
 		recettes={}
 		i = 0
 		for recette in range(0,len(recetteJoueur)):
-			prepare = data["prepare"][i]
+			prepare = data["prepare"][recette]
 			print(prepare["quantite"])
 			i=i+1
 			nb = int(prepare["quantite"])
@@ -156,7 +156,7 @@ def action_player(player):
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)
-				print(cout[ingredient]['ing_prix_unitaire'])		
+				print(cout[ingredient]['ing_prix_unitaire']*nb)		
 				
 		#à insérer dans la bd avec le pseudo
 		reponse = {
