@@ -143,6 +143,7 @@ def action_player(player):
 	if kind == "drinks":
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
+		coutTotal=0
 		for recette in range(0,len(recetteJoueur)):
 			prepare = data["prepare"][recette]
 			print(prepare["quantite"])
