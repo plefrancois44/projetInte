@@ -142,7 +142,6 @@ def action_player(player):
 		prepare = data["prepare"][0]
 		boisson = prepare["boisson"]
 		nb = int(prepare["quantite"])
-		print(prepare)
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
 		for recette in range(0,len(recetteJoueur)):
@@ -157,13 +156,8 @@ def action_player(player):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + cout[ingredient]['ing_prix_unitaire']
 				print(cout[ingredient]['ing_prix_unitaire'])
-			print(coutProd)	
-			'''	
-			coutBoisson = db.select('SELECT rec_cout_achat FROM Recette WHERE rec_nom=%(Boisson)s ;',
-			{
-				'Boisson': boisson
-			})
-			'''
+				
+			
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
