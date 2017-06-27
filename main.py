@@ -131,6 +131,45 @@ def get_ingredient():
 	return reponse
 
 #---- Route qui gere les actions joueur
+@app.route('/prevision/<player>', methods=['POST'])
+def prevision_player(player):
+	data = request.get_json()
+	kind = data["kind"]
+	db=Db()
+	coutProd = 0.0
+	if kind == "drinks":
+		recetteJoueur = db.select("SELECT * FROM Recette")
+		recettes={}
+		for recette in range(0,len(recetteJoueur)):
+			prepare = data["prepare"][recette]
+			print(prepare["quantite"])
+			nb = int(prepare["quantite"])
+			ingredient = {}
+			cout=[]
+			print(player)
+			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : player}))
+			ingredientRecette = recettes[recette]
+			for ingredient in range(0,len(ingredientRecette)):
+				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
+		
+		budget = db.select("SELECT jou_budget FROM Joueur where jou_nom=@(nom)",{'nom':player})
+		sufficientFunds = False
+		if(coutProd > budget) sufficientFunds=True
+		else sufficientFunds = False
+		reponse = {
+			"sufficientFunds" : sufficientFunds,
+			"totalCost" : coutProd
+		}
+
+		db.close()
+		return jsonResponse(reponse)
+	return jsonResponse("ok")
+	#else if(data["kind"]=="ad")
+	#else if(data["kind"]=="price")
+
+#---- Route qui gere les actions joueur
 @app.route('/action/<player>', methods=['POST'])
 def action_player(player):
 	data = request.get_json()
@@ -153,9 +192,7 @@ def action_player(player):
 			for ingredient in range(0,len(ingredientRecette)):
 				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
-			print("cout prod =")
-			print(coutProd)
-		#à insérer dans la bd avec le pseudo
+		
 		reponse = {
 			"sufficientFunds" : True,
 			"totalCost" : coutProd
