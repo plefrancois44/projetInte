@@ -156,11 +156,10 @@ def action_player(player):
 				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)
 				print(cout[ingredient]['ing_prix_unitaire'])		
 				
-			
 		#à insérer dans la bd avec le pseudo
 		reponse = {
 			"sufficientFunds" : True,
-			"totalCost" : coutProd*nb
+			"totalCost" : coutProd
 		}
 
 		db.close()
