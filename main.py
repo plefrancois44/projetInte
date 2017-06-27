@@ -360,8 +360,8 @@ def post_players():
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'eau gazeuse')",{'nom' : username})
 		db.execute("INSERT INTO composer VALUES ('Limonade', @(nom), 'sucre')",{'nom' : username})
 		
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'chocolat')",{'nom' : username})
-		db.execute("INSERT INTO composer VALUES ('Chocolat chaud', @(nom), 'lait')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Chocolat_chaud', @(nom), 'chocolat')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Chocolat_chaud', @(nom), 'lait')",{'nom' : username})
 		
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'rhum')",{'nom' : username})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : username})
