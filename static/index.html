@@ -21,13 +21,13 @@
                             "user": $("#user").val(),
                             "password": $("#password").val()
                             }
-                        $.ajax("http://bushukan-imerir.herokuapp.com/players", {
+                        $.ajax("https://bushukan-imerir.herokuapp.com/players", {
                             type: "POST",
                             data: JSON.stringify(data),
                             contentType: "application/json",
 			    }).done(function(data) {
 				$("#login").text(data);
-				window.location.replace("http://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
+				window.location.replace("https://bushukan-imerir.herokuapp.com/html?pseudo="+$("#user").val());
 			    })
 		    }		 
 		    
