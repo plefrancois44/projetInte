@@ -142,7 +142,7 @@ def action_player(player):
 		recettes={}
 		i = 0
 		for recette in range(0,len(recetteJoueur)):
-			prepare = data["prepare"][recette]
+			prepare = data["prepare"][i++]
 			nb = int(prepare["quantite"])
 			ingredient = {}
 			cout=[]
