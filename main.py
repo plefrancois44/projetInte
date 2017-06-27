@@ -97,8 +97,8 @@ def route_dbinit():
 
 
 #---- Route qui gere les actions joueur
-@app.route('/actions/<player>', methods=['POST'])
-def action_player(player):
+@app.route('/actions/<playerName>', methods=['POST'])
+def action_player(playerName):
 	data = request.get_json()
 	action = data["actions"][0]
 	kind = action["kind"]
@@ -120,7 +120,7 @@ def action_player(player):
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{
 					'recette' : recetteJoueur[recette]["rec_nom"],
-					 'nom' : player
+					 'nom' : playerName
 				}))
 
 			ingredientRecette = recettes[recette]
@@ -132,7 +132,7 @@ def action_player(player):
 			if simulation == False :
 				print("Insertion en base")
 				db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
-				{'nom' : player,
+				{'nom' : playerName,
 				'jour' : 1,
 				'prix' : action["price"][recette]["prix"],
 				'quantite' : action["prepare"][recette]["quantite"],
@@ -140,14 +140,14 @@ def action_player(player):
 				})
 
 		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : player
+				'nom' : playerName
 				})	
 			
 		if int(budget[0]['jou_budget'])>int(coutTotal):
 			if simulation == False :
 				db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
 				'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
-				'nom' : player
+				'nom' : playerName
 				})	
 			reponse = {
 				"sufficientFunds" : True,
