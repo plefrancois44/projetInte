@@ -166,38 +166,42 @@ def action_player(player):
 
 	
 	
-#---- Route qui permet d'afficher la map de tout les joueurs
-# Route en maintenance reste la partie db à faire
 @app.route('/map', methods=['GET'])
 def get_map():
 	# données à générer par la BD pour chaque joueur (pour l'instant généré à la main):
+	'''	db=Db()
+
+		center={}
+		center["latitude"]=10.5
+		center["longitude"]=15.2
+
+		span={}
+		span["latitude"]=10.5
+		span["longitude"]=15.2
+
+		region = {}
+		region["center"]=center
+		region["span"]=span
+
+		ranking = {}
+
+
+		itemsByPlayer= {}
+		playerInfo = {}
+		player = {}
+		drinksByPlayer={}
+
+		joueurs = db.select("SELECT * FROM Joueur")	
+		for joueur in joueurs
+			print joueur["jou_nom"]
+			player["cash"]
+			player["sales"]
+			player["profit"]
+			player["pseudo"]
+			player[""]
+
 	'''
-	db=Db()
 
-	center={}
-	center["latitude"]=10.5
-	center["longitude"]=15.2
-
-	span={}
-	span["latitude"]=10.5
-	span["longitude"]=15.2
-
-	region = {}
-	region["center"]=center
-	region["span"]=span
-
-	ranking = {}
-
-
-	itemsByPlayer= {}
-	playerInfo = []
-	player = {}
-	drinksByPlayer={}
-
-	joueurs = db.select("SELECT * FROM Joueur")	
-	for joueur in joueurs:
-		print joueur["jou_nom"]
-	'''
 	Map = {
 		"region": {
 			"center": {
@@ -258,12 +262,12 @@ def get_map():
 				}
 			]
 		},
-		"playerInfo": [
+		"playerInfo": {
+			"pierre": 
 			{
 				"cash": 3000,
 				"sales": 30,
 				"profit": 2000.0,
-				"pseudo": "pierre",
 				"drinkOffered": 
 				[
 					{
@@ -274,11 +278,11 @@ def get_map():
 					}
 				]
 			},
+			"Toto": 
 			{
 				"cash": 4000,
 				"sales": 40,
 				"profit": 3000.0,
-				"pseudo": "Toto",
 				"drinkOffered": 
 				[
 					{
@@ -295,7 +299,7 @@ def get_map():
 					}
 				]
 			}
-		],
+		},
 		"drinksByPlayer": {
 			"pierre": 
 			[
