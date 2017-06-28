@@ -134,7 +134,7 @@ def action_player(player):
 				db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 				{'nom' : player,
 				'jour' : 1,
-				'prix' : action["price"][recette]["prix"],
+				'prix' : action["price"][recette]["price"],
 				'quantite' : action["prepare"][recette]["quantite"],
 				'recette' : action["prepare"][recette]["boisson"]
 				})
