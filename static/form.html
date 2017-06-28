@@ -99,7 +99,7 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficentFunds"]==true){
+                if(data["sufficentFunds"]!=false){
                     $("#valideBoisson").text(data["totalCost"]);
                 }
                 else $("#valideBoisson").text("fond insuffisant");
