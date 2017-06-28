@@ -77,18 +77,27 @@ def sales():
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
 	jour = meteo[0]['met_jour']
 	
-	for element in range(0,len(data)):
-		nom = data["sales"][element]["player"]
-		qteVendue = data["sales"][element]["quantity"]
-		recette = data["sales"][element]["item"]
-
+	verif = db.select("SELECT * FROM vendre WHERE rec_nom=@(recette) AND ven_jour=(@(jour) AND jou_nom=@(nom);",
+		{ 
+			'jour' : jour,
+			'nom' : data["player"],
+			'recette' : data["item"]
+		})
+	if len(verif)==0 :
 		db.execute("INSERT INTO vendre VALUES (@(jour), @(quantite), @(nom), @(recette))",
-			   { 'jour' : jour,
-			    'quantite' : qteVendue,
-			    'nom' : nom,
-			    'recette' : recette
-			   })
-	
+				   { 
+				    'jour' : jour,
+				    'quantite' : qteVendue,
+				    'nom' : nom,
+				    'recette' : recette
+				   })
+	else :
+		qte=int(verif["ven_quantite"])
+		db.execute("UPDATE vendre SET quantite=@(quantite)",
+				   { 
+				    'quantite' : qte + 1
+				   })
+
 	db.close()
 	
 	reponse = make_response(json.dumps("Vente enregistre"), 200, {'Content-Type': 'application/json'})
