@@ -194,7 +194,7 @@ def get_map():
 	drinksByPlayer={}
 
 	joueurs = db.select("SELECT * FROM Joueur")	
-	for joueur in joueurs
+	for joueur in joueurs:
 		print joueur["jou_nom"]
 	Map = {
 		"region": {
