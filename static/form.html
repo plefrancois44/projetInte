@@ -15,17 +15,13 @@
                         .done(function(data){
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp))
-                            $("#meteo").text(data["weather"][0]["weather"])
-                            $("#prevision").text(data["weather"][1]["weather"])
+                            if(data["weather"][0]["dfn"]==0)
+                                $("#meteo").text(data["weather"][0]["weather"])
+                                $("#prevision").text(data["weather"][1]["weather"])
+                            else
+                                $("#meteo").text(data["weather"][1]["weather"])
+                                $("#prevision").text(data["weather"][0]["weather"])
 
-                            /*
-                            var obj = JSON.parse(yourJsonString);
-
-                            for (var x in obj){
-                                prevision = x["dfn"];
-                                meteo = x["weather"];
-                            }
-                            */
                         })
                 }
 
