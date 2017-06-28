@@ -87,9 +87,9 @@ def sales():
 		db.execute("INSERT INTO vendre VALUES @(jour), @(quantite), @(nom), @(recette))",
 				   { 
 				    'jour' : jour,
-				    'quantite' : qteVendue,
-				    'nom' : nom,
-				    'recette' : recette
+				    'quantite' : data["quantity"],
+				    'nom' : data["player"],
+				    'recette' : data["item"]
 				   })
 	else :
 		qte=int(verif["ven_quantite"])
