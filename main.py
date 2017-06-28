@@ -627,10 +627,11 @@ def get_map_player(playerName):
 		vente = (db.select("SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour) AND rec_nom=@(recette)",
 				{'nom' : playerName, 'jour' : jour, 'recette' : nomRecette}))
 		
-		if len(coutVente) != 0 & len(vente) != 0 :
+		if len(coutVente) != 0:
 			prix=coutVente[0]["price"]
-			qte=vente[0]["quantite"]
-			profit += prix * qte
+			if len(vente) != 0 :
+				qte=vente[0]["quantite"]
+				profit += prix * qte
 		else :
 			profit = 0.0
 	
