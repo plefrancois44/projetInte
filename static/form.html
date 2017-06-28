@@ -27,6 +27,7 @@
                 vars[key] = value !== undefined ? value : '';
             }
         );
+
         if ( param ) {
             return vars[param] ? vars[param] : null;    
         }
@@ -34,26 +35,7 @@
     }
 
     function envoyerDecision(simulated){
-       var pseudo = $_GET('pseudo');
-        if($("#nbLimonade").val()>0) {
-            let limonadeQte = {
-                "boisson" : "Limonade",
-                "quantite" : $("#nbLimonade").val()
-            }
-        }
-        else limonadeQte =""
-
-        let limonadePrix = {
-            "boisson": "Limonade",
-            "prix" : $("#prixLimonade").val()
-        }
-        let chocolatQte =
-        {
-            "boisson" : "Chocolat_chaud",
-            "quantite" : $("#nbChocolat_chaud").val()
-        }
-
-
+        var pseudo = $_GET('pseudo');
         let data = 
         {
             "simulated" : simulated,
@@ -62,8 +44,10 @@
                 "kind": "drinks",
                 "prepare": 
                 [
-                    limonadeQte
-                    ,
+                    {
+                        "boisson" : "Limonade",
+                        "quantite" : $("#nbLimonade").val()
+                    },
                     {
                         "boisson" : "Chocolat_chaud",
                         "quantite" : $("#nbChocolat_chaud").val()
@@ -96,19 +80,142 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) 
-		{
-			if(data["sufficentFunds"]!="True"){
-			    $("#valideBoisson").text(data["totalCost"]);
-			}
-			else $("#valideBoisson").text("fond insuffisant");
+        {
+            if(data["sufficentFunds"]!="True"){
+                $("#valideBoisson").text(data["totalCost"]);
+            }
+            else $("#valideBoisson").text("fond insuffisant");
 
-			if(simulated!=true){
-			    window.alert('Décisions prises et bien envoyés au serveur.')
-			} 
-			else window.alert('Visualitation seulement')    
-		}) 
-	}
-    </script>
+            if(simulated!=true){
+                window.alert('Décisions prises et bien envoyés au serveur.')
+            } 
+            else window.alert('Visualitation seulement')    
+        }) 
+    }
+
+
+                                        $(function(){
+
+                                            var canvas=document.getElementById("canvas");
+                                            var ctx=canvas.getContext("2d");
+                                            var canvasOffset=$("#canvas").offset();
+                                            var offsetX=canvasOffset.left;
+                                            var offsetY=canvasOffset.top;
+                                            var startX;
+                                            var startY;
+                                            var isDown=false;
+
+                                            function drawOval(x,y){
+                                                ctx.clearRect(0,0,canvas.width,canvas.height);
+                                                ctx.beginPath();
+                                                ctx.moveTo(startX, startY + (y-startY)/2);
+                                                ctx.bezierCurveTo(startX, startY, x, startY, x, startY + (y-startY)/2);
+                                                ctx.bezierCurveTo(x, y, startX, y, startX, startY + (y-startY)/2);
+                                                ctx.closePath();
+                                                ctx.stroke();
+                                            }
+
+                                            function handleMouseDown(e){
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              startX=parseInt(e.clientX-offsetX);
+                                              startY=parseInt(e.clientY-offsetY);
+                                              isDown=true;
+                                            }
+
+                                            function handleMouseUp(e){
+                                              if(!isDown){ return; }
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              isDown=false;
+                                            }
+
+                                            function handleMouseOut(e){
+                                              if(!isDown){ return; }
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              isDown=false;
+                                            }
+
+                                            function handleMouseMove(e){
+                                              if(!isDown){ return; }
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              mouseX=parseInt(e.clientX-offsetX);
+                                              mouseY=parseInt(e.clientY-offsetY);
+                                              drawOval(mouseX,mouseY);
+                                            }
+
+                                            $("#canvas").mousedown(function(e){handleMouseDown(e);});
+                                            $("#canvas").mousemove(function(e){handleMouseMove(e);});
+                                            $("#canvas").mouseup(function(e){handleMouseUp(e);});
+                                            $("#canvas").mouseout(function(e){handleMouseOut(e);});
+
+                                        }); // end $(function(){});
+
+                                        //Canvas
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+//Variables
+var scribble_canvasx = $(canvas).offset().left;
+var scribble_canvasy = $(canvas).offset().top;
+var scribble_last_mousex = scribble_last_mousey = 0;
+var scribble_mousex = scribble_mousey = 0;
+var scribble_mousedown = false;
+
+//Mousedown
+$(canvas).on('mousedown', function(e) {
+    scribble_last_mousex = parseInt(e.clientX-scribble_canvasx);
+    scribble_last_mousey = parseInt(e.clientY-scribble_canvasy);
+    scribble_mousedown = true;
+});
+
+//Mouseup
+$(canvas).on('mouseup', function(e) {
+    scribble_mousedown = false;
+});
+
+//Mousemove
+$(canvas).on('mousemove', function(e) {
+    scribble_mousex = parseInt(e.clientX-scribble_canvasx);
+    scribble_mousey = parseInt(e.clientY-scribble_canvasy);
+    if(scribble_mousedown) {
+        ctx.clearRect(0,0,canvas.width,canvas.height); //clear canvas
+        //Save
+        ctx.save();
+        ctx.beginPath();
+        //Dynamic scaling
+        var scalex = 1*((scribble_mousex-scribble_last_mousex)/2);
+        var scaley = 1*((scribble_mousey-scribble_last_mousey)/2);
+        ctx.scale(scalex,scaley);
+        //Create ellipse
+        var centerx = (scribble_last_mousex/scalex)+1;
+        var centery = (scribble_last_mousey/scaley)+1;
+        ctx.arc(centerx, centery, 1, 0, 2*Math.PI);
+        //Restore and draw
+        ctx.restore();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+    }
+    //Output
+    $('#output').html('current: '+scribble_mousex+', '+scribble_mousey+'<br/>last: '+scribble_last_mousex+', '+scribble_last_mousey+'<br/>mousedown: '+scribble_mousedown);
+});
+
+
+
+                           canvas {
+    cursor: crosshair;
+    border: 1px solid #000000;
+}                                
+
+
+                                        </script>
+
+
+
+
+
 <?---------------------------------------------------------------------------------------------------->
 
     </head>
@@ -136,8 +243,8 @@
                             </div>        
                             <?------------------colum1------------------------------->
 
-            		<div class="col-sm-5">
-            			<h2>Décisions:</h2>
+                    <div class="col-sm-5">
+                        <h2>Décisions:</h2>
                         <form id="boisson">
                             <label id="boisson">Acheter boisson:</label><br>
                                 <label value="Limonade">Limonade</label><br>
@@ -157,48 +264,20 @@
 
                         </form>
                         
-            		    <form id="position">
+                        <form id="position">
 
                             <label>Acheter un panneau publicitaire:</label><br>
-                            <div id="map" style="width:400px;height:400px;background:yellow"></div>
+                            <canvas id="canvas" width="380" height="380"></canvas>
+ 
 
-                                <script>
-                                function myMap() {
-                                var mapOptions = {
-                                    center: new google.maps.LatLng(42.696792, 2.896178),
-                                    zoom: 15,
-                                    mapTypeId: google.maps.MapTypeId.HYBRID
-                                }
-                                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-                                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-                                if(add_panneau == true){
-                                    var marker = new google.maps.Marker({
-                                    position: new google.maps.LatLng(42.696792, 2.896178),
-                                    title:"Position de la pub",
-                                    draggable:true
-
-                                });
-
-                                }
-                                
-
-                                // To add the marker to the map, call setMap();
-                                marker.setMap(map);
-
-                                }
-                                </script>
-                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGI-jC0lAN0WTkOMaYhlDEUoJ-wGyfTI&callback=myMap" type="text/javascript"></script>
-
-
-                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label>
-                            <label>Améliorer le panneau:</label>
-                            <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
+                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label><br>
+                            <label><input type="button" onclick="level_up()" name="level_up" value="Améliorer le panneau"></input></label>
                         </form>                
                         </div>
 
                         <div class="col-sm-3">
                                 <h2>Facture:</h2>
-                                    <label>Total à payer: <label id="valideBoisson"> €</label></label><br>
+                                    <label>Total à payer: <label id="valideBoisson"></label></label><br>
                                     <label id="validePosition"></label><br>
 
                                     <label><input type="button" onclick="envoyerDecision(false)" name="envoyerDecision" value="Valider mes choix"></input></label>
