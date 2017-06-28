@@ -304,7 +304,7 @@ def get_map():
 			]
 		}
 	}
-	return json.dumps("Suppression joueur OK"), 200, {'Content-Type': 'application/json'}
+	return json.dumps(Map), 200, {'Content-Type': 'application/json'}
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
