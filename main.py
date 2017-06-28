@@ -582,6 +582,144 @@ def delete_player(playerName):
 	db.close()
 	return json.dumps("Suppression joueur OK"), 200, {'Content-Type': 'application/json'}
 
+#---- Route qui permet de récupérer la map d'un joueur
+@app.route('/map/<playerName>',methods=['GET'])
+def get_map_player(playerName):
+	db = Db()
+	ingredient = []
+	drinksInfos = []
+	profit = 0.0
+	
+	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	jour = meteo[0]['met_jour']
+	
+	ingredientInfo = db.select("SELECT * FROM ingredient")
+	for ing in range(0,len(ingredientInfo)):
+		ingredients={}
+		ingredients["name"] = ingredientInfo[ing]['ing_nom']
+		ingredients["cost"] = ingredientInfo[ing]['ing_prix_unitaire']
+		ingredients["hasAlcohol"] = ingredientInfo[ing]['ing_alcool']
+		ingredients["isCold"] = ingredientInfo[ing]['ing_froid']
+		ingredient.append(ingredients)
+	
+	budget = db.select("SELECT jou_budget FROM joueur WHERE jou_nom=@(nom)", {'nom':playerName})
+	
+	vente = (db.select('SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour)',
+					{'nom' : playerName, 'jour' : jour}))
+	
+	recetteJoueur = db.select("SELECT * FROM Recette")
+	for recette in range(0,len(recetteJoueur)):
+		ing = {}
+		ingredientAlcool =[]
+		ingredientFroid=[]
+		coutProd = 0.0
+		alcool = False
+		froid = True
+		nomRecette =  recetteJoueur[recette]["rec_nom"]
+		
+		recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+			{'recette' : nomRecette, 'nom' : playerName}))
+		coutVente = (db.select('SELECT pro_prix_vente AS price FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)',
+					{'nom' : playerName, 'recette' : nomRecette}))
+		vente = (db.select('SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour) AND rec_nom=@(recette)',
+					{'nom' : playerName, 'jour' : jour, 'recette' : nomRecette}))
+	
+		profit += profit + coutVente * vente
+	
+		ingredientRecette = recettes[recette]
+		for ing in range(0,len(ingredientRecette)):		
+			ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+			if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
+				alcool = True
+
+			ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+			if ingredientFroid[ing]['ing_froid'] == False & froid == True :
+				froid = False
+			
+		drinkInfo = {}
+		drinkInfo["name"] = nomRecette
+		drinkInfo["price"] = coutProd[0]["price"]
+		drinkInfo["hasAlcohol"] = alcool
+		drinkInfo["isCold"] = froid
+		drinksInfos += drinkInfo
+
+	riche=[]
+	max = (db.select('SELECT MAX(jou_budget) AS max FROM joueur')
+	jPrem = db.select('SELECT * FROM joueur WHERE jou_budget=@(max),{'max' : max[0]["max"]})
+	joueurPrem = 0
+	if len(jPrem)>1:
+		for j in range(0,len(jPrem)):
+			ventes[j] = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
+						{'jour' : jour, 'nom' : jPrem[j]["jou_nom"]}))
+			
+			if ventes[j]["quantite"] > ventes[joueurPrem]["quantite"] :
+				joueurPrem = j
+				
+		riche = ventes[joueurPrem]["jou_nom"]
+	
+	else:
+		riche = jPrem[0]["jou_nom"]
+	
+	mapItem = []
+	
+	stand = db.select("SELECT jou_nom, jou_pos_x, jou_pos_y, jou_rayon FROM joueur WHERE jou_nom=@(nom)", {'nom':playerName})
+	coordinatesS={}
+	coordinatesS["latitude"] = stand[0]['jou_pos_x']
+	coordinatesS["longitude"] = stand[0]['jou_pos_y']
+	
+	mapItems={}
+	mapItems["kind"] = "stand"
+	mapItems["owner"] = playerName
+	mapItems["location"] = coordinatesS
+	mapItems["influence"] = stand[0]['jou_rayon']
+	mapItem.append(mapItems)
+	
+	ads = db.select("SELECT pub_pos_x, pub_pos_y, pub_rayon, jou_nom FROM pub WHERE pub_jour=@(jour) AND jou_nom=@(nom)", {'jour':jour, 'nom':playerName})
+	for a in range(0,len(ads)):
+		coordinatesA={}
+		coordinatesA["latitude"] = ads[a]['pub_pos_x']
+		coordinatesA["longitude"] = ads[a]['pub_pos_y']
+		
+		mapItems={}
+		mapItems["kind"] = "ad"
+		mapItems["owner"] = playerName
+		mapItems["location"] = coordinatesA
+		mapItems["influence"] = ads[a]['pub_rayon']
+		mapItem.append(mapItems)
+	
+	db.close()
+	
+	coordinates = {}
+	coordinates["lattitude"] = 50.0
+	coordinates["longitude"] = 50.0
+	
+	coordinatesSpan = {}
+	coordinatesSpan["lattitudeSpan"] = 50.0
+	coordinatesSpan["longitudeSpan"] = 50.0
+	
+	region = {}
+	region["center"] = coordinates
+	region["span"] = coordinatesSpan
+	
+	map = {}
+	map["region"] = region
+	map["ranking"] = riche
+	map["itemsByPlayer"] = {playerName : mapItem}
+
+	playerInfo = {}
+	playerInfo["cash"] = budget[0]["jou_budget"]
+	playerInfo["sales"] = vente[0]["quantite"]
+	playerInfo["profit"] = profit
+	playerInfo["drinksOffered"] = drinksInfos
+	
+	reponse = {}
+	reponse["availableIngredients"] = ingredient
+	reponse["map"] = map
+	reponse["playerInfo"] = playerInfo
+	
+	retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
+	return retour
+
 #----------------------------------- LANCE L'APP -----------------------------------#
 if __name__ == "__main__":
 	app.run()
