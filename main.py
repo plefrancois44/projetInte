@@ -94,28 +94,20 @@ def sales():
 	reponse = make_response(json.dumps("Vente enregistre"), 200, {'Content-Type': 'application/json'})
 	return reponse
 
-#---- Route pour initialiser la base de donnees en admin
-@app.route('/admin/resetbase', methods=['GET'])
-@besoin_authentification_admin
-def route_dbinit():
-	db = Db()
-	db.executeFile("base.sql")
-	db.close()
-	return json.dumps("Done."), 200, {'Content-Type': 'application/json'}
-
-
 #---- Route qui gere les actions joueur
-@app.route('/actions/<playerName>', methods=['POST'])
-def action_player(playerName):
+@app.route('/actions/<player>', methods=['POST'])
+def action_player(player):
 	data = request.get_json()
 	action = data["actions"][0]
 	kind = action["kind"]
 	simulation=data["simulated"]
-	reponse={}
-	db=Db()
-
+	#db=Db()
 	if kind == "drinks":
-		recetteJoueur = db.select("SELECT * FROM Recette")
+		recetteJoueur = []
+		for i in range(0,len(action["prepare"])):
+				recetteJoueur.append(action["prepare"][i]["boisson"])
+		
+		#recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
 		coutTotal=0
 		for recette in range(0,len(recetteJoueur)):
@@ -128,7 +120,7 @@ def action_player(playerName):
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{
 					'recette' : recetteJoueur[recette]["rec_nom"],
-					 'nom' : playerName
+					 'nom' : player
 				}))
 
 			ingredientRecette = recettes[recette]
@@ -140,38 +132,37 @@ def action_player(playerName):
 			if simulation == False :
 				print("Insertion en base")
 				db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
-				{'nom' : playerName,
+				{'nom' : player,
 				'jour' : 1,
 				'prix' : action["price"][recette]["prix"],
 				'quantite' : action["prepare"][recette]["quantite"],
 				'recette' : action["prepare"][recette]["boisson"]
 				})
 
-		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : playerName
+		if simulation == False :
+			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+				'nom' : player
 				})	
-			
-		if int(budget[0]['jou_budget'])>int(coutTotal):
-			if simulation == False :
+			if int(budget[0]['jou_budget'])>int(coutTotal):
 				db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
-				'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
-				'nom' : playerName
-				})	
-			reponse = {
-				"sufficientFunds" : True,
-				"totalCost" : coutTotal
-			}
-		else:
-			reponse = {
-				"sufficientFunds" : False,
-				"totalCost" : coutTotal
-			}
-			
+					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
+					'nom' : player
+					})	
+				reponse = {
+					"sufficientFunds" : True,
+					"totalCost" : coutTotal
+				}
+			else:
+				reponse = {
+					"sufficientFunds" : False,
+					"totalCost" : coutTotal
+				}
 		db.close()
 		return jsonResponse(reponse)
 		#else if(data["kind"]=="ad")
 		#else if(data["kind"]=="price")
-	return json.dumps("NOK"), 403, {'Content-Type': 'application/json'}
+	return jsonResponse("NOK",403)
+
 	
 	
 #---- Route qui permet d'afficher la map de tout les joueurs
