@@ -154,12 +154,17 @@
                                     mapTypeId: google.maps.MapTypeId.HYBRID
                                 }
                                 var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-                                var marker = new google.maps.Marker({
+                                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                                if(add_panneau == true){
+                                    var marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(42.696792, 2.896178),
                                     title:"Position de la pub",
                                     draggable:true
 
                                 });
+
+                                }
+                                
 
                                 // To add the marker to the map, call setMap();
                                 marker.setMap(map);
@@ -169,7 +174,7 @@
                                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTGI-jC0lAN0WTkOMaYhlDEUoJ-wGyfTI&callback=myMap" type="text/javascript"></script>
 
 
-                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="+"></input></label>
+                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label>
                             <label>Améliorer le panneau:</label>
                             <label><input type="button" onclick="level_up()" name="level_up" value="+"></input></label>
                         </form>                
@@ -177,8 +182,8 @@
 
                         <div class="col-sm-3">
                                 <h2>Facture:</h2>
-								    <label>Total à payer: <label id="valideBoisson"> €</label></label><br>
-								    <label id="validePosition"></label><br>
+                                    <label>Total à payer: <label id="valideBoisson"> €</label></label><br>
+                                    <label id="validePosition"></label><br>
 
                                     <label><input type="button" onclick="envoyerDecision(false)" name="envoyerDecision" value="Valider mes choix"></input></label>
 
