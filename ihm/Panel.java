@@ -40,6 +40,7 @@ public class Panel extends JPanel {
      */
     
     ImageIcon map = new ImageIcon("C:/Users/Nicolas/Documents/maps.jpg");
+    
     Image map2 = map.getImage();
     
     Test test2 = new Test();
@@ -95,8 +96,8 @@ public class Panel extends JPanel {
             for(MapItem mi : mapItems){
 
                 if("stand".equals(mi.getKind())){
-                    stand_x = (int) mi.getLocation().getLongitude() + 10;
-                    stand_y = (int) mi.getLocation().getLatitude() + 10;
+                    stand_x = ((int) mi.getLocation().getLongitude() + 10) * 3;
+                    stand_y = ((int) mi.getLocation().getLatitude() + 10) * 3;
                     spieler = mi.getOwner();
                     
                     influence = (int) mi.getInfluence() * 20;
@@ -120,8 +121,8 @@ public class Panel extends JPanel {
                     
                 } else if("ad".equals(mi.getKind())){
                 
-                    ad_x = (int) (mi.getLocation().getLongitude() + 10);
-                    ad_y = (int) (mi.getLocation().getLatitude() + 10);
+                    ad_x = ((int) (mi.getLocation().getLongitude() + 10)) * 3;
+                    ad_y = ((int) (mi.getLocation().getLatitude() + 10)) * 3;
                     spieler = mi.getOwner();
                     
                     influence = (int) mi.getInfluence() * 20;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimerTask;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -38,6 +39,10 @@ public class Window extends JFrame implements ActionListener {
     JTextField nb_drinks = new JTextField();
     JTextField nb_money = new JTextField();
     JTextField nb_sale = new JTextField();
+    JLabel label_j1 = new JLabel("Meteo actuelle :");
+    JLabel label_jp1 = new JLabel("Meteo à venir:");
+    JTextField meteo1 = new JTextField();
+    JTextField meteo2 = new JTextField();
     
     String psuedo;
     
@@ -58,9 +63,11 @@ public class Window extends JFrame implements ActionListener {
         Player[] player;
         
         player = tes.map.getPlayerInfo();
+        
         int nb_players = player.length;
         
         String psuedo;
+        
         for(int i = 0; i < nb_players; i++){
             
             psuedo = String.valueOf(player[i].getPseudo());
@@ -69,8 +76,50 @@ public class Window extends JFrame implements ActionListener {
             
         }
         
+        //Meteo
+                //comm.sendSales(mg);
+        //Communication comm = new Communication();
+        Temps temps = tes.comm.getTemps();
+        
+        
+     int time = temps.getTimestamp();
+     
+     java.util.Timer t = new java.util.Timer();
+t.schedule(new TimerTask() {
+    @Override
+    public void run() {
+       if(time%12 == 0){
+       
+            
+               Panel panel = new Panel();
+           
+       }
+    }
+}, 0, 5000);
+        
+        Forecast[] forecast = temps.getForecast();
+        
+        for(Forecast f : forecast){
+            int jour = f.getDfn();
+            
+            if(jour == 0){
+            
+                
+                meteo1.setText(f.getWeather().toString());
+            
+            }else if(jour == 1){
+            
+                meteo2.setText(f.getWeather().toString());
+            
+            }
+            
+            
+        }
+         
         
         Panel panel = new Panel();
+        
+        
         
         panel.setSelectedValue(selected_value);
         
@@ -102,6 +151,11 @@ public class Window extends JFrame implements ActionListener {
         this.add(nb_sale);
         this.add(label_sale);
         this.add(label_player);
+        this.add(label_j1);
+        this.add(label_jp1);
+        this.add(meteo1);
+        this.add(meteo2);
+        
         
         
         // positionnement et dimensionnement manuel des boutons
@@ -116,6 +170,12 @@ public class Window extends JFrame implements ActionListener {
         nb_sale.setBorder(null);
         nb_drinks.setBorder(null);
         nb_money.setBorder(null);
+        meteo1.setBorder(null);
+        meteo2.setBorder(null);
+        label_j1.setBounds(370,270,100,20);
+        label_jp1.setBounds(370, 320, 100, 20);
+        meteo1.setBounds(370, 290, 100, 20);
+        meteo2.setBounds(370, 350, 100, 20);
         
         
         
@@ -129,22 +189,15 @@ public class Window extends JFrame implements ActionListener {
                 
                 if(event.getValueIsAdjusting()){
                     
-                    selected_value = list_players.getSelectedIndex();
-                    
-                    
+                    int i = list_players.getSelectedIndex();
                     String boissons = "";
                     Drink[] drinks;
                     float money;
                     int sales;
                     
-                    
-                    switch(selected_value){
-                        
-                        case 0:
+                    //DRINKS
                             
-                            //DRINKS
-                            
-                            drinks = player[0].getDrinkOffered();
+                            drinks = player[i].getDrinkOffered();
                             
                             for(Drink d : drinks){
                                 boissons += d.getName()+": "+d.getPrice();
@@ -155,111 +208,20 @@ public class Window extends JFrame implements ActionListener {
                             
                             //MONEY
                             
-                            money = player[0].getCash();
+                            money = player[i].getCash();
                             
                             nb_money.setText(String.valueOf(money));
                             
                             //SALES
                             
-                            sales = player[0].getSales();
+                            sales = player[i].getSales();
                             
                             nb_sale.setText(String.valueOf(sales));
-                            
-                            break;
-                            
-                        case 1:
-                            
-                            //DRINKS
-                            drinks = player[1].getDrinkOffered();
-                            
-                            for(Drink d : drinks){
-                                boissons += d.getName()+": "+d.getPrice();
-                            }
-                            
-                            nb_drinks.setText(boissons);
-                            
-                            
-                            //MONEY
-                            money = player[1].getCash();
-                            nb_money.setText(String.valueOf(money));
-                            
-                            //SALES
-                            sales = player[1].getSales();
-                            nb_sale.setText(String.valueOf(sales));
-                            break;
-                            
-                        case 2:
-                            
-                            //DRINKS
-                            drinks = player[2].getDrinkOffered();
-                            
-                            for(Drink d : drinks){
-                                boissons += d.getName()+": "+d.getPrice();
-                            }
-                            
-                            nb_drinks.setText(boissons);
-                            
-                            
-                            //MONEY
-                            money = player[2].getCash();
-                            nb_money.setText(String.valueOf(money));
-                            
-                            //SALES
-                            sales = player[2].getSales();
-                            nb_sale.setText(String.valueOf(sales));
-                            
-                            
-                            break;
-                            
-                        case 3:
-                            
-                            //DRINKS
-                            drinks = player[3].getDrinkOffered();
-                            
-                            for(Drink d : drinks){
-                                boissons += d.getName()+": "+d.getPrice();
-                            }
-                            
-                            nb_drinks.setText(boissons);
-                            
-                            
-                            //MONEY
-                            money = player[3].getCash();
-                            nb_money.setText(String.valueOf(money));
-                            
-                            //SALES
-                            sales = player[3].getSales();
-                            nb_sale.setText(String.valueOf(sales));
-                            
-                            
-                            break;
-                            
-                        case 4:
-                            
-                            //DRINKS
-                            drinks = player[3].getDrinkOffered();
-                            
-                            for(Drink d : drinks){
-                                boissons += d.getName()+": "+d.getPrice();
-                            }
-                            
-                            nb_drinks.setText(boissons);
-                            
-                            
-                            //MONEY
-                            money = player[3].getCash();
-                            nb_money.setText(String.valueOf(money));
-                            
-                            //SALES
-                            sales = player[3].getSales();
-                            nb_sale.setText(String.valueOf(sales));
-                            
-                            
-                            break;
-                            
-                            
-                            
-                    }
+                    
+                    
+
+                    
+                    
                     
                     
                     
