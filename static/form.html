@@ -11,20 +11,14 @@
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
             <script>   
 
-                function metrology_jour(){
+                function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology_jour").text(data["timestamp"])
+                            $("#metrology").text(data["timestamp"])
                         })
                 }
 
-                function metrology_meteo(){
-                    $.ajax("/metrology")
-                        .done(function(data){
-                            $("#metrology_meteo").text(data["weather"])
-                        })
-                }
-
+               
                 function $_GET(param) {
                     var vars = {};
                     window.location.href.replace( location.hash, '' ).replace( 
@@ -153,9 +147,9 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <h2>Situation actuelle:</h2>
-                            <label><input type="button" onclick="metrology_jour()" name="metrology_jour" value="Afficher le jour et l'heure"></input></label><br>
+                            <label><input type="button" onclick="metrology()" name="metrology" value="Afficher le jour et l'heure"></input></label><br>
                             <label id="metrology"> </label><br>                     
-                            <label><input type="button" onclick="metrology_meteo()" name="metrology_meteo" value="Afficher la météo"></input></label><br>     
+                            <label><input type="button" onclick="metrology()" name="meteo" value="Afficher la météo"></input></label><br>     
                             <label id="meteo"> </label><br>                   
                             <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                             <label id="budget"> </label><br>
