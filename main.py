@@ -385,7 +385,7 @@ def post_players():
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : recetteJoueur[recette]["rec_nom"], 'nom' : username}))
 			
-			coutProd = (db.select('SELECT count(ing_prix_unitaire) AS price FROM Ingredient, Recette, Composer WHERE ingredient.ing_nom=composer.ing_nom AND '
+			coutProd = (db.select('SELECT sum(ing_prix_unitaire) AS price FROM Ingredient, Recette, Composer WHERE ingredient.ing_nom=composer.ing_nom AND '
 						'recette.rec_nom=composer.rec_nom AND recette.rec_nom=@(recette)',
 						{'recette' : recetteJoueur[recette]["rec_nom"]}))
 	
@@ -638,7 +638,10 @@ def get_map_player(playerName):
 				profit += prix * qte
 		else :
 			profit += 0.0
-		
+		coutProd = (db.select('SELECT sum(ing_prix_unitaire) AS price FROM Ingredient, Recette, Composer WHERE ingredient.ing_nom=composer.ing_nom AND '
+						'recette.rec_nom=composer.rec_nom AND recette.rec_nom=@(recette)',
+						{'recette' : nomRecette}))
+
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
 			ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
@@ -651,7 +654,7 @@ def get_map_player(playerName):
 			
 		drinkInfo = {}
 		drinkInfo["name"] = nomRecette
-		drinkInfo["price"] = prix
+		drinkInfo["price"] = coutProd[0]["price"]
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
 		drinksInfos.append(drinkInfo)
