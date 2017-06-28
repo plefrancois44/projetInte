@@ -634,7 +634,14 @@ def get_map_player(playerName):
 				profit += prix * qte
 		else :
 			profit += 0.0
-	
+		
+		print("prix")
+		print(prix)
+		print("qtze")
+		print(qte)
+		print("profit")
+		print(profit)
+		
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
 			ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
