@@ -93,7 +93,7 @@ def sales():
 				   })
 	else :
 		qte=int(verif[0]["ven_quantite"])
-		db.execute("UPDATE vendre SET quantite=@(quantite)",
+		db.execute("UPDATE vendre SET ven_quantite=@(quantite)",
 				   { 
 				    'quantite' : qte + 1
 				   })
