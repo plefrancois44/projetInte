@@ -103,16 +103,15 @@ def action_player(player):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
+	
 	if kind == "drinks":
 		recetteJoueur = []
 		for i in range(0,len(action["prepare"])):
 				recetteJoueur.append(action["prepare"][i]["boisson"])
-		
 		recettes={}
 		coutTotal=0
 		for recette in range(0,len(recetteJoueur)):
 			prepare = action["prepare"][recette]
-			print(prepare["quantite"])
 			nb = int(prepare["quantite"])
 			coutProd = 0.0
 			ingredient = {}
