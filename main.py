@@ -58,7 +58,7 @@ def formulaire():
 #------- login
 @app.route("/login")
 def log():
-	return jsonResponse("ok")
+	return json.dumps("ok"), 200, {'Content-Type': 'application/json'}
 
 #---- Route pour acceder a la page html
 @app.route("/html")
@@ -91,7 +91,7 @@ def sales():
 	
 	db.close()
 	
-	reponse = make_response('Vente crée avec succès', 200)
+	reponse = make_response(json.dumps("Vente enregistre"), 200, {'Content-Type': 'application/json'})
 	return reponse
 
 #---- Route pour initialiser la base de donnees en admin
@@ -101,7 +101,7 @@ def route_dbinit():
 	db = Db()
 	db.executeFile("base.sql")
 	db.close()
-	return "Done."
+	return json.dumps("Done."), 200, {'Content-Type': 'application/json'}
 
 
 #---- Route qui gere les actions joueur
@@ -171,7 +171,7 @@ def action_player(playerName):
 		return jsonResponse(reponse)
 		#else if(data["kind"]=="ad")
 		#else if(data["kind"]=="price")
-	return jsonResponse("NOK",403)
+	return json.dumps("NOK"), 403, {'Content-Type': 'application/json'}
 	
 	
 #---- Route qui permet d'afficher la map de tout les joueurs
@@ -304,7 +304,7 @@ def get_map():
 			]
 		}
 	}
-	return json.dumps(Map)
+	return json.dumps("Suppression joueur OK"), 200, {'Content-Type': 'application/json'}
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
@@ -401,7 +401,7 @@ def post_players():
 		reponse["location"] = coordinates
 		reponse["info"] = playerInfo
 
-		retour = make_response(json.dumps(reponse),200)
+		retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 		return retour
 	
 #---- Route metrology, enregistrment de la meteo dans la BDD
@@ -473,7 +473,7 @@ def post_metrology():
 				})
 			
 	db.close()		
-	retour = make_response(json.dumps(arduino),200)
+	retour = make_response(json.dumps(arduino), 200, {'Content-Type': 'application/json'})
 	return retour
 
 #---- Route metrology, renvoie la meteo du jour
@@ -508,7 +508,7 @@ def get_metrology():
 	reponse["timestamp"] = meteo[0]['met_heure_ecoule']
 	reponse["weather"] = forecast
 	
-	retour = make_response(json.dumps(reponse),200)
+	retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 	return retour
 
 #---- Route ingredients, renvoie les informations de tout les ingredients
@@ -531,7 +531,7 @@ def get_ingredients():
 	reponse = {}
 	reponse["ingredients"] = ingredient
 	
-	retour = make_response(json.dumps(reponse),200)
+	retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 	return retour
 
 #---- Permet de mettre tout les joueurs au même niveau (remise du budget initial et remise a zero des tables vendre, produire et pub)
