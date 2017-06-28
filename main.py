@@ -171,6 +171,7 @@ def action_player(player):
 @app.route('/map', methods=['GET'])
 def get_map():
 	# données à générer par la BD pour chaque joueur (pour l'instant généré à la main):
+	'''
 	db=Db()
 
 	center={}
@@ -196,6 +197,7 @@ def get_map():
 	joueurs = db.select("SELECT * FROM Joueur")	
 	for joueur in joueurs:
 		print joueur["jou_nom"]
+	'''
 	Map = {
 		"region": {
 			"center": {
