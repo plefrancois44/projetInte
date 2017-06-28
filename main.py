@@ -84,7 +84,7 @@ def sales():
 			'recette' : data["item"]
 		})
 	if len(verif)==0 :
-		db.execute("INSERT INTO vendre VALUES @(jour), @(quantite), @(nom), @(recette))",
+		db.execute("INSERT INTO vendre VALUES (@(jour), @(quantite), @(nom), @(recette))",
 				   { 
 				    'jour' : jour,
 				    'quantite' : data["quantity"],
