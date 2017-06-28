@@ -663,8 +663,12 @@ def get_map_player(playerName):
 			ventes = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
 						{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
 			
-			if ventes[0]["quantite"] > meilleur :
-				meilleur = ventes[joueurPrem]["quantite"]
+			print("vente")
+			print(ventes)
+			actuel = ventes[0]["quantite"]
+			print(actuel)
+			if actuel > meilleur :
+				meilleur = actuel
 				joueurPrem = j
 				
 		riche = ventes[joueurPrem]["jou_nom"]
