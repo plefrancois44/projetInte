@@ -18,6 +18,13 @@
                         })
                 }
 
+                function metrology1(){
+                    $.ajax("/metrology")
+                        .done(function(data){
+                            $("#metrology").text(data["weather"])
+                        })
+                }
+
                 function $_GET(param) {
                     var vars = {};
                     window.location.href.replace( location.hash, '' ).replace( 
@@ -148,7 +155,7 @@
                         <h2>Situation actuelle:</h2>
                             <label><input type="button" onclick="metrology()" name="metrology" value="Afficher le jour et l'heure"></input></label><br>
                             <label id="metrology"> </label><br>                     
-                            <label><input type="button" onclick="metrology()"" name="meteo" value="Afficher la météo"></input></label><br>     
+                            <label><input type="button" onclick="metrology1()"" name="metrology" value="Afficher la météo"></input></label><br>     
                             <label id="meteo"> </label><br>                   
                             <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                             <label id="budget"> </label><br>
