@@ -651,12 +651,10 @@ def get_map_player(playerName):
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
 		drinksInfos += drinkInfo
-
 	riche=[]
 	ventes = []
 	numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
 	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : numero[0]["maximum"]}))
-	joueurPrem = 0
 	if len(prem)>1:
 		meilleur = 0
 		for j in range(0,len(prem)):
@@ -667,9 +665,7 @@ def get_map_player(playerName):
 				actuel = ventes[0]["quantite"]
 				if actuel > meilleur :
 					meilleur = actuel
-					joueurPrem = j
-				
-		riche = ventes[joueurPrem]["jou_nom"]
+					riche = ventes[0]["jou_nom"]
 	
 	else:
 		riche = prem[0]["jou_nom"]
