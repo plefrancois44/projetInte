@@ -14,7 +14,7 @@
                 function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(data[timestamp])
+                            $("#metrology").text(data["timestamp"])
                         })
                 }
 
