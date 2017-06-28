@@ -650,7 +650,7 @@ def get_map_player(playerName):
 		drinkInfo["price"] = prix
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
-		drinksInfos += drinkInfo
+		drinksInfos.append(drinkInfo)
 		
 	riche=[]
 	ventes = []
