@@ -15,13 +15,14 @@
                         .done(function(data){
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp))
-                            if(data["weather"][0]["dfn"]==0)
+                             if(data["weather"][0]["dfn"]==0){
                                 $("#meteo").text(data["weather"][0]["weather"])
                                 $("#prevision").text(data["weather"][1]["weather"])
-                            else
+                            }
+                            else{
                                 $("#meteo").text(data["weather"][1]["weather"])
                                 $("#prevision").text(data["weather"][0]["weather"])
-
+                            }
                         })
                 }
 
