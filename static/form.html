@@ -9,37 +9,12 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
-            <script>    
+            <script>   
 
-                function calcul_jour(){
-                    var jour = ("timestamp"/24)+1;
-                }
-
-                function metrology_jour(){
-                    $.ajax("/metrology")
-                        .done(function(data){
-                            $("#metrology").text(data["jour"])
-                        })
-                }
-
-
-                function calcul_heure(){
-                    var heure = jour*24 - timestamp;
-                }
-
-                function metrology_heure(){
+                function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
                             $("#metrology").text(data["timestamp"])
-                        })
-                }
-
-
-
-                function metrology_meteo){
-                    $.ajax("/metrology")
-                        .done(function(data){
-                            $("#metrology").text(data["weather"])
                         })
                 }
 
