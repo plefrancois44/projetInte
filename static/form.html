@@ -14,11 +14,13 @@
                function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(jour)
+                            timestamp=data["timestamp"];
+                            $("#metrology").text(calcul(timestamp))
                         })
                 }
-                function calcul(){
-                    int(jour)=timestamp/24+1;
+
+                function calcul(timestamp){
+                    return int(timestamp/24+1);
                 }
 
                
