@@ -639,7 +639,7 @@ def get_map_player(playerName):
 			
 		drinkInfo = {}
 		drinkInfo["name"] = nomRecette
-		drinkInfo["price"] = coutProd[0]["price"]
+		drinkInfo["price"] = coutVente[recette]["price"]
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
 		drinksInfos += drinkInfo
