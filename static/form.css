@@ -23,7 +23,8 @@ p{
 label{
 	color: black;
 }
-      canvas {
+canvas {
     cursor: crosshair;
     border: 1px solid #000000;
+    background-image: url(static/map.jpg);
 }
