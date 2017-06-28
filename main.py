@@ -101,7 +101,7 @@ def action_player(player):
 	action = data["actions"][0]
 	kind = action["kind"]
 	simulation=data["simulated"]
-	#db=Db()
+	db=Db()
 	if kind == "drinks":
 		recetteJoueur = []
 		for i in range(0,len(action["prepare"])):
