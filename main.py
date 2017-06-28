@@ -77,14 +77,14 @@ def sales():
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
 	jour = meteoJour[0]['met_jour']
 	
-	verif = db.select("SELECT * FROM vendre WHERE rec_nom=@(recette) AND ven_jour=(@(jour) AND jou_nom=@(nom);",
+	verif = db.select("SELECT * FROM vendre WHERE rec_nom=@(recette) AND ven_jour=@(jour) AND jou_nom=@(nom)",
 		{ 
 			'jour' : jour,
 			'nom' : data["player"],
 			'recette' : data["item"]
 		})
 	if len(verif)==0 :
-		db.execute("INSERT INTO vendre VALUES (@(jour), @(quantite), @(nom), @(recette))",
+		db.execute("INSERT INTO vendre VALUES @(jour), @(quantite), @(nom), @(recette))",
 				   { 
 				    'jour' : jour,
 				    'quantite' : qteVendue,
