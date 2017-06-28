@@ -658,11 +658,13 @@ def get_map_player(playerName):
 	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : numero[0]["maximum"]}))
 	joueurPrem = 0
 	if len(prem)>1:
+		meilleur = ventes[0]["quantite"]
 		for j in range(0,len(prem)):
-			ventes[j] = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
+			ventes = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
 						{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
 			
-			if ventes[j]["quantite"] > ventes[joueurPrem]["quantite"] :
+			if ventes[0]["quantite"] > meilleur :
+				meilleur = ventes[joueurPrem]["quantite"]
 				joueurPrem = j
 				
 		riche = ventes[joueurPrem]["jou_nom"]
