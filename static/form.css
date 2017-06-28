@@ -23,3 +23,6 @@ p{
 label{
 	color: black;
 }
+.map{
+	position: fixed;
+}
