@@ -119,7 +119,7 @@ def action_player(player):
 			cout=[]
 			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{
-					'recette' : recetteJoueur[recette]["rec_nom"],
+					'recette' : recetteJoueur[recette],
 					 'nom' : player
 				}))
 
