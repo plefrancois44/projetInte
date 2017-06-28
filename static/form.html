@@ -34,11 +34,15 @@
     }
 
     function envoyerDecision(simulated){
-        var pseudo = $_GET('pseudo');
-        let limonadeQte = {
-            "boisson" : "Limonade",
-            "quantite" : $("#nbLimonade").val()
+       var pseudo = $_GET('pseudo');
+        if($("#nbLimonade").val()>0) {
+            let limonadeQte = {
+                "boisson" : "Limonade",
+                "quantite" : $("#nbLimonade").val()
+            }
         }
+        else limonadeQte =""
+
         let limonadePrix = {
             "boisson": "Limonade",
             "prix" : $("#prixLimonade").val()
@@ -58,7 +62,8 @@
                 "kind": "drinks",
                 "prepare": 
                 [
-                    if($("#nbLimonade").val()>0) limonadeQte
+                    limonadeQte
+                    ,
                     {
                         "boisson" : "Chocolat_chaud",
                         "quantite" : $("#nbChocolat_chaud").val()
