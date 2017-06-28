@@ -14,14 +14,14 @@
                 function metrology_jour(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology_jour").text(data["timestamp"])
+                            $("#metrology").text(data["timestamp"])
                         })
                 }
 
                 function metrology_weather(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology_weather").text(data["weather"])
+                            $("#metrology").text(data["weather"])
                         })
                 }
 
