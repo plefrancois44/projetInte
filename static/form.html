@@ -171,52 +171,6 @@
                               imageObj.onload = function() {
                                 context.drawImage(imageObj, 69, 50);
                               };
-
-                                //Variables
-                                var canvasx = $(canvas).offset().left;
-                                var canvasy = $(canvas).offset().top;
-                                    last_mousex = parseInt(e.clientX-canvasx);
-                                var last_mousex = last_mousey = 0;
-                                var mousex = mousey = 0;
-                                var mousedown = false;
-
-                                //Mousedown
-                                $(canvas).on('mousedown', function(e) {
-                                    last_mousey = parseInt(e.clientY-canvasy);
-                                    mousedown = true;
-                                });
-
-                                //Mouseup
-                                $(canvas).on('mouseup', function(e) {
-                                    mousedown = false;
-                                });
-
-                                //Mousemove
-                                $(canvas).on('mousemove', function(e) {
-                                    mousex = parseInt(e.clientX-canvasx);
-                                    mousey = parseInt(e.clientY-canvasy);
-                                    if(mousedown) {
-                                        ctx.clearRect(0,0,canvas.width,canvas.height); //clear canvas
-                                        //Save
-                                        ctx.save();
-                                        ctx.beginPath();
-                                        //Dynamic scaling
-                                        var scalex = 1*((mousex-last_mousex)/2);
-                                        var scaley = 1*((mousey-last_mousey)/2);
-                                        ctx.scale(scalex,scaley);
-                                        //Create ellipse
-                                        var centerx = (last_mousex/scalex)+1;
-                                        var centery = (last_mousey/scaley)+1;
-                                        ctx.arc(centerx, centery, 1, 0, 2*Math.PI);
-                                        //Restore and draw
-                                        ctx.restore();
-                                        ctx.strokeStyle = 'black';
-                                        ctx.lineWidth = 5;
-                                        ctx.stroke();
-                                    }
-                                    //Output
-                                    $('#output').html('current: '+mousex+', '+mousey+'<br/>last: '+last_mousex+', '+last_mousey+'<br/>mousedown: '+mousedown);
-                                });
                               imageObj.src = 'static/map.jpg';
                             </script>
                             
