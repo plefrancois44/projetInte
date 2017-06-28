@@ -280,7 +280,7 @@ def get_map():
 				"drinkOffered": 
 				[
 					{
-						"name":"limonade",
+						"name":"Limonade",
 						"price": 1.8,
 						"hasAlcohol" : "false",
 						"isCold" : "true"
@@ -295,7 +295,7 @@ def get_map():
 				"drinkOffered": 
 				[
 					{
-						"name":"limonade",
+						"name":"Limonade",
 						"price": 2.2,
 						"hasAlcohol" : "false",
 						"isCold" : "true"
@@ -313,7 +313,7 @@ def get_map():
 			"pierre": 
 			[
 				{
-					"name":"limonade",
+					"name":"Limonade",
 					"price": 1.8,
 					"hasAlcohol" : "false",
 					"isCold" : "true"
@@ -322,7 +322,7 @@ def get_map():
 			"Toto": 
 			[
 				{
-					"name":"limonade",
+					"name":"Limonade",
 					"price": 2.2,
 					"hasAlcohol" : "false",
 					"isCold" : "true"
