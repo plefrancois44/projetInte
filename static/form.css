@@ -23,3 +23,7 @@ p{
 label{
 	color: black;
 }
+      canvas {
+    cursor: crosshair;
+    border: 1px solid #000000;
+}
