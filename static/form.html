@@ -27,7 +27,6 @@
                 vars[key] = value !== undefined ? value : '';
             }
         );
-
         if ( param ) {
             return vars[param] ? vars[param] : null;    
         }
@@ -36,6 +35,21 @@
 
     function envoyerDecision(simulated){
         var pseudo = $_GET('pseudo');
+        let limonadeQte = {
+            "boisson" : "Limonade",
+            "quantite" : $("#nbLimonade").val()
+        }
+        let limonadePrix = {
+            "boisson": "Limonade",
+            "prix" : $("#prixLimonade").val()
+        }
+        let chocolatQte =
+        {
+            "boisson" : "Chocolat_chaud",
+            "quantite" : $("#nbChocolat_chaud").val()
+        }
+
+
         let data = 
         {
             "simulated" : simulated,
@@ -44,10 +58,7 @@
                 "kind": "drinks",
                 "prepare": 
                 [
-                    {
-                        "boisson" : "Limonade",
-                        "quantite" : $("#nbLimonade").val()
-                    },
+                    if($("#nbLimonade").val()>0) limonadeQte
                     {
                         "boisson" : "Chocolat_chaud",
                         "quantite" : $("#nbChocolat_chaud").val()
