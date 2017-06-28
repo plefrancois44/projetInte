@@ -328,10 +328,10 @@ def get_map():
 					"isCold" : "true"
 				},
 				{
-					"name":"coca",
+					"name":"Chocolat Chaud",
 					"price": 2.5,
 					"hasAlcohol" : "false",
-					"isCold" : "true"
+					"isCold" : "false"
 				}	
 			]
 		}
