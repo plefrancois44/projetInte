@@ -646,8 +646,8 @@ def get_map_player(playerName):
 	riche=[]
 	maximum={}
 	prem={}
-	maximum = (db.select('SELECT MAX(jou_budget) AS max FROM joueur')
-	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(max)",{'max' : maximum[0]["max"]}))
+	maximum = (db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
+	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : maximum[0]["maximum"]}))
 	joueurPrem = 0
 	if len(prem)>1:
 		for j in range(0,len(prem)):
