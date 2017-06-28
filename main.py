@@ -74,11 +74,13 @@ def sales():
 	data = request.get_json()
 	element = {}
 	
+	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	jour = meteo[0]['met_jour']
+	
 	for element in range(0,len(data)):
-		nom = data["sales"][element]["player"];
-		qteVendue = data["sales"][element]["quantity"];
+		nom = data["sales"][element]["player"]
+		qteVendue = data["sales"][element]["quantity"]
 		recette = data["sales"][element]["item"]
-		jour = data["sales"][element]["day"];
 
 		db.execute("INSERT INTO vendre VALUES (@(jour), @(quantite), @(nom), @(recette))",
 			   { 'jour' : jour,
