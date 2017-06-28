@@ -14,13 +14,8 @@
                 function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(data["heure"])
+                            $("#metrology").text(data["timestamp"])
                         })
-                }
-
-
-                function jour(){
-                    heure = (data(["timestamp"])/24)+1;
                 }
 
                 function $_GET(param) {
