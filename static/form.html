@@ -82,9 +82,14 @@
             }).done(function(data) {
                 if(data["sufficentFunds"]!="True"){
                     $("#valideBoisson").text(data["totalCost"]);
+                }
+                else $("#valideBoisson").text("fond insuffisant");
+
+                if(data["simulated"]!="True"){
                     window.alert('Décisions prises et bien envoyés au serveur.')
                 } 
-                else $("#valideBoisson").text("fond insuffisant");
+                else()
+                    window.alert('Visualitation seulement')
             })       
         } 
     </script>
