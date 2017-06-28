@@ -638,9 +638,10 @@ def get_map_player(playerName):
 				profit += prix * qte
 		else :
 			profit += 0.0
+		
 		coutProd = (db.select('SELECT sum(ing_prix_unitaire) AS price FROM Ingredient, Recette, Composer WHERE ingredient.ing_nom=composer.ing_nom AND '
-						'recette.rec_nom=composer.rec_nom AND recette.rec_nom=@(recette)',
-						{'recette' : nomRecette}))
+						'recette.rec_nom=composer.rec_nom AND recette.rec_nom=@(recette) AND composer.jou_nom=@(nom)',
+						{'recette' : nomRecette, 'nom' : playerName}))
 
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
