@@ -313,7 +313,7 @@ def post_players():
 	db = Db()
 	data = request.get_json()
 	username = data['name']
-	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : username});
+	verif = db.select("SELECT * FROM Joueur where jou_nom = @(nom)", {'nom' : username})
 	if(len(verif) != 0) :
 		return json.dumps("NOK"), 403, {'Content-Type': 'application/json'}
 	
