@@ -635,6 +635,7 @@ def get_map_player(playerName):
 		else :
 			profit += 0.0
 		
+		print(nomRecette)
 		print("prix")
 		print(prix)
 		print("qtze")
