@@ -33,64 +33,84 @@
                     return vars;
                 }
 
-                function envoyerDecision(simulated){
-                    var pseudo = $_GET('pseudo');
-                    let data = 
-                    {
-                        "simulated" : simulated,
-                        "actions" : 
-                        [{
-                            "kind": "drinks",
-                            "prepare": 
-                            [
-                                {
-                                    "boisson" : "Limonade",
-                                    "quantite" : $("#nbLimonade").val()
-                                },
-                                {
-                                    "boisson" : "Chocolat_chaud",
-                                    "quantite" : $("#nbChocolat_chaud").val()
-                                },
-                                {
-                                    "boisson" : "Mojito",
-                                    "quantite" : $("#nbMojito").val()
-                                }
-                            ],
-                            "price": 
-                            [
-                                {
-                                    "boisson": "Limonade",
-                                    "prix" : $("#prixLimonade").val()
-                                },
-                                {
-                                    "boisson": "Chocolat_chaud",
-                                    "prix" : $("#prixChocolat_chaud").val()
-                                },
-                                {
-                                    "boisson": "Mojito",
-                                    "prix" : $("#prixMojito").val()
-                                }
-                            ]
-                        }]
-                    };
-                    
-                    $.ajax("/actions/"+pseudo, {
-                      type: "POST",
-                      data: JSON.stringify(data),
-                      contentType: "application/json",
-                        }).done(function(data) 
-                    {
-                        if(data["sufficentFunds"]!="True"){
-                            $("#valideBoisson").text(data["totalCost"]);
-                        }
-                        else $("#valideBoisson").text("fond insuffisant");
+      function envoyerDecision(simulated){
+        var pseudo = $_GET('pseudo');
+        var toPrepare = [];
+        var prices = [];
+        var actions = [];
+        var action = {};
+        toPrepare = [];
+        var tmp = {};
 
-                        if(simulated!=true){
-                            window.alert('Décisions prises et bien envoyés au serveur.')
-                        } 
-                        else window.alert('Visualitation seulement')    
-                    }) 
+        if($("#nbLimonade").val()>0){
+            tmp = {}
+            tmp.boisson = "Limonade";
+            tmp.quantite = $("#nbLimonade").val();
+            JSON.stringify(tmp);
+            toPrepare.push(tmp);
+            tmp = {};
+            tmp.boisson = "Limonade";
+            tmp.price = $("#prixLimonade").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
+        if($("#nbChocolat_chaud").val()>0){
+            tmp = {}
+            tmp.boisson = "Chocolat_chaud";
+            tmp.quantite = $("#nbChocolat_chaud").val();
+            JSON.stringify(tmp);
+            toPrepare.push(tmp);
+            tmp = {};
+            tmp.boisson = "Chocolat_chaud";
+            tmp.price = $("#prixChocolat_chaud").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
+        if($("#nbMojito").val()>0){
+            tmp = {};
+            tmp.boisson = "Mojito";
+            tmp.quantite = $("#nbMojito").val();
+            toPrepare.push(tmp);
+            JSON.stringify(tmp);
+            tmp = {};
+            tmp.boisson = "Mojito";
+            tmp.price = $("#prixMojito").val();
+            JSON.stringify(tmp);
+            prices[i].push(tmp);
+        }
+        JSON.stringify(toPrepare);
+        JSON.stringify(prices);
+
+        action.prepare = toPrepare
+        action.price = prices
+        action.kind = "drinks"
+        JSON.stringify(action);
+
+        actions.push(action)
+
+        let data = 
+        {
+            "simulated" : simulated,
+            "actions" : actions
+        };
+
+        $.ajax("/actions/"+pseudo, {
+          type: "POST",
+          data: JSON.stringify(data),
+          contentType: "application/json",
+            }).done(function(data) {
+                if(data["sufficentFunds"]!="True"){
+                    $("#valideBoisson").text(data["totalCost"]);
                 }
+                else $("#valideBoisson").text("fond insuffisant");
+
+                if(simulated!=true){
+                    window.alert('Décisions prises et bien envoyés au serveur.')
+                } 
+                else
+                    window.alert('Visualitation seulement')
+            })       
+        } 
             </script>
         </head>
 <?-------------------------------------------------------------------------------------------------------------------------------------------------------->
