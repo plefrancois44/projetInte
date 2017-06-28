@@ -624,7 +624,7 @@ def get_map_player(playerName):
 				{'recette' : nomRecette, 'nom' : playerName}))
 		coutVente = (db.select("SELECT pro_prix_vente AS price FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
 				{'nom' : playerName, 'recette' : nomRecette}))
-		venteR = (db.select("SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour) AND rec_nom=@(recette)",
+		venteR = (db.select("SELECT sum(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour) AND rec_nom=@(recette)",
 				{'nom' : playerName, 'jour' : jour, 'recette' : nomRecette}))
 		
 		if len(coutVente) != 0:
@@ -634,14 +634,6 @@ def get_map_player(playerName):
 				profit += prix * qte
 		else :
 			profit += 0.0
-		
-		print(nomRecette)
-		print("prix")
-		print(prix)
-		print("qtze")
-		print(qte)
-		print("profit")
-		print(profit)
 		
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
