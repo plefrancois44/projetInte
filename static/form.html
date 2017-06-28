@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html>
+    <html onload="cercle()">
         <head>
             <script src="/static/jquery-3.2.1.js"></script>
             <link rel="stylesheet" href="static/form.css" />
@@ -10,20 +10,21 @@
 
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
             <script>   
-
-               function metrology(){
+                function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp))
+                            
+                            var obj = JSON.parse(yourJsonString);
                         })
                 }
 
-                  function calcul(timestamp){
+                function calcul(timestamp){
                     return Math.floor(timestamp/24+1);
                 }
+              
 
-               
                 function $_GET(param) {
                     var vars = {};
                     window.location.href.replace( location.hash, '' ).replace( 
@@ -32,7 +33,6 @@
                             vars[key] = value !== undefined ? value : '';
                         }
                     );
-
                     if ( param ) {
                         return vars[param] ? vars[param] : null;    
                     }
@@ -47,7 +47,6 @@
         var action = {};
         toPrepare = [];
         var tmp = {};
-
         if($("#nbLimonade").val()>0){
             tmp = {}
             tmp.boisson = "Limonade";
@@ -86,20 +85,16 @@
         }
         JSON.stringify(toPrepare);
         JSON.stringify(prices);
-
         action.prepare = toPrepare
         action.price = prices
         action.kind = "drinks"
         JSON.stringify(action);
-
         actions.push(action)
-
         let data = 
         {
             "simulated" : simulated,
             "actions" : actions
         };
-
         $.ajax("/actions/"+pseudo, {
           type: "POST",
           data: JSON.stringify(data),
@@ -109,7 +104,6 @@
                     $("#valideBoisson").text(data["totalCost"]);
                 }
                 else $("#valideBoisson").text("fond insuffisant");
-
                 if(simulated!=true){
                     window.alert('Décisions prises et bien envoyés au serveur.')
                 } 
@@ -118,24 +112,20 @@
             })       
         } 
 
-            function cercle(){
-                    var div = document.getElementById('map');
-                    var context = div.getContext('2d');
-                    var centerX = div.width / 2;
-                    var centerY = div.height / 2;
-                    var radius = 70;
-
-                    context.beginPath();
-                    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-                    context.fillStyle = 'red';
-                    context.fill();
-                    context.lineWidth = 5;
-                    context.strokeStyle = '#003300';
-                    context.stroke();
-            }
-
-
-
+        function cercle(){
+                var div = document.getElementById('map');
+                var context = div.getContext('2d');
+                var centerX = div.width / 2;
+                var centerY = div.height / 2;
+                var radius = 70;
+                context.beginPath();
+                context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                context.fillStyle = 'red';
+                context.fill();
+                context.lineWidth = 5;
+                context.strokeStyle = '#003300';
+                context.stroke();
+        }
             </script>
         </head>
 <?-------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -152,9 +142,9 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <h2>Situation actuelle:</h2>
-                            <label><input type="button" onclick="metrology()" name="metrology" value="Afficher le jour et l'heure"></input></label><br>
+                            <label><input type="button" onclick="metrology()" name="metrology" value="Afficher le jour"></input></label><br>
                             <label id="metrology"> </label><br>                     
-                            <label><input type="button" onclick="metrology()" name="meteo" value="Afficher la météo"></input></label><br>     
+                            <label><input type="button" onclick="metrology()" name="metrology" value="Afficher la météo"></input></label><br>     
                             <label id="meteo"> </label><br>                   
                             <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                             <label id="budget"> </label><br>
@@ -162,7 +152,6 @@
                             <label id="panneau"> </label><br>
                     </div>        
             <?------------------colum1-------------------------------------------------------------------------------------------------------------------->
-
                     <div class="col-sm-5">
                         <h2>Décisions:</h2>
                         <form id="boisson">
@@ -170,29 +159,24 @@
                             <label value="Limonade">Limonade</label><br>
                             <label>Quantité : <input type='number' id="nbLimonade" placeholder="0"></label>
                             <label>Prix : <input type='number' id="prixLimonade" placeholder="0"></label><br>
-
                             <label value="Chocolat_chaud">Chocolat Chaud</label><br>
                             <label>Quantité : <input type='number' id="nbChocolat_chaud" placeholder="0"></label>
                             <label>Prix : <input type='number' id="prixChocolat_chaud" placeholder="0"></label><br>
-
                             <label value="Mojito">Mojito</label><br>
                             <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
                             <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
-
-
                             <label><input type="button" onclick="envoyerDecision(true)" name="verifier" value="Visualiser ses choix"></input></label>
                         </form>
                         
                         <form id="position">
                             <label>Acheter un panneau publicitaire:</label><br>
                             <div id="map">
-                                <img class="map" src="static/map.jpg" alt="map">
+                                <img src="static/map.jpg" alt="map">
                             </div><br>
                             <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label><br>
                             <label><input type="button" onclick="level_up()" name="level_up" value="Améliorer le panneau"></input></label>
                         </form>                
                     </div>
-
                     <div class="col-sm-3">
                         <h2>Facture:</h2>
                             <label>Total à payer: <label id="valideBoisson"></label></label><br>
@@ -203,3 +187,4 @@
             </div>
         </body>
     </html>
+
