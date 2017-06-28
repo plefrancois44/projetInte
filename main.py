@@ -29,7 +29,7 @@ def jsonResponse(data, status=200):
 def verif_authentification_admin(nom, mot_de_passe):
 	db = Db()
 	result = db.select('SELECT COUNT(com_nom) AS nb FROM Compte '
-			'WHERE com_nom=%(Username)s AND com_mot_de_passe=%(Password)s AND com_est_admin = True;', {
+			'WHERE com_nom=@(Username) AND com_mot_de_passe=@(Password) AND com_est_admin = True;', {
 			'Username': nom,
 			'Password': md5.new(mot_de_passe.encode('utf-8')).hexdigest()
 			})
@@ -75,14 +75,20 @@ def sales():
 	element = {}
 	
 	for element in range(0,len(data)):
-		nom = data[element]["nom"];
-		qteVendue = data[element]["qteVendue"];
-		nomRecette = data[element]["nomRecette"]
-		jour = data[element]["jour"];
+		nom = data["sales"][element]["player"];
+		qteVendue = data["sales"][element]["quantity"];
+		recette = data["sales"][element]["item"]
+		jour = data["sales"][element]["day"];
 
-		db.execute("INSERT INTO vendre VALUES ('%s', '%s', '%s', '%s')",(jour, qteVendue, nom, nomRecette))
+		db.execute("INSERT INTO vendre VALUES (@(jour), @(quantite), @(nom), @(recette))",
+			   { 'jour' : jour,
+			    'quantite' : qteVendue,
+			    'nom' : nom,
+			    'recette' : recette
+			   })
 	
 	db.close()
+	
 	reponse = make_response('Vente crée avec succès', 200)
 	return reponse
 
@@ -402,8 +408,6 @@ def post_metrology():
 	db = Db()
 	arduino = request.get_json()
 
-	#--- EXEMPLE :  arduino = {"timestamp" : 1,"weather":[{"dfn" : 0,"weather" : "cloudy"},{"dfn" : 1,"weather" : "sunny"}]}
-	
 	weather = arduino['weather']
 	timestamp = arduino ['timestamp']
 
