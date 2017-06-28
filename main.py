@@ -616,6 +616,8 @@ def get_map_player(playerName):
 		coutProd = 0.0
 		alcool = False
 		froid = True
+		prix = 0.0
+		qte = 0
 		nomRecette =  recetteJoueur[recette]["rec_nom"]
 		
 		recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)",
@@ -644,7 +646,7 @@ def get_map_player(playerName):
 			
 		drinkInfo = {}
 		drinkInfo["name"] = nomRecette
-		drinkInfo["price"] = coutVente[recette]["price"]
+		drinkInfo["price"] = prix
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
 		drinksInfos += drinkInfo
