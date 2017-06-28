@@ -644,13 +644,15 @@ def get_map_player(playerName):
 		drinksInfos += drinkInfo
 
 	riche=[]
-	max = (db.select('SELECT MAX(jou_budget) AS max FROM joueur')
-	jPrem = db.select("SELECT * FROM joueur WHERE jou_budget=@(max)",{'max' : max[0]["max"]})
+	maximum={}
+	prem={}
+	maximum = (db.select('SELECT MAX(jou_budget) AS max FROM joueur')
+	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(max)",{'max' : maximum[0]["max"]}))
 	joueurPrem = 0
-	if len(jPrem)>1:
-		for j in range(0,len(jPrem)):
+	if len(prem)>1:
+		for j in range(0,len(prem)):
 			ventes[j] = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
-						{'jour' : jour, 'nom' : jPrem[j]["jou_nom"]}))
+						{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
 			
 			if ventes[j]["quantite"] > ventes[joueurPrem]["quantite"] :
 				joueurPrem = j
@@ -658,7 +660,7 @@ def get_map_player(playerName):
 		riche = ventes[joueurPrem]["jou_nom"]
 	
 	else:
-		riche = jPrem[0]["jou_nom"]
+		riche = prem[0]["jou_nom"]
 	
 	mapItem = []
 	
