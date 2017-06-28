@@ -102,12 +102,12 @@ def action_player(player):
 	kind = action["kind"]
 	simulation=data["simulated"]
 	db=Db()
+	reponse={}
 	if kind == "drinks":
 		recetteJoueur = []
 		for i in range(0,len(action["prepare"])):
 				recetteJoueur.append(action["prepare"][i]["boisson"])
 		
-		#recetteJoueur = db.select("SELECT * FROM Recette")
 		recettes={}
 		coutTotal=0
 		for recette in range(0,len(recetteJoueur)):
