@@ -173,7 +173,7 @@ def action_player(player):
 		return jsonResponse(reponse)
 		#else if(data["kind"]=="ad")
 		#else if(data["kind"]=="price")
-return jsonResponse("NOK",403)
+	return jsonResponse("NOK",403)
 
 	
 	
