@@ -14,14 +14,14 @@
                 function metrology_jour(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(data["timestamp"])
+                            $("#metrology_jour").text(data["timestamp"])
                         })
                 }
 
-                function metrology_weather(){
+                function metrology_meteo(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(data["weather"])
+                            $("#metrology_meteo").text(data["weather"])
                         })
                 }
 
@@ -155,7 +155,7 @@
                         <h2>Situation actuelle:</h2>
                             <label><input type="button" onclick="metrology_jour()" name="metrology_jour" value="Afficher le jour et l'heure"></input></label><br>
                             <label id="metrology"> </label><br>                     
-                            <label><input type="button" onclick="metrology_meteo()"" name="metrology_meteo" value="Afficher la météo"></input></label><br>     
+                            <label><input type="button" onclick="metrology_meteo()" name="metrology_meteo" value="Afficher la météo"></input></label><br>     
                             <label id="meteo"> </label><br>                   
                             <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
                             <label id="budget"> </label><br>
