@@ -11,11 +11,14 @@
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
             <script>   
 
-                function metrology(){
+               function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
-                            $("#metrology").text(data[("timestamp"/24)+1])
+                            $("#metrology").text(jour)
                         })
+                }
+                function calcul(){
+                    int(jour)=timestamp/24+1;
                 }
 
                
