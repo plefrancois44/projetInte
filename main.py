@@ -605,7 +605,7 @@ def get_map_player(playerName):
 	
 	budget = db.select("SELECT jou_budget FROM joueur WHERE jou_nom=@(nom)", {'nom':playerName})
 	
-	vente = (db.select('SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour)',
+	vente = (db.select("SELECT sum(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour)",
 					{'nom' : playerName, 'jour' : jour}))
 	
 	recetteJoueur = db.select("SELECT * FROM Recette")
@@ -633,7 +633,7 @@ def get_map_player(playerName):
 				qte=vente[0]["quantite"]
 				profit += prix * qte
 		else :
-			profit = 0.0
+			profit += 0.0
 	
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
@@ -651,6 +651,7 @@ def get_map_player(playerName):
 		drinkInfo["hasAlcohol"] = alcool
 		drinkInfo["isCold"] = froid
 		drinksInfos += drinkInfo
+		
 	riche=[]
 	ventes = []
 	numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
@@ -658,7 +659,7 @@ def get_map_player(playerName):
 	if len(prem)>1:
 		meilleur = 0
 		for j in range(0,len(prem)):
-			ventes = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
+			ventes = (db.select('SELECT sum(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
 						{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
 			
 			if len(ventes) != 0:
