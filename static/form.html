@@ -79,17 +79,19 @@
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
-            }).done(function(data) {
-                if(data["sufficentFunds"]!="True"){
-                    $("#valideBoisson").text(data["totalCost"]);
-                }
-                else $("#valideBoisson").text("fond insuffisant");
+            }).done(function(data) 
+		{
+			if(data["sufficentFunds"]!="True"){
+			    $("#valideBoisson").text(data["totalCost"]);
+			}
+			else $("#valideBoisson").text("fond insuffisant");
 
-                if(data["simulated"]!="True"){
-                    window.alert('Décisions prises et bien envoyés au serveur.')
-                } 
-                else window.alert('Visualitation seulement')    
-        }) 
+			if(data["simulated"]!="True"){
+			    window.alert('Décisions prises et bien envoyés au serveur.')
+			} 
+			else window.alert('Visualitation seulement')    
+		}) 
+	}
     </script>
 <?---------------------------------------------------------------------------------------------------->
 
