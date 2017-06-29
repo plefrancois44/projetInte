@@ -117,12 +117,12 @@ void Update_1(){
       break;
       
     case ENVOYER_1:
-      if (heure%12 == 0 && heure%24 != 0){
+      if ((heure+1)%12 == 0 && (heure+1)%24 != 0){
         midDay = true;
         NextState_1 = IDLE_1;
       }
       else if (tic == true) NextState_1 = ENVOYER_1;
-      else if (heure%24 == 0) NextState_1 = IDLE_1;
+      else if ((heure+1)%24 == 0) NextState_1 = IDLE_1;
       break;
      
     default:
@@ -309,30 +309,35 @@ void Init_3(){
 
 //****************************************************************
 void setup() {
+  bool depart = false;
+  while (depart == false){ 
+   //  Serial.print(depart);
   // put your setup code here, to run once
-Serial.begin(9600);
-randomSeed(analogRead(0));
-Init_3();
-Init_1();
-Init_2();
-Init_Affichage();
-
+    if(adc_key_in < 850){
+      depart = true;
+    }
+     // Serial.print(depart);
+  }
+ // Serial.print(depart);
+  if (depart == true){
+    Serial.begin(9600);
+    randomSeed(analogRead(0));
+    Init_3();
+    Init_1(); 
+    Init_2();
+    Init_Affichage();
+  }
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-if(adc_key_in < 850){
-  depart = true;
-}
-if(depart==true){
   Output_3();
   Output_1();
   Output_2();
-
+  
   Update_3();
   Update_1();
   Update_2();
-  }
 }
 
 
