@@ -127,15 +127,11 @@ def action_player(playerName):
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
 		if kind == "drinks":
-			print("drinks")
-			print(actions[i]["prepare"])
-			test = {}
-			test = actions[i]["prepare"]
-			print("boucle")
-			teswt1 = test.keys()
-			print(teswt1[0])
-			print(actions[i]["prepare"].keys()[0])
-			prix = actions[i]["prepare"].keys()[0]
+			boisson = actions[i]["prepare"].keys()[0]
+			valeur = actions[i]["prepare"][boisson]
+			prix = actions[i]["price"].keys()[0]
+			print(boisson)
+			print(valeur)
 			print(prix)
 
 			coutProd = 0.0
