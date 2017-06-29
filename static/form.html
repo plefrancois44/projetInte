@@ -34,12 +34,11 @@
                 function getMapPlayer(){
                     $.ajax("/map/"+$_GET('pseudo'))
                         .done(function(data){ 
+                            var pseudo = $_GET('pseudo');
                             playerInfo = data["playerInfo"]
                             budget = playerInfo["cash"]
                             $("#budget").text(budget)
-                        })
-                    $.ajax("/map/"+$_GET('pseudo'))
-                        .done(function(data){ 
+
                             map = data["map"]
                             itemsByPlayer = map["itemsByPlayer"]
                             influence = itemsByPlayer[pseudo]["influence"]
