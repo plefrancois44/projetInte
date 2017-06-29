@@ -178,12 +178,12 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficientFunds"]!=false){
+                if(data["sufficientFunds"]){
                     $("#valideBoisson").text(data["totalCost"]);
                 }
                 else $("#valideBoisson").text("fond insuffisant");
 
-                if(simulated!=true){
+                if(simulated!=true && data["sufficientFunds"]){
                     window.alert('Décisions prises et bien envoyés au serveur.')
                 } 
                 else
@@ -266,4 +266,3 @@
             </div>
         </body>
     </html>
-
