@@ -103,7 +103,7 @@ INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUE
 INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('orange', 1 , FALSE, TRUE);
 INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('whisky', 4, TRUE, TRUE);
 INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('eau', 0.75, FALSE, FALSE);
-INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('raisin', 1.25, FALSE, TRUE);
+INSERT INTO Ingredient (ing_nom, ing_prix_unitaire, ing_alcool, ing_froid) VALUES ('raisin', 1.25, TRUE, TRUE);
 INSERT INTO Recette VALUES ('Limonade', 1, 500);
 INSERT INTO Recette VALUES ('Chocolat_chaud', 1, 550);
 INSERT INTO Recette VALUES ('Mojito', 1, 650);
