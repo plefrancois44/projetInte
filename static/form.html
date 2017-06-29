@@ -16,13 +16,12 @@
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp));
                             if(data["weather"][0]["dfn"]==0){
-                                $("#meteo").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
-                                $("#prevision").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
-                            }
-                            else{
-                                dfn = data["weather"][1]["dfn"]
                                 $("#meteo").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
                                 $("#prevision").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
+                            }
+                            else{
+                                $("#meteo").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
+                                $("#prevision").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
                             }
                         })
                     $.ajax("/map/"+$_GET('pseudo'))
@@ -32,6 +31,7 @@
                             $("#budget").text(budget)
                         })
                 }
+
 
                 function calcul(timestamp){
                     return Math.floor(timestamp/24+1);
