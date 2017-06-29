@@ -119,7 +119,7 @@ def action_player(playerName):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
-
+	actions = []
 	actions = data["actions"]
 	
 	print("TEST")
@@ -132,6 +132,8 @@ def action_player(playerName):
 	
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
+		print(i)
+		print("avant if drinks")
 		if kind == "drinks":
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
