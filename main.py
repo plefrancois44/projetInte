@@ -122,7 +122,7 @@ def action_player(playerName):
 	print(data)
 	
 	for i in range(0,len(data["actions"])) :
-		action = data["actions"][i]
+		action = data[i]["actions"]
 		kind = action["kind"]
 		if kind == "drinks":
 			print("drinks")
