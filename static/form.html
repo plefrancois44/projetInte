@@ -40,9 +40,8 @@
                             $("#budget").text(budget)
                             map = data["map"]
                             itemsByPlayer = map["itemsByPlayer"]
-                            location = itemsByPlayer["location"]
-
-                          //  $("#panneau").text(data["latitude"]+" "+data["longitude"]);
+                            location = itemsByPlayer[0]["location"]
+                            $("#panneau").text(data["latitude"]+" "+data["longitude"]);
                         })
 
                 }
