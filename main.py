@@ -649,8 +649,8 @@ def get_map():
 			
 			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : nomRecette, 'nom' : playerName}))
-			coutVente = (db.select('SELECT pro_prix_vente AS price FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)',
-						{'nom' : playerName, 'recette' : nomRecette}))
+			coutVente = (db.select('SELECT pro_prix_vente AS price FROM produire WHERE pro_jour=@(jour) AND jou_nom=@(nom) AND rec_nom=@(recette)',
+						{'jour' : jour, 'nom' : playerName, 'recette' : nomRecette}))
 			venteR = (db.select('SELECT count(ven_quantite) AS quantite FROM vendre WHERE jou_nom=@(nom) AND ven_jour=@(jour) AND rec_nom=@(recette)',
 						{'nom' : playerName, 'jour' : jour, 'recette' : nomRecette}))
 		
