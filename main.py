@@ -880,10 +880,7 @@ def get_map():
 		playerInfo["drinksOffered"] = drinksInfos
 
 		playerInfos[playerName] = playerInfo
-		print(playerName)
-
-	
-	
+		
 	db.close()
 	
 	coordinates = {}
