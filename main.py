@@ -504,7 +504,7 @@ def get_map_player(playerName):
 		
 	riche=[]
 	ventes = []
-	numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
+	numero = db.select("SELECT * FROM joueur ORDER BY jou_budget DESC")
 	for chaque in range(0,len(numero)):
 		riche.append(numero[chaque]["jou_nom"])
 	
