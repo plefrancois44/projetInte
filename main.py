@@ -169,7 +169,8 @@ def action_player(player):
 			
 		db.close()
 		return jsonResponse(reponse)
-		#else if(data["kind"]=="ad")
+		
+		#else if(data["kind"]=="ad"):
 		#else if(data["kind"]=="price")
 	return jsonResponse("NOK",403)
 
@@ -218,6 +219,10 @@ def post_players():
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'eau gazeuse')",{'nom' : username})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'sucre')",{'nom' : username})
 		db.execute("INSERT INTO composer VALUES ('Mojito', @(nom), 'menthe')",{'nom' : username})
+		
+		db.execute("INSERT INTO composer VALUES ('Vin_chaud', @(nom), 'raisin')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Vin_chaud', @(nom), 'eau')",{'nom' : username})
+		db.execute("INSERT INTO composer VALUES ('Vin_chaud', @(nom), 'sucre')",{'nom' : username})
 		
 		recetteJoueur = db.select("SELECT * FROM Recette")
 		for recette in range(0,len(recetteJoueur)):
