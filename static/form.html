@@ -16,12 +16,14 @@
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp));
                             if(data["weather"][0]["dfn"]==0){
-                                $("#meteo").text(data["weather"][0]["weather"]);
-                                $("#prevision").text(data["weather"][1]["weather"]);
+                                dfn = data["weather"][0]["dfn"]
+                                $("#meteo").text(data["weather"][0]["weather"]+ "__" + dfn);
+                                $("#prevision").text(data["weather"][1]["weather"]+ "__" + dfn);
                             }
                             else{
-                                $("#meteo").text(data["weather"][1]["weather"]);
-                                $("#prevision").text(data["weather"][0]["weather"]);
+                                dfn = data["weather"][0]["dfn"]
+                                $("#meteo").text(data["weather"][1]["weather"]+ "__" + dfn);
+                                $("#prevision").text(data["weather"][0]["weather"]+ "__" + dfn);
                             }
                         })
                     $.ajax("/map/"+$_GET('pseudo'))
