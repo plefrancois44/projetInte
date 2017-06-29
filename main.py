@@ -653,10 +653,10 @@ def get_map_player(playerName):
 
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
-			ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-			if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
+			ingredientAlcool=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+			if ingredientAlcool[0]['ing_alcool'] == True & alcool == False :
 				alcool = True
-			if ingredientFroid[ing]['ing_froid'] == False & froid == True :
+			if ingredientFroid[0]['ing_froid'] == False & froid == True :
 				froid = False
 			
 		drinkInfo = {}
@@ -756,7 +756,6 @@ def get_map():
 	recettes = []
 	itemsByPlayers = []
 	profit = 0.0
-	cpt = 0
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
 	jour = meteoJour[0]['met_jour']
@@ -807,13 +806,10 @@ def get_map():
 		
 			ingredientRecette = recettes
 			for ing in range(0,len(ingredientRecette)):
-				cpt+=1
-				print(cpt)
-				
-				ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-				if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
+				ingredientAlcool=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+				if ingredientAlcool[0]['ing_alcool'] == True & alcool == False :
 					alcool = True
-				if ingredientFroid[ing]['ing_froid'] == False & froid == True :
+				if ingredientFroid[0]['ing_froid'] == False & froid == True :
 					froid = False
 				
 			drinkInfo = {}
