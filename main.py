@@ -751,7 +751,7 @@ def get_map():
 	db = Db()
 	ingredient = []
 	drinksInfos = []
-	drinksByPlayers = []
+	drinksByPlayers = {}
 	recettes = []
 	playerInfos = {}
 	itemsByPlayers = {}
@@ -852,8 +852,7 @@ def get_map():
 		mapItems["influence"] = stand[0]['jou_rayon']
 		mapItem.append(mapItems)
 		
-		drinkByPlayer = {playerName : drinksInfos}
-		drinksByPlayers.append(drinkByPlayer)
+		drinksByPlayers[playerName] = drinkInfos
 		
 		ads = db.select("SELECT pub_pos_x, pub_pos_y, pub_rayon, jou_nom FROM pub WHERE pub_jour=@(jour) AND jou_nom=@(nom)", {'jour':jour, 'nom':playerName})
 		for a in range(0,len(ads)):
