@@ -606,7 +606,7 @@ def get_map_player(playerName):
 @app.route('/map',methods=['GET'])
 def get_map():
 	db = Db()
-	ingredient = []
+	#ingredient = []
 	drinksByPlayers = {}
 	recettes = []
 	playerInfos = {}
@@ -674,6 +674,8 @@ def get_map():
 			drinkInfo["isCold"] = froid
 			
 			print(drinkInfo)
+			
+			print(recette)
 			
 			drinksInfos.append(drinkInfo)
 			
