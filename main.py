@@ -100,13 +100,39 @@ def sales():
 				    'nom' : data["player"],
 				    'recette' : data["item"]
 				   })
+		prix=db.select("SELECT pro_prix_vente FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
+			 {
+				'nom' : data["player"],
+				'recette' : data["item"]
+			 })
+		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+				'nom' : playerName
+			})	
+		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
+			  {
+				  'nom' : data["player"],
+				  'budget': budget[0]['jou_budget']+prix[0]["pro_prix_vente"]
+			  })
 	else :
 		qte=int(verif[0]["ven_quantite"])
+		prix=db.select("SELECT pro_prix_vente FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
+			 {
+				'nom' : data["player"],
+				'recette' : data["item"]
+			 })
+		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+				'nom' : playerName
+			})	
+		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
+			  {
+				  'nom' : data["player"],
+				  'budget': budget[0]['jou_budget']+prix[0]["pro_prix_vente"]
+			  })
 		db.execute("UPDATE vendre SET ven_quantite=@(quantite)",
 				   { 
 				    'quantite' : qte + 1
 				   })
-
+		
 	db.close()
 	
 	reponse = make_response(json.dumps("Vente enregistre"), 200, {'Content-Type': 'application/json'})
