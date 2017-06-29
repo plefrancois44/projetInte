@@ -138,50 +138,50 @@ def action_player(playerName):
 			prix = actions[i]["prepare"][boisson]
 			print(prix)
 
-				coutProd = 0.0
-				ingredient = {}
-				cout=[]
-				recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
-					{
-						'recette' : boisson,
-						 'nom' : playerName
-					}))
+			coutProd = 0.0
+			ingredient = {}
+			cout=[]
+			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+				{
+					'recette' : boisson,
+					 'nom' : playerName
+				}))
 
-				ingredientRecette = recettes
-				for ingredient in range(0,len(ingredientRecette)):
-					cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", 
-							   {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-					coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * valeur)	
-				coutTotal=coutTotal+coutProd
+			ingredientRecette = recettes
+			for ingredient in range(0,len(ingredientRecette)):
+				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", 
+						   {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * valeur)	
+			coutTotal=coutTotal+coutProd
 
-				budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-						'nom' : playerName
-						})	
+			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+					'nom' : playerName
+					})	
 
-				if int(budget[0]['jou_budget'])>int(coutTotal):
-					if simulation == False :
-						print("Insertion en base")
-						db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
-							{'nom' : playerName,
-							'jour' : 1,
-							'prix' : prix,
-							'quantite' : valeur,
-							'recette' : boisson
-							})
+			if int(budget[0]['jou_budget'])>int(coutTotal):
+				if simulation == False :
+					print("Insertion en base")
+					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
+						{'nom' : playerName,
+						'jour' : 1,
+						'prix' : prix,
+						'quantite' : valeur,
+						'recette' : boisson
+						})
 
-						db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
-						'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
-						'nom' : playerName
-						})	
-					reponse = {
-						"sufficientFunds" : True,
-						"totalCost" : coutTotal
-					}
-				else:
-					reponse = {
-						"sufficientFunds" : False,
-						"totalCost" : coutTotal
-					}
+					db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
+					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
+					'nom' : playerName
+					})	
+				reponse = {
+					"sufficientFunds" : True,
+					"totalCost" : coutTotal
+				}
+			else:
+				reponse = {
+					"sufficientFunds" : False,
+					"totalCost" : coutTotal
+				}
 
 			db.close()
 			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
