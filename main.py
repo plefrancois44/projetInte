@@ -119,6 +119,10 @@ def action_player(playerName):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
+	
+	print("data")
+	print(data)
+	
 	actions = data["actions"]
 	for i in range(0,len(actions)) :
 		action = {}
