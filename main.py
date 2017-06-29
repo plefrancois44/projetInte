@@ -205,7 +205,7 @@ def action_player(playerName):
 					"totalCost" : cout
 				}
 			db.close()
-			return jsonResponse(reponse)	
+			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})	
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
