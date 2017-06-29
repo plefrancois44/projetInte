@@ -79,7 +79,8 @@
                               data: JSON.stringify(data),
                               contentType: "application/json",
                             }).done(function(reponse) {
-                                    if(Boolean(reponse["sufficentFunds"])){
+                                    var bool = new Boolean(reponse["sufficentFunds"])
+                                    if(bool){
                                         getMapPlayer();
                                     }
                                     else window.alert("fond insuffisant");
