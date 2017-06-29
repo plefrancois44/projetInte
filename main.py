@@ -671,17 +671,12 @@ def get_map():
 			drinkInfo["name"] = nomRecette
 			drinkInfo["price"] = prix
 			drinkInfo["hasAlcohol"] = alcool
-			drinkInfo["isCold"] = froid
-			
-			print(playerName)
-			
-			print(drinkInfo)
-			
-			print(recette)
-			
+			drinkInfo["isCold"] = froid			
 			drinksInfos.append(drinkInfo)
 			
 		drinksByPlayers[playerName] = drinksInfos
+		
+		print(drinksByPlayers[playerName])
 		
 		riche=[]
 		ventes = []
