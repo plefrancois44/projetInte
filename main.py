@@ -653,10 +653,10 @@ def get_map_player(playerName):
 
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
-			ingredientAlcool=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-			if ingredientAlcool[0]['ing_alcool'] == True & alcool == False :
+			ingredientAF=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+			if ingredientAF[0]['ing_alcool'] == True & alcool == False :
 				alcool = True
-			if ingredientFroid[0]['ing_froid'] == False & froid == True :
+			if ingredientAF[0]['ing_froid'] == False & froid == True :
 				froid = False
 			
 		drinkInfo = {}
@@ -806,10 +806,10 @@ def get_map():
 		
 			ingredientRecette = recettes
 			for ing in range(0,len(ingredientRecette)):
-				ingredientAlcool=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-				if ingredientAlcool[0]['ing_alcool'] == True & alcool == False :
+				ingredientAF=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+				if ingredientAF[0]['ing_alcool'] == True & alcool == False :
 					alcool = True
-				if ingredientFroid[0]['ing_froid'] == False & froid == True :
+				if ingredientAF[0]['ing_froid'] == False & froid == True :
 					froid = False
 				
 			drinkInfo = {}
