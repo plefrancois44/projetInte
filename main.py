@@ -121,8 +121,10 @@ def action_player(playerName):
 	reponse={}
 
 	actions = data["actions"]
-	print("actions")
-	print(actions)
+	
+	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
+	jour = meteoJour[0]['met_jour']
+	
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
 		if kind == "drinks":
@@ -155,7 +157,7 @@ def action_player(playerName):
 				if simulation == False :
 					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 						{'nom' : playerName,
-						'jour' : 1,
+						'jour' : jour,
 						'prix' : prix,
 						'quantite' : valeur,
 						'recette' : boisson
