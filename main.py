@@ -756,6 +756,7 @@ def get_map():
 	ingredient = []
 	drinksInfos = []
 	drinksByPlayers = []
+	playerInfos = []
 	recettes = []
 	profit = 0.0
 	
