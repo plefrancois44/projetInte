@@ -174,170 +174,6 @@ def action_player(player):
 	return jsonResponse("NOK",403)
 
 	
-'''	
-@app.route('/map', methods=['GET'])
-def get_map():
-	# données à générer par la BD pour chaque joueur (pour l'instant généré à la main):
-		db=Db()
-
-		center={}
-		center["latitude"]=10.5
-		center["longitude"]=15.2
-
-		span={}
-		span["latitude"]=10.5
-		span["longitude"]=15.2
-
-		region = {}
-		region["center"]=center
-		region["span"]=span
-
-		ranking = {}
-
-
-		itemsByPlayer= {}
-		playerInfo = {}
-		player = {}
-		drinksByPlayer={}
-
-		joueurs = db.select("SELECT * FROM Joueur")	
-		for joueur in joueurs
-			print joueur["jou_nom"]
-			player["cash"]
-			player["sales"]
-			player["profit"]
-			player["pseudo"]
-			player[""]
-
-	
-
-	Map = {
-		"region": {
-			"center": {
-				"latitude": 10.5,
-				"longitude": 15.2
-			},
-			"span": {
-				"latitudeSpan": 10.2,
-				"longitudeSpan": 15.5
-			}
-		},
-		"ranking":{
-			0: "pierre",
-			1: "Toto"
-		},
-		"itemsByPlayer": 
-		{
-			"pierre":
-			[
-				{
-				 	"kind" : "stand",
-				 	"owner" : "pierre",
-				 	"location" : {
-						"latitude": 100.5,
-						"longitude": 150.2
-					},
-				 	"influence" : 1.0
-				},
-				{
-				 	"kind" : "ad",
-				 	"owner" : "pierre",
-				 	"location" : {
-						"latitude": 20.5,
-						"longitude": 25.2
-					},
-					"influence" : 2.0
-				}
-			],
-			"Toto":
-			[
-				{
-				 	"kind" : "stand",
-				 	"owner" : "Toto",
-				 	"location" : {
-						"latitude": 150.5,
-						"longitude": 100.2
-					},
-				 	"influence" : 1.0
-				},
-				{
-				 	"kind" : "ad",
-				 	"owner" : "Toto",
-				 	"location" : {
-						"latitude": 90.7,
-						"longitude": 100.2
-					},
-					"influence" : 2.0
-				}
-			]
-		},
-		"playerInfo": {
-			"pierre": 
-			{
-				"cash": 3000,
-				"sales": 30,
-				"profit": 2000.0,
-				"drinkOffered": 
-				[
-					{
-						"name":"Limonade",
-						"price": 1.8,
-						"hasAlcohol" : "false",
-						"isCold" : "true"
-					}
-				]
-			},
-			"Toto": 
-			{
-				"cash": 4000,
-				"sales": 40,
-				"profit": 3000.0,
-				"drinkOffered": 
-				[
-					{
-						"name":"Limonade",
-						"price": 2.2,
-						"hasAlcohol" : "false",
-						"isCold" : "true"
-					},
-					{
-						"name":"Chocolat Chaud",
-						"price": 2.5,
-						"hasAlcohol" : "false",
-						"isCold" : "false"
-					}
-				]
-			}
-		},
-		"drinksByPlayer": {
-			"pierre": 
-			[
-				{
-					"name":"Limonade",
-					"price": 1.8,
-					"hasAlcohol" : "false",
-					"isCold" : "true"
-				}
-			],
-			"Toto": 
-			[
-				{
-					"name":"Limonade",
-					"price": 2.2,
-					"hasAlcohol" : "false",
-					"isCold" : "true"
-				},
-				{
-					"name":"Chocolat Chaud",
-					"price": 2.5,
-					"hasAlcohol" : "false",
-					"isCold" : "false"
-				}	
-			]
-		}
-	}
-	return json.dumps(Map), 200, {'Content-Type': 'application/json'}
-'''
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
@@ -819,6 +655,8 @@ def get_map():
 			drinkInfo["isCold"] = froid
 			drinksInfos.append(drinkInfo)
 
+		drinksByPlayers[playerName] = drinksInfos
+		
 		riche=[]
 		ventes = []
 		numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
@@ -851,8 +689,6 @@ def get_map():
 		mapItems["location"] = coordinatesS
 		mapItems["influence"] = stand[0]['jou_rayon']
 		mapItem.append(mapItems)
-		
-		drinksByPlayers[playerName] = drinkInfos
 		
 		ads = db.select("SELECT pub_pos_x, pub_pos_y, pub_rayon, jou_nom FROM pub WHERE pub_jour=@(jour) AND jou_nom=@(nom)", {'jour':jour, 'nom':playerName})
 		for a in range(0,len(ads)):
