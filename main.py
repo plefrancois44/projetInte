@@ -136,7 +136,9 @@ def action_player(playerName):
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
 			prix = float(actions[i]["price"][boisson])
-
+			
+			print(i)
+			
 			coutProd = 0.0
 			coutTotal = 0.0
 			ingredient = {}
@@ -172,6 +174,10 @@ def action_player(playerName):
 					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
 					'nom' : playerName
 					})	
+					reponse = {
+						"sufficientFunds" : True,
+						"totalCost" : coutTotal
+					}
 				reponse = {
 					"sufficientFunds" : True,
 					"totalCost" : coutTotal
