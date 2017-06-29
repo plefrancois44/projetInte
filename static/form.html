@@ -82,6 +82,7 @@
                               contentType: "application/json",
                             }).done(function(reponse) {
                                     var bool = new Boolean(reponse["sufficentFunds"])
+                                    window.alert(reponse["sufficentFunds"])
                                     if(bool){
                                         getMapPlayer();
                                     }
