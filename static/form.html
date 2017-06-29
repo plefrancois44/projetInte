@@ -16,12 +16,12 @@
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp));
                             if(data["weather"][0]["dfn"]==0){
-                                $("#meteo").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
-                                $("#prevision").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
+                                $("#meteo").text(data["weather"][1]["weather"]);
+                                $("#prevision").text(data["weather"][0]["weather"]);
                             }
                             else{
-                                $("#meteo").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
-                                $("#prevision").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
+                                $("#meteo").text(data["weather"][0]["weather"]);
+                                $("#prevision").text(data["weather"][1]["weather"]);
                             }
                         })
                         getMapPlayer();
@@ -31,6 +31,7 @@
                     return Math.floor(timestamp/24+1);
                 }
               
+
                 function getMapPlayer(){
                     $.ajax("/map/"+$_GET('pseudo'))
                         .done(function(data){ 
@@ -76,6 +77,15 @@
                       data: JSON.stringify(data),
                       contentType: "application/json",
                     }).done(function(data) {
+                            if(data["sufficentFunds"]!=false){
+                                $("#valideBoisson").text(data["totalCost"]);
+                            }
+                            else $("#valideBoisson").text("fond insuffisant");
+                            if(simulated!=true){
+                                window.alert('Décisions prises et bien envoyés au serveur.')
+                            } 
+                            else
+                                window.alert('Visualitation seulement')
                            getMapPlayer();
                         })
                     }
