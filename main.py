@@ -636,7 +636,7 @@ def get_map():
 						{'nom' : playerName, 'jour' : jour}))
 		
 		recetteJoueur = db.select("SELECT * FROM Recette")
-		print(len(recetteJoueur)
+		print(len(recetteJoueur))
 		for recette in range(0,len(recetteJoueur)):
 			ing = {}
 			ingredientAlcool =[]
