@@ -145,7 +145,6 @@
             actions.push(JSON.stringify(action));
         }
 
-        
         let data = 
         {
             "simulated" : simulated,
@@ -157,8 +156,8 @@
           contentType: "application/json",
             }).done(function(data) {
                 if(simulated==false){
-                    if(data["sufficientFunds"])
-                        window.alert('Décisions prises et bien envoyés au serveur.');
+                    if(!bool) window.alert("Veuillez selectionner un prix");
+                    else if(data["sufficientFunds"]) window.alert('Décisions prises et bien envoyés au serveur.');
                     else window.alert("fond insuffisant("+data["totalCost"]+")");
                 } 
                 else if(data["sufficientFunds"])
