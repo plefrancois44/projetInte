@@ -132,7 +132,8 @@ def action_player(playerName):
 			test = {}
 			test = actions[i]["prepare"]
 			print("boucle")
-			print(test.keys()[0])
+			teswt1 = test.keys()
+			print(teswt1)
 			print(valeur)
 			prix = actions[i]["prepare"][boisson]
 			print(prix)
