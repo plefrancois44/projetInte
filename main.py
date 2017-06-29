@@ -119,29 +119,31 @@ def action_player(playerName):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
+	print(data)
 	
 	for i in range(0,len(data["actions"])) :
 		action = data["actions"][i]
 		kind = action["kind"]
 		if kind == "drinks":
-			recetteJoueur = []
-			for i in range(0,len(action["prepare"])):
-					recetteJoueur.append(action["prepare"][i]["boisson"])
+			print("drinks")
+			print(action["prepare"])
+			recetteJoueur = {}
+			recetteJoueur.append(action["prepare"])
 			recettes={}
 			coutTotal=0
 			for recette in range(0,len(recetteJoueur)):
 				prepare = action["prepare"][recette]
-				nb = int(prepare["quantite"])
+				nb = int(action["prepare"][recette])
 				coutProd = 0.0
 				ingredient = {}
 				cout=[]
-				recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+				recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 					{
 						'recette' : recetteJoueur[recette],
 						 'nom' : playerName
 					}))
 
-				ingredientRecette = recettes[recette]
+				ingredientRecette = recettes
 				for ingredient in range(0,len(ingredientRecette)):
 					cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 					coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
