@@ -112,7 +112,7 @@
             if($("#nbLimonade").val()>0){
                 if($("prixLimonade").val()<1)
                     bool = false
-                action.kind="drink"
+                action.kind="drinks"
                 action.prepare = { "Limonade" : $("#nbLimonade").val()}
                 action.price={"Limonade" : $("#prixLimonade").val()}
                 actions.push(JSON.stringify(action));
@@ -121,7 +121,7 @@
             if($("#nbChocolat_chaud").val()>0){
                 if($("prixChocolat_chaud").val()<1)
                     bool = false
-                action.kind="drink"
+                action.kind="drinks"
                 action.prepare = { "Chocolat_chaud" : $("#nbChocolat_chaud").val()}
                 action.price={"Chocolat_chaud" : $("#prixChocolat_chaud").val()}
 
@@ -131,7 +131,7 @@
             if($("#nbMojito").val()>0){
                 if($("prixMojito").val()<1)
                     bool = false
-                action.kind="drink"
+                action.kind="drinks"
                 action.prepare = { "Mojito" : $("#nbMojito").val()}
                 action.price={"Mojito" : $("#prixMojito").val()}
                 actions.push(action);
@@ -140,7 +140,7 @@
             if($("#nbVin_chaud").val()>0){
                 if($("prixVin_chaud").val()<1)
                     bool = false
-                action.kind="drink"
+                action.kind="drinks"
                 action.prepare = { "Vin_chaud" : $("#nbVin_chaud").val()}
                 action.price={"Vin_chaud" : $("#prixVin_chaud").val()}
                 actions.push(action);
