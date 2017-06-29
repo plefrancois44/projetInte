@@ -123,8 +123,6 @@ def action_player(playerName):
 	for i in range(0,len(actions)) :
 		action = {}
 		action = actions[i]
-		print("kind")
-		print(action[0]["kind"])
 		kind = action["kind"]
 		if kind == "drinks":
 			print("drinks")
