@@ -8,7 +8,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
+<?----------------------------------------------GET------------------------------------------------------------>
             <script>   
                   function metrology(){
                     $.ajax("/metrology")
@@ -105,67 +105,47 @@
 
       function envoyerDecision(simulated){
         var pseudo = $_GET('pseudo');
-        var toPrepare = [];
-        var prices = [];
         var actions = [];
         var action = {};
-        toPrepare = [];
         var tmp = {};
+        var bool = true;
         if($("#nbLimonade").val()>0){
-            tmp = {}
-            tmp.boisson = "Limonade";
-            tmp.quantite = $("#nbLimonade").val();
-            JSON.stringify(tmp);
-            toPrepare.push(tmp);
-            tmp = {};
-            tmp.boisson = "Limonade";
-            tmp.price = $("#prixLimonade").val();
-            JSON.stringify(tmp);
-            prices.push(tmp);
+            if($("prixLimonade").val()<1)
+                bool = false
+            action.kind="drinks"
+            action.prepare = { "Limonade" : $("#nbLimonade").val()}
+            action.price={"Limonade" : $("#prixLimonade").val()}
+            actions.push(JSON.stringify(action));
         }
+        action = {};
         if($("#nbChocolat_chaud").val()>0){
-            tmp = {}
-            tmp.boisson = "Chocolat_chaud";
-            tmp.quantite = $("#nbChocolat_chaud").val();
-            JSON.stringify(tmp);
-            toPrepare.push(tmp);
-            tmp = {};
-            tmp.boisson = "Chocolat_chaud";
-            tmp.price = $("#prixChocolat_chaud").val();
-            JSON.stringify(tmp);
-            prices.push(tmp);
+            if($("prixChocolat_chaud").val()<1)
+                bool = false
+            action.kind="drinks"
+            action.prepare = { "Chocolat_chaud" : $("#nbChocolat_chaud").val()}
+            action.price={"Chocolat_chaud" : $("#prixChocolat_chaud").val()}
+            actions.push(JSON.stringify(action));
         }
+        action = {};
         if($("#nbMojito").val()>0){
-            tmp = {};
-            tmp.boisson = "Mojito";
-            tmp.quantite = $("#nbMojito").val();
-            toPrepare.push(tmp);
-            JSON.stringify(tmp);
-            tmp = {};
-            tmp.boisson = "Mojito";
-            tmp.price = $("#prixMojito").val();
-            JSON.stringify(tmp);
-            prices.push(tmp);
+            if($("prixMojito").val()<1)
+                bool = false
+            action.kind="drinks"
+            action.prepare = { "Mojito" : $("#nbMojito").val()}
+            action.price={"Mojito" : $("#prixMojito").val()}
+            actions.push(JSON.stringify(action));
         }
+        action = {};
         if($("#nbVin_chaud").val()>0){
-            tmp = {};
-            tmp.boisson = "Vin_chaud";
-            tmp.quantite = $("#nbVin_chaud").val();
-            toPrepare.push(tmp);
-            JSON.stringify(tmp);
-            tmp = {};
-            tmp.boisson = "Vin_chaud";
-            tmp.price = $("#prixVin_chaud").val();
-            JSON.stringify(tmp);
-            prices.push(tmp);
+            if($("prixVin_chaud").val()<1)
+                bool = false
+            action.kind="drinks"
+            action.prepare = { "Vin_chaud" : $("#nbVin_chaud").val()}
+            action.price={"Vin_chaud" : $("#prixVin_chaud").val()}
+            actions.push(JSON.stringify(action));
         }
-        JSON.stringify(toPrepare);
-        JSON.stringify(prices);
-        action.prepare = toPrepare
-        action.price = prices
-        action.kind = "drinks"
-        JSON.stringify(action);
-        actions.push(action)
+
+        
         let data = 
         {
             "simulated" : simulated,
@@ -262,3 +242,4 @@
             </div>
         </body>
     </html>
+
