@@ -236,12 +236,11 @@ def post_players():
 						{'recette' : recetteJoueur[recette]["rec_nom"]}))
 	
 			ingredientRecette = recettes[recette]
-			for ingredient in range(0,len(ingredientRecette)):
-
-				ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredientAlcool[ingredient]['ing_alcool'] == True:
+			for ing in range(0,len(ingredientRecette)):
+				ingredientAF=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+				if ingredientAF[0]['ing_alcool'] == True :
 					alcool = True
-				if ingredientFroid[ingredient]['ing_froid'] == False:
+				if ingredientAF[0]['ing_froid'] == False :
 					froid = False
 			
 			drinkInfo = {}
