@@ -789,6 +789,8 @@ def get_map():
 			froid = True
 			nomRecette =  recetteJoueur[recette]["rec_nom"]
 			
+			print(nomRecette)
+			
 			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : nomRecette, 'nom' : playerName}))
 			coutVente = (db.select('SELECT pro_prix_vente AS price FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)',
