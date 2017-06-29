@@ -402,11 +402,9 @@ def post_players():
 			ingredientRecette = recettes[recette]
 			for ingredient in range(0,len(ingredientRecette)):
 
-				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+				ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if ingredientAlcool[ingredient]['ing_alcool'] == True & alcool == False :
 					alcool = True
-
-				ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
 				if ingredientFroid[ingredient]['ing_froid'] == False & froid == True :
 					froid = False
 			
@@ -655,11 +653,9 @@ def get_map_player(playerName):
 
 		ingredientRecette = recettes
 		for ing in range(0,len(ingredientRecette)):		
-			ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+			ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
 			if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
 				alcool = True
-
-			ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
 			if ingredientFroid[ing]['ing_froid'] == False & froid == True :
 				froid = False
 			
@@ -814,11 +810,9 @@ def get_map():
 				cpt+=1
 				print(cpt)
 				
-				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
+				ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
 				if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
 					alcool = True
-
-				ingredientFroid+=(db.select("SELECT ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
 				if ingredientFroid[ing]['ing_froid'] == False & froid == True :
 					froid = False
 				
