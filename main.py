@@ -181,8 +181,6 @@ def action_player(playerName):
 					"totalCost" : coutTotal
 				}
 
-			db.close()
-
 		elif kind == "ad":
 			radius = action["radius"]
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
@@ -206,7 +204,7 @@ def action_player(playerName):
 					"sufficientFunds" : False,
 					"totalCost" : cout
 				}
-			db.close()
+	db.close()
 	return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 
 #---- Route qui permet de rejoindre une partie
