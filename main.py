@@ -752,7 +752,7 @@ def get_map():
 	ingredient = []
 	drinksInfos = []
 	drinksByPlayers = []
-	playerInfos = []
+	playerInfos = {}
 	recettes = []
 	itemsByPlayers = []
 	profit = 0.0
@@ -877,8 +877,8 @@ def get_map():
 			playerInfo["profit"] = profit
 			playerInfo["drinksOffered"] = drinksInfos
 			
-			playersInfos = { playerName : playerInfo}
-			playerInfos.append(playersInfos)
+			playerInfos += { playerName : playerInfo}
+
 	
 	
 	db.close()
