@@ -89,6 +89,18 @@
             JSON.stringify(tmp);
             prices.push(tmp);
         }
+        if($("#nbVin_chaud").val()>0){
+            tmp = {};
+            tmp.boisson = "Vin_chaud";
+            tmp.quantite = $("#nbVin_chaud").val();
+            toPrepare.push(tmp);
+            JSON.stringify(tmp);
+            tmp = {};
+            tmp.boisson = "Vin_chaud";
+            tmp.price = $("#prixVin_chaud").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
         JSON.stringify(toPrepare);
         JSON.stringify(prices);
         action.prepare = toPrepare
@@ -140,10 +152,10 @@
                             <label>Météo du jour: </label>           
                             <label id="prevision"></label><br>
                             <label>Météo de demain: </label>                                 
-                            <label id="meteo"></label><br>                      
-                            <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
+                            <label id="meteo"></label><br>                   
+                            <label>Budget disponible: </label>
                             <label id="budget"> </label><br>
-                            <label><input type="button" onclick="panneau()" name="panneau" value="Panneaux possédés"></input></label><br>
+                            <label>Panneaux possédés: </label><br>
                             <label id="panneau"> </label><br>
                     </div>        
             <?------------------colum1-------------------------------------------------------------------------------------------------------------------->
@@ -160,6 +172,9 @@
                             <label value="Mojito">Mojito</label><br>
                             <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
                             <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
+                            <label value="Vin_chaud">Vin Chaud</label><br>
+                            <label>Quantité : <input type='number' id="nbVin_chaud" placeholder="0"></label>
+                            <label>Prix : <input type='number' id="prixVin_chaud" placeholder="0"></label><br>
                             <label><input type="button" onclick="envoyerDecision(true)" name="verifier" value="Visualiser ses choix"></input></label>
                         </form>
                         
@@ -176,7 +191,7 @@
                               imageObj.src = 'static/map.jpg';
                             </script>
                             
-                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label><br>
+                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Etendre la zone d'influence"></input></label><br>
                             <label><input type="button" onclick="level_up()" name="level_up" value="Améliorer le panneau"></input></label>
                         </form>                
                     </div>
