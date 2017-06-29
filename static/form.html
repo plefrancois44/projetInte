@@ -70,7 +70,7 @@
                             JSON.stringify(action);
                             actions.push(action)
 
-                            let data = 
+                            let reponse = 
                             {
                                 "simulated" : false,
                                 "actions" : actions
@@ -78,11 +78,11 @@
 
                             $.ajax("/actions/"+pseudo, {
                               type: "POST",
-                              data: JSON.stringify(data),
+                              data: JSON.stringify(reponse),
                               contentType: "application/json",
-                            }).done(function(reponse) {
-                                    var bool = new Boolean(reponse["sufficentFunds"])
-                                    window.alert(reponse["sufficentFunds"])
+                            }).done(function(data) {
+                                    var bool = new Boolean(data["sufficentFunds"])
+                                    window.alert(data["sufficentFunds"])
                                     if(bool){
                                         getMapPlayer();
                                     }
@@ -183,6 +183,7 @@
                     $("#valideBoisson").text(data["totalCost"]);
                 }
                 else $("#valideBoisson").text("fond insuffisant");
+
                 if(simulated!=true){
                     window.alert('Décisions prises et bien envoyés au serveur.')
                 } 
@@ -207,6 +208,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <h2>Situation actuelle:</h2>
+                            <label><input type="button" onclick="metrology()" name="metrology" value="Actualiser les informations"></input></label><br>
                             <label>Jour: </label>
                             <label id="metrology"> </label><br>
                             <label>Météo du jour: </label>           
@@ -252,7 +254,7 @@
                             </script>
                             
                             <label><input type="button" onclick="etendre()" name="add_panneau" value="Etendre la zone d'influence"></input></label><br>
-                            
+                            <label><input type="button" onclick="level_up()" name="level_up" value="Améliorer le panneau"></input></label>
                         </form>                
                     </div>
                     <div class="col-sm-3">
