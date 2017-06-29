@@ -10,20 +10,19 @@
 
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
             <script>   
-                 function metrology(){
+                  function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp));
                             if(data["weather"][0]["dfn"]==0){
-                                dfn = data["weather"][0]["dfn"]
-                                $("#meteo").text(data["weather"][0]["weather"]+ "__" + dfn);
-                                $("#prevision").text(data["weather"][1]["weather"]+ "__" + dfn);
+                                $("#meteo").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
+                                $("#prevision").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
                             }
                             else{
-                                dfn = data["weather"][0]["dfn"]
-                                $("#meteo").text(data["weather"][1]["weather"]+ "__" + dfn);
-                                $("#prevision").text(data["weather"][0]["weather"]+ "__" + dfn);
+                                dfn = data["weather"][1]["dfn"]
+                                $("#meteo").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
+                                $("#prevision").text(data["weather"][0]["weather"]+ "__" +  data["weather"][0]["dfn"]);
                             }
                         })
                     $.ajax("/map/"+$_GET('pseudo'))
@@ -49,10 +48,6 @@
 
                         })
 
-                }
-
-                function calcul(timestamp){
-                    return Math.floor(timestamp/24+1);
                 }
               
 
