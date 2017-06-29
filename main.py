@@ -871,14 +871,14 @@ def get_map():
 			itemsByPlayer = { playerName : mapItem}
 			itemsByPlayers.append(itemsByPlayer)
 			
-			playerInfo = {}
-			playerInfo["cash"] = budget[0]["jou_budget"]
-			playerInfo["sales"] = vente[0]["quantite"]
-			playerInfo["profit"] = profit
-			playerInfo["drinksOffered"] = drinksInfos
-			
-			playerInfos[playerName] = playerInfo
-			print(playerName)
+		playerInfo = {}
+		playerInfo["cash"] = budget[0]["jou_budget"]
+		playerInfo["sales"] = vente[0]["quantite"]
+		playerInfo["profit"] = profit
+		playerInfo["drinksOffered"] = drinksInfos
+
+		playerInfos[playerName] = playerInfo
+		print(playerName)
 
 	
 	
