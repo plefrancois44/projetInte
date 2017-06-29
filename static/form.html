@@ -27,6 +27,8 @@
                         getMapPlayer();
                 }
 
+                setInterval(function(){metrology()},10000);
+
                 function calcul(timestamp){
                     return Math.floor(timestamp/24+1);
                 }
@@ -79,7 +81,7 @@
                               data: JSON.stringify(data),
                               contentType: "application/json",
                             }).done(function(reponse) {
-                                    var bool = new Boolean(reponse[0]["sufficentFunds"])
+                                    var bool = new Boolean(reponse["sufficentFunds"])
                                     if(bool){
                                         getMapPlayer();
                                     }
