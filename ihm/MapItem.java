@@ -7,7 +7,7 @@ package ihm.model;
 
 /**
  *
- * @author Nicolas
+ * @author Nicolas, Pierre
  */
 public class MapItem {
     

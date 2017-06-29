@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author Nicolas
+ * @author Nicolas, Pierre
  */
 public class Drink {
     

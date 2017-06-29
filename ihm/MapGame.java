@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 /**
  *
- * @author Nicolas
+ * @author Nicolas, Pierre
  */
 public class MapGame {
     
@@ -20,7 +20,7 @@ public class MapGame {
 	private Player[] playerInfo;
 	private Map<String, Drink[]> drinksByPlayer;
 	
-	public MapGame( String[] ranking, Region region,Player[] playerInfo,
+	public MapGame(String[] ranking, Region region,Player[] playerInfo,
 			Map<String, Drink[]> drinkByPlayer, Map<String, MapItem[]> itemsByPlayer) {
 		this.region = region;
 		this.ranking = ranking;

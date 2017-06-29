@@ -1,181 +1,193 @@
 <!DOCTYPE html>
-<html>
-    <head>
-    <script src="/static/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="static/form.css" />
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <html onload="cercle()">
+        <head>
+            <script src="/static/jquery-3.2.1.js"></script>
+            <link rel="stylesheet" href="static/form.css" />
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<?------------------------------------------------- GET------------------------->
-    <script>
-    function jour(){
-        $.ajax("/jour")
-            .done(function(data){
-                $("#jour").text(data)
-            })
-        }
+<?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
+            <script>   
+                function metrology(){
+                    $.ajax("/metrology")
+                        .done(function(data){
+                            timestamp=data["timestamp"];
+                            $("#metrology").text(calcul(timestamp))
+                             if(data["weather"][0]["dfn"]==0){
+                                $("#meteo").text(data["weather"][0]["weather"])
+                                $("#prevision").text(data["weather"][1]["weather"])
+                            }
+                            else{
+                                $("#meteo").text(data["weather"][1]["weather"])
+                                $("#prevision").text(data["weather"][0]["weather"])
+                            }
+                        })
+                }
 
-	function meteo(){
-		$.ajax("/meteo")
-            .done(function(data){
-                $("#meteo").text(data)
-            })
-        }
+                function calcul(timestamp){
+                    return Math.floor(timestamp/24+1);
+                }
+              
 
-    function budget(){
-		$.ajax("/budget")
-            .done(function(data){
-                $("#budget").text(data)
-            })
-        }    
+                function $_GET(param) {
+                    var vars = {};
+                    window.location.href.replace( location.hash, '' ).replace( 
+                        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+                        function( m, key, value ) { // callback
+                            vars[key] = value !== undefined ? value : '';
+                        }
+                    );
+                    if ( param ) {
+                        return vars[param] ? vars[param] : null;    
+                    }
+                    return vars;
+                }
 
-    function panneau(){
-        $.ajax("/panneau")
-            .done(function(data){
-                $("#panneau").text(data)
-            })
-        }
-
-	function prix(){
-			$.ajax("/prix")
-	            .done(function(data){
-	                $("#prix").text(data)
-	            })
-	        }    
-
-    function $_GET(param) {
-        var vars = {};
-        window.location.href.replace( location.hash, '' ).replace( 
-            /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-            function( m, key, value ) { // callback
-                vars[key] = value !== undefined ? value : '';
-            }
-        );
-
-        if ( param ) {
-            return vars[param] ? vars[param] : null;    
-        }
-        return vars;
-    }
-
-    function envoyerDecision(){
+      function envoyerDecision(simulated){
         var pseudo = $_GET('pseudo');
-        var boisson = $("#boisson").val();
-        var quantite = $("#nbBoisson").val();
-        var prix = $("#prixBoisson").val();
-        let data = {
-            "kind": "drinks",
-            "prepare": 
-                [
-                    {
-                        "boisson" : boisson,
-                        "quantite" : quantite
-                    }
-                ],
-            "price": 
-                [
-                    {
-                        "boisson": boisson,
-                        "prix" : prix
-                    }
-                ]
-            }
-        
-         $.ajax("/action/<"+pseudo+">", {
+        var toPrepare = [];
+        var prices = [];
+        var actions = [];
+        var action = {};
+        toPrepare = [];
+        var tmp = {};
+        if($("#nbLimonade").val()>0){
+            tmp = {}
+            tmp.boisson = "Limonade";
+            tmp.quantite = $("#nbLimonade").val();
+            JSON.stringify(tmp);
+            toPrepare.push(tmp);
+            tmp = {};
+            tmp.boisson = "Limonade";
+            tmp.price = $("#prixLimonade").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
+        if($("#nbChocolat_chaud").val()>0){
+            tmp = {}
+            tmp.boisson = "Chocolat_chaud";
+            tmp.quantite = $("#nbChocolat_chaud").val();
+            JSON.stringify(tmp);
+            toPrepare.push(tmp);
+            tmp = {};
+            tmp.boisson = "Chocolat_chaud";
+            tmp.price = $("#prixChocolat_chaud").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
+        if($("#nbMojito").val()>0){
+            tmp = {};
+            tmp.boisson = "Mojito";
+            tmp.quantite = $("#nbMojito").val();
+            toPrepare.push(tmp);
+            JSON.stringify(tmp);
+            tmp = {};
+            tmp.boisson = "Mojito";
+            tmp.price = $("#prixMojito").val();
+            JSON.stringify(tmp);
+            prices.push(tmp);
+        }
+        JSON.stringify(toPrepare);
+        JSON.stringify(prices);
+        action.prepare = toPrepare
+        action.price = prices
+        action.kind = "drinks"
+        JSON.stringify(action);
+        actions.push(action)
+        let data = 
+        {
+            "simulated" : simulated,
+            "actions" : actions
+        };
+        $.ajax("/actions/"+pseudo, {
           type: "POST",
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficentFunds"]!="True") $("#valideBoisson").text(data["totalCost"]);
+                if(data["sufficentFunds"]!=false){
+                    $("#valideBoisson").text(data["totalCost"]);
+                }
                 else $("#valideBoisson").text("fond insuffisant");
+                if(simulated!=true){
+                    window.alert('Décisions prises et bien envoyés au serveur.')
+                } 
+                else
+                    window.alert('Visualitation seulement')
             })       
         } 
-    </script>
-<?---------------------------------------------------------------------------------------------------->
 
-<?---POST--------------------------------------------------------------------------------------------->
-    <script>
-    function send_position(){
-    	let data = {
-          "x": $("#x").val(),
-          "y": $("#y").val(),
-          "level": $("#level").val(),
-        }
-        $.ajax("/check", {
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType: "application/json",
-    }) .done(function(data) {
-				$("#position").text(data)
-			})       
-      }	
-    </script>
-<?---------------------------------------------------------------------------------------------------->
-
-    </head>
+            </script>
+        </head>
+<?-------------------------------------------------------------------------------------------------------------------------------------------------------->
+        
         <body>
-                <?-- Titre de la page ------------------------------------------->
-                <div id="main_title" class="jumbotron">
-                    <h1>Lemonade Wars</h1>
-                    <p>If you're not with me, you're my enemy...</p>                
-                </div>
-                <?--------------------------------------------------------------->
+            <?-- Titre de la page --------------------------------------------------------------------------------------------------------------------->
+            <div id="main_title" class="jumbotron">
+                <h1>Lemonade Wars</h1>
+                <p>If you're not with me, you're my enemy...</p>                
+            </div>
+            <?------------------------------------------------------------------------------------------------------------------------------------------->
 
-
-
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <h2>Situation actuelle:</h2>
-                                    <label>Afficher le jour: <input type="button" onclick="jour()" name="jour">Jour</input></label>
-                                    <label id="jour"> </label>                    
-                                    <label>Afficher la météo: <input type="button" onclick="meteo()"" name="meteo">Météo</input></label>       
-                                    <label id="meteo"> </label>                   
-                                    <label>Afficher le budget: <input type="button" onclick="budget()" name="budget">Mon budget</input></label>
-                                    <label id="budget"> </label>
-                                    <label>Afficher les panneaux possédés: <button onclick="panneau()" name="panneau">Mes panneaux</input></label>
-                                    <label id="panneau"> </label>
-                            </div>        
-                            <?------------------colum1------------------------------->
-
-            		<div class="col-sm-5">
-            			<h2>Décisions:</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Situation actuelle:</h2>
+                            <label><input type="button" onclick="metrology()" name="metrology" value="Actualiser les informations"></input></label><br>
+                            <label>Jour: </label>
+                            <label id="metrology"> </label><br>
+                            <label>Météo du jour: </label>           
+                            <label id="prevision"></label><br>
+                            <label>Météo de demain: </label>                                 
+                            <label id="meteo"></label><br>                      
+                            <label><input type="button" onclick="budget()" name="budget" value="Afficher le budget"></input></label><br>
+                            <label id="budget"> </label><br>
+                            <label><input type="button" onclick="panneau()" name="panneau" value="Panneaux possédés"></input></label><br>
+                            <label id="panneau"> </label><br>
+                    </div>        
+            <?------------------colum1-------------------------------------------------------------------------------------------------------------------->
+                    <div class="col-sm-5">
+                        <h2>Décisions:</h2>
                         <form id="boisson">
-                            <label>Acheter boisson:</label>
-                                <label><select id="boisson">
-                                  <option value="Limonade" selected>Limonade</option> 
-                                  <option value="Coca">Coca</option>
-                                  <option value="Mojito">Mojito</option>
-                                </select></label><br>
-                                <label>Quantité : <input type='number' id="nbBoisson"></label>
-                                <label>Prix : <input type='number' id="prixBoisson"></label><br>
-                                <label><input type="button" onclick="envoyerDecision()" name="envoyer">Valider mes choix</input></label>
-                                <p id="valide"></p>
+                            <label id="boisson">Acheter boisson:</label><br>
+                            <label value="Limonade">Limonade</label><br>
+                            <label>Quantité : <input type='number' id="nbLimonade" placeholder="0"></label>
+                            <label>Prix : <input type='number' id="prixLimonade" placeholder="0"></label><br>
+                            <label value="Chocolat_chaud">Chocolat Chaud</label><br>
+                            <label>Quantité : <input type='number' id="nbChocolat_chaud" placeholder="0"></label>
+                            <label>Prix : <input type='number' id="prixChocolat_chaud" placeholder="0"></label><br>
+                            <label value="Mojito">Mojito</label><br>
+                            <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
+                            <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
+                            <label><input type="button" onclick="envoyerDecision(true)" name="verifier" value="Visualiser ses choix"></input></label>
                         </form>
                         
-            		    <form id="position">
-                            <label>Acheter et positionner un panneau publicitaire:</label>
-            		        <label>x: <input type='number' id="x"></label>
-            		        <label>y: <input type='number' id="y"></label>
-            		        <label><input type="button" onclick="send_position()" name="send">
-                            Valider la position du panneau</input></label>
-                            <label>Améliorer le panneau:</label>
-                            <label><input type="button" onclick="level_up()" name="level_up"> + </input></label>
+                        <form id="position">
+                            <label>Acheter un panneau publicitaire:</label><br>
+                            <canvas id="myMap" width="516" height="516"></canvas>
+                              <script>
+                              var canvas = document.getElementById('myMap');
+                              var context = canvas.getContext('2d');
+                              var imageObj = new Image();
+                              imageObj.onload = function() {
+                                context.drawImage(imageObj, 69, 50);
+                              };
+                              imageObj.src = 'static/map.jpg';
+                            </script>
+                            
+                            <label><input type="button" onclick="add_panneau()" name="add_panneau" value="Ajouter un panneau publicitaire"></input></label><br>
+                            <label><input type="button" onclick="level_up()" name="level_up" value="Améliorer le panneau"></input></label>
                         </form>                
-                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <h2>Facture:</h2>
+                            <label>Total à payer: <label id="valideBoisson"></label></label><br>
+                            <label id="validePosition"></label><br>
+                            <label><input type="button" onclick="envoyerDecision(false)" name="envoyerDecision" value="Valider mes choix"></input></label>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
 
-                        <div class="col-sm-3">
-                                <h2>Total à régler:</h2>
-				<span id="valideBoisson"></span>
-
-                                
-                            </div>
-        </div>
-    </div>    
-
-
-
-    </body>
-</html>
