@@ -785,7 +785,8 @@ def get_map():
 			ing = {}
 			ingredientAlcool =[]
 			ingredientFroid=[]
-			coutProd = 0.0
+			prix = 0.0
+			qte = 0
 			alcool = False
 			froid = True
 			nomRecette =  recetteJoueur[recette]["rec_nom"]
