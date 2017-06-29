@@ -122,14 +122,12 @@ def action_player(playerName):
 	print(data)
 	actions = data["actions"]
 	for i in range(0,len(actions)) :
-		action = {}
-		action = actions[i]
-		kind = action["kind"]
+		kind = actions[i]["kind"]
 		if kind == "drinks":
 			print("drinks")
-			print(action["prepare"])
+			print(actions[i]["prepare"])
 			
-			for boisson, valeur in (action["prepare"]).items():
+			for boisson, valeur in (actions[i]["prepare"]).items():
 				print("boucle")
 				print(boisson)
 				print(valeur)
