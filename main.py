@@ -182,9 +182,13 @@ def action_player(playerName):
 
 		elif kind == "ad":
 			radius = action["radius"]
-			print(action["radius"])
-			db.execute("UPDATE Joueur SET jou_rayon = @(newrayon) WHERE jou_nom=@(nom)",{
+			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+				'nom' : playerName
+				})
+			newBudget = budget[0]["jou_budget"] - (radius - 1) * 50
+			db.execute("UPDATE Joueur SET jou_rayon = @(newrayon), jou_budget=@(budget) WHERE jou_nom=@(nom)",{
 				'newrayon': radius ,
+				'budget': newBudget,
 				'nom' : playerName
 				})
 			db.close()
