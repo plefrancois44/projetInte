@@ -673,6 +673,8 @@ def get_map():
 			drinkInfo["hasAlcohol"] = alcool
 			drinkInfo["isCold"] = froid
 			
+			print(playerName)
+			
 			print(drinkInfo)
 			
 			print(recette)
