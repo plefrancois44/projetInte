@@ -174,11 +174,11 @@ def action_player(player):
 	return jsonResponse("NOK",403)
 
 	
-	
+'''	
 @app.route('/map', methods=['GET'])
 def get_map():
 	# données à générer par la BD pour chaque joueur (pour l'instant généré à la main):
-	'''	db=Db()
+		db=Db()
 
 		center={}
 		center["latitude"]=10.5
@@ -209,7 +209,7 @@ def get_map():
 			player["pseudo"]
 			player[""]
 
-	'''
+	
 
 	Map = {
 		"region": {
@@ -337,6 +337,7 @@ def get_map():
 		}
 	}
 	return json.dumps(Map), 200, {'Content-Type': 'application/json'}
+'''
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
