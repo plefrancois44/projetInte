@@ -635,10 +635,7 @@ def get_map():
 			ingredientRecette = recettes
 			for ing in range(0,len(ingredientRecette)):
 				ingredientAF=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-				print(ingredientRecette[ing]["ing_nom"])
-				print(ingredientAF[0]['ing_alcool'])
 				if ingredientAF[0]['ing_alcool'] == True :
-					print("ok alcool")
 					alcool = True
 				if ingredientAF[0]['ing_froid'] == False :
 					froid = False
