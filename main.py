@@ -505,21 +505,8 @@ def get_map_player(playerName):
 	riche=[]
 	ventes = []
 	numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
-	prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : numero[0]["maximum"]}))
-	if len(prem)>1:
-		meilleur = 0
-		for j in range(0,len(prem)):
-			ventes = (db.select('SELECT sum(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
-						{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
-			
-			if len(ventes) != 0:
-				actuel = ventes[0]["quantite"]
-				if actuel > meilleur :
-					meilleur = actuel
-					riche = ventes[0]["jou_nom"]
-	
-	else:
-		riche = prem[0]["jou_nom"]
+	for chaque in range(0,len(numero)):
+		riche += numero[chaque]["jou_nom"]
 	
 	mapItem = []
 	
@@ -659,22 +646,9 @@ def get_map():
 		
 		riche=[]
 		ventes = []
-		numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
-		prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : numero[0]["maximum"]}))
-		if len(prem)>1:
-			meilleur = 0
-			for j in range(0,len(prem)):
-				ventes = (db.select('SELECT sum(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
-							{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
-
-				if len(ventes) != 0:
-					actuel = ventes[0]["quantite"]
-					if actuel > meilleur :
-						meilleur = actuel
-						riche = ventes[0]["jou_nom"]
-
-		else:
-			riche = prem[0]["jou_nom"]
+		numero = db.select("SELECT * FROM joueur ORDER BY jou_budget DESC")
+		for chaque in range(0,len(numero)):
+			riche += numero[chaque]["jou_nom"]
 
 		mapItem = []
 		
