@@ -613,9 +613,10 @@ def get_map():
 	playerInfos = {}
 	itemsByPlayers = {}
 	profit = 0.0
+	meteoJour = []
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
-	jour = meteoJour[0]['met_jour']
+	jour = meteoJour[0]["met_jour"]
 	
 	joueurs = db.select("SELECT * FROM joueur")
 	for joueur in range(0,len(joueurs)):
