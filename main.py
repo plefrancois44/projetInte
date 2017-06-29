@@ -182,7 +182,7 @@ def action_player(playerName):
 				}
 
 		elif kind == "ad":
-			radius = action["radius"]
+			radius = actions[i]["radius"]
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 				'nom' : playerName
 				})
