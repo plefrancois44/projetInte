@@ -48,6 +48,15 @@ def besoin_authentification_admin(f):
 	return decorated
 
 #---------------------------------------- ROUTES -----------------------------------#
+#---- Route pour initialiser la base de donnees en admin
+@app.route('/admin/resetbase', methods=['GET'])
+@besoin_authentification_admin
+def route_dbinit():
+	db = Db()
+	db.executeFile("base.sql")
+	db.close()
+	return json.dumps("Done"), 200, {'Content-Type': 'application/json'}
+	
 #---- Route initiale
 @app.route("/")
 def formulaire():
