@@ -19,26 +19,12 @@ import ihm.model.Region;
  */
 public class Test {
     
-    //Window win = new Window();
-    
-
             Communication comm = new Communication();
                
             MapGame map = comm.getMap();
             
             Region region;
-            
-            
-            
-            
-                    
 
-
-   
-//    public int selected_value(){
-//    
-//       return win.getSelectedValue();
-//    
     }
     
  
