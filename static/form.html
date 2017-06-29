@@ -124,6 +124,7 @@
                 action.kind="drink"
                 action.prepare = { "Chocolat_chaud" : $("#nbChocolat_chaud").val()}
                 action.price={"Chocolat_chaud" : $("#prixChocolat_chaud").val()}
+
                 actions.push(action);
             }
             action = {};
@@ -152,7 +153,7 @@
                 };
                 $.ajax("/actions/"+pseudo, {
                   type: "POST",
-                  data: JSON.stringify(data),
+                  data: data,
                   contentType: "application/json",
                     }).done(function(data) {
                         if(simulated==false){
