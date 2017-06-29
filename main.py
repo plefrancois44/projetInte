@@ -131,12 +131,11 @@ def action_player(playerName):
 			print(actions[i]["prepare"])
 			test = {}
 			test = actions[i]["prepare"]
-			for boisson, valeur in test.items():
-				print("boucle")
-				print(boisson)
-				print(valeur)
-				prix = actions[i]["prepare"][boisson]
-				print(prix)
+			print("boucle")
+			print(test.keys()[0])
+			print(valeur)
+			prix = actions[i]["prepare"][boisson]
+			print(prix)
 
 				coutProd = 0.0
 				ingredient = {}
