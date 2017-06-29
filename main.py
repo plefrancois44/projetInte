@@ -506,7 +506,7 @@ def get_map_player(playerName):
 	ventes = []
 	numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
 	for chaque in range(0,len(numero)):
-		riche += numero[chaque]["jou_nom"]
+		riche.append(numero[chaque]["jou_nom"])
 	
 	mapItem = []
 	
@@ -648,7 +648,7 @@ def get_map():
 		ventes = []
 		numero = db.select("SELECT * FROM joueur ORDER BY jou_budget DESC")
 		for chaque in range(0,len(numero)):
-			riche += numero[chaque]["jou_nom"]
+			riche.append(numero[chaque]["jou_nom"])
 
 		mapItem = []
 		
