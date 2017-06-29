@@ -157,7 +157,10 @@
                   contentType: "application/json",
                     }).done(function(data) {
                         if(simulated==false){
-                            if(data["sufficientFunds"]) window.alert('Décisions prises et bien envoyés au serveur.');
+                            if(data["sufficientFunds"]){
+                                window.alert('Décisions prises et bien envoyés au serveur.');
+                                $("#valideBoisson").text(data["totalCost"]);
+                            }  
                             else window.alert("fond insuffisant("+data["totalCost"]+")");
                         } 
                         else if(data["sufficientFunds"])
