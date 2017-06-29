@@ -129,11 +129,11 @@ def action_player(playerName):
 			print(actions[i]["prepare"])
 			
 			for boisson, valeur in actions[i]["prepare"].items():
-				#for bois, prix in actions[i]["price"].items():
+				for bois, prix in actions[i]["price"].items():
 					print("boucle")
 					print(boisson)
 					print(valeur)
-				#	print(prix)
+					print(prix)
 
 					coutProd = 0.0
 					ingredient = {}
