@@ -122,6 +122,8 @@ def action_player(playerName):
 	print(data)
 
 	actions = data["actions"]
+	print("actions")
+	print(actions)
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
 		if kind == "drinks":
