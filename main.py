@@ -754,6 +754,7 @@ def get_map():
 	db = Db()
 	ingredient = []
 	drinksInfos = []
+	drinksByPlayers = []
 	profit = 0.0
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
@@ -814,22 +815,24 @@ def get_map():
 			drinksInfos += drinkInfo
 
 		riche=[]
-		max = (db.select('SELECT MAX(jou_budget) AS max FROM joueur')
-		jPrem = db.select('SELECT * FROM joueur WHERE jou_budget=@(max),{'max' : max[0]["max"]})
-		joueurPrem = 0
-		if len(jPrem)>1:
-			for j in range(0,len(jPrem)):
-				ventes[j] = (db.select('SELECT count(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
-							{'jour' : jour, 'nom' : jPrem[j]["jou_nom"]}))
-				
-				if ventes[j]["quantite"] > ventes[joueurPrem]["quantite"] :
-					joueurPrem = j
-					
-			riche = ventes[joueurPrem]["jou_nom"]
-		
+		ventes = []
+		numero = db.select("SELECT MAX(jou_budget) AS maximum FROM joueur")
+		prem = (db.select("SELECT * FROM joueur WHERE jou_budget=@(maximum)",{'maximum' : numero[0]["maximum"]}))
+		if len(prem)>1:
+			meilleur = 0
+			for j in range(0,len(prem)):
+				ventes = (db.select('SELECT sum(ven_quantite) AS quantite, jou_nom FROM vendre WHERE ven_jour=@(jour) AND jou_nom=@(nom) GROUP BY jou_nom',
+							{'jour' : jour, 'nom' : prem[j]["jou_nom"]}))
+
+				if len(ventes) != 0:
+					actuel = ventes[0]["quantite"]
+					if actuel > meilleur :
+						meilleur = actuel
+						riche = ventes[0]["jou_nom"]
+
 		else:
-			riche = jPrem[0]["jou_nom"]
-		
+			riche = prem[0]["jou_nom"]
+
 		mapItem = []
 		
 		stand = db.select("SELECT jou_nom, jou_pos_x, jou_pos_y, jou_rayon FROM joueur WHERE jou_nom=@(nom)", {'nom':playerName})
@@ -843,6 +846,9 @@ def get_map():
 		mapItems["location"] = coordinatesS
 		mapItems["influence"] = stand[0]['jou_rayon']
 		mapItem.append(mapItems)
+		
+		drinkByPlayer = {playerName : drinksInfos}
+		drinksByPlayers.append(drinkByPlayer)
 		
 		ads = db.select("SELECT pub_pos_x, pub_pos_y, pub_rayon, jou_nom FROM pub WHERE pub_jour=@(jour) AND jou_nom=@(nom)", {'jour':jour, 'nom':playerName})
 		for a in range(0,len(ads)):
