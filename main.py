@@ -639,8 +639,7 @@ def get_map():
 		print(len(recetteJoueur))
 		for recette in range(0,len(recetteJoueur)):
 			ing = {}
-			ingredientAlcool =[]
-			ingredientFroid=[]
+			ingredientAF =[]
 			prix = 0.0
 			qte = 0
 			alcool = False
