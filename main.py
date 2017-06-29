@@ -135,6 +135,7 @@ def action_player(playerName):
 			print(prix)
 
 			coutProd = 0.0
+			coutTotal = 0.0
 			ingredient = {}
 			cout=[]
 			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
@@ -154,7 +155,7 @@ def action_player(playerName):
 					'nom' : playerName
 					})	
 
-			if int(budget[0]['jou_budget'])>int(coutTotal):
+			if budget[0]['jou_budget']>coutTotal:
 				if simulation == False :
 					print("Insertion en base")
 					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
