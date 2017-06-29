@@ -113,75 +113,85 @@ def sales():
 	return reponse
 
 #---- Route qui gere les actions joueur
-@app.route('/actions/<player>', methods=['POST'])
-def action_player(player):
+@app.route('/actions/<playerName>', methods=['POST'])
+def action_player(playerName):
 	data = request.get_json()
-	action = data["actions"][0]
-	kind = action["kind"]
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
 	
-	if kind == "drinks":
-		recetteJoueur = []
-		for i in range(0,len(action["prepare"])):
-				recetteJoueur.append(action["prepare"][i]["boisson"])
-		recettes={}
-		coutTotal=0
-		for recette in range(0,len(recetteJoueur)):
-			prepare = action["prepare"][recette]
-			nb = int(prepare["quantite"])
-			coutProd = 0.0
-			ingredient = {}
-			cout=[]
-			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
-				{
-					'recette' : recetteJoueur[recette],
-					 'nom' : player
-				}))
+	for i in range(0,len(data["actions"])) :
+		action = data["actions"][i]
+		kind = action["kind"]
+		if kind == "drinks":
+			recetteJoueur = []
+			for i in range(0,len(action["prepare"])):
+					recetteJoueur.append(action["prepare"][i]["boisson"])
+			recettes={}
+			coutTotal=0
+			for recette in range(0,len(recetteJoueur)):
+				prepare = action["prepare"][recette]
+				nb = int(prepare["quantite"])
+				coutProd = 0.0
+				ingredient = {}
+				cout=[]
+				recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+					{
+						'recette' : recetteJoueur[recette],
+						 'nom' : playerName
+					}))
 
-			ingredientRecette = recettes[recette]
-			for ingredient in range(0,len(ingredientRecette)):
-				cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
-			coutTotal=coutTotal+coutProd
-			
-			if simulation == False :
-				print("Insertion en base")
-				db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
-				{'nom' : player,
-				'jour' : 1,
-				'prix' : action["price"][recette]["price"],
-				'quantite' : action["prepare"][recette]["quantite"],
-				'recette' : action["prepare"][recette]["boisson"]
+				ingredientRecette = recettes[recette]
+				for ingredient in range(0,len(ingredientRecette)):
+					cout += (db.select("SELECT ing_prix_unitaire FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
+					coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
+				coutTotal=coutTotal+coutProd
+
+				if simulation == False :
+					print("Insertion en base")
+					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
+					{'nom' : playerName,
+					'jour' : 1,
+					'prix' : action["price"][recette]["price"],
+					'quantite' : action["prepare"][recette]["quantite"],
+					'recette' : action["prepare"][recette]["boisson"]
+					})
+
+			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+					'nom' : playerName
+					})	
+
+			if int(budget[0]['jou_budget'])>int(coutTotal):
+				if simulation == False :
+					db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
+					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
+					'nom' : playerName
+					})	
+				reponse = {
+					"sufficientFunds" : True,
+					"totalCost" : coutTotal
+				}
+			else:
+				reponse = {
+					"sufficientFunds" : False,
+					"totalCost" : coutTotal
+				}
+
+			db.close()
+			return jsonResponse(reponse)
+
+		else if kind == "ad":
+			radius = action["radius"]
+			print(action["radius"])
+			db.execute("UPDATE Joueur SET jou_rayon = @(newrayon) WHERE jou_nom=@(nom)",{
+				'newrayon': radius ,
+				'nom' : playerName
 				})
+			db.close()
+			return jsonResponse(reponse)
 
-		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : player
-				})	
-			
-		if int(budget[0]['jou_budget'])>int(coutTotal):
-			if simulation == False :
-				db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
-				'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
-				'nom' : player
-				})	
-			reponse = {
-				"sufficientFunds" : True,
-				"totalCost" : coutTotal
-			}
-		else:
-			reponse = {
-				"sufficientFunds" : False,
-				"totalCost" : coutTotal
-			}
-			
-		db.close()
-		return jsonResponse(reponse)
-		
-		#else if(data["kind"]=="ad"):
 		#else if(data["kind"]=="price")
-	return jsonResponse("NOK",403)
+		return jsonResponse("NOK",403)
 
 	
 
