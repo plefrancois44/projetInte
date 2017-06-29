@@ -119,7 +119,6 @@ def action_player(playerName):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
-	print(data)
 
 	actions = data["actions"]
 	print("actions")
@@ -130,9 +129,6 @@ def action_player(playerName):
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
 			prix = float(actions[i]["price"][boisson])
-			print(boisson)
-			print(valeur)
-			print(prix)
 
 			coutProd = 0.0
 			coutTotal = 0.0
@@ -157,7 +153,6 @@ def action_player(playerName):
 
 			if budget[0]['jou_budget']>coutTotal:
 				if simulation == False :
-					print("Insertion en base")
 					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 						{'nom' : playerName,
 						'jour' : 1,
