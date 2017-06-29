@@ -756,6 +756,7 @@ def get_map():
 	ingredient = []
 	drinksInfos = []
 	drinksByPlayers = []
+	recettes = []
 	profit = 0.0
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
@@ -789,7 +790,7 @@ def get_map():
 			froid = True
 			nomRecette =  recetteJoueur[recette]["rec_nom"]
 			
-			recettes[recette]=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
+			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : nomRecette, 'nom' : playerName}))
 			coutVente = (db.select('SELECT pro_prix_vente AS price FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)',
 						{'nom' : playerName, 'recette' : nomRecette}))
@@ -798,7 +799,7 @@ def get_map():
 		
 			profit += profit + coutVente * vente
 		
-			ingredientRecette = recettes[recette]
+			ingredientRecette = recettes
 			for ing in range(0,len(ingredientRecette)):		
 				ingredientAlcool+=(db.select("SELECT ing_alcool FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
 				if ingredientAlcool[ing]['ing_alcool'] == True & alcool == False :
