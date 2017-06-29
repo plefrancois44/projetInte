@@ -38,11 +38,10 @@
                             playerInfo = data["playerInfo"]
                             budget = playerInfo["cash"]
                             $("#budget").text(budget)
-
                             map = data["map"]
                             itemsByPlayer = map["itemsByPlayer"]
-                            influence = itemsByPlayer[pseudo]["influence"]
-                            $("#panneau").text(influence)
+                            influence = itemsByPlayer[pseudo][0]["influence"]
+                            $("#panneau").text(influence+" __ ")
                         })
                 }
               
