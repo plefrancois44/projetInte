@@ -37,11 +37,6 @@
                             playerInfo = data["playerInfo"]
                             budget = playerInfo["cash"]
                             $("#budget").text(budget)
-                            map = data["map"]
-                            itemsByPlayer = map["itemsByPlayer"]
-                            pseudo = $_GET('pseudo')
-                            location = itemsByPlayer[pseudo][0]["location"]
-                            $("#panneau").text(data["latitude"]+" "+data["longitude"]);
                         })
                 }
               
