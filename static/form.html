@@ -41,10 +41,44 @@
                             map = data["map"]
                             itemsByPlayer = map["itemsByPlayer"]
                             influence = itemsByPlayer[pseudo][0]["influence"]
-                            $("#panneau").text(influence+" __ ")
+                            $("#influence").text(influence)
                         })
                 }
               
+                 function etendre(){
+                    var pseudo = $_GET('pseudo');
+                    var location = {}
+                    var actions = [];
+                    var action = {};
+
+                    $.ajax("/map/"+$_GET('pseudo'))
+                        .done(function(data){ 
+                            map = data["map"]
+                            itemsByPlayer = map["itemsByPlayer"]
+                            influence = itemsByPlayer[pseudo][0]["influence"]
+                        })
+                    
+                    action.radius = influence+1
+                    action.location = 0
+                    action.kind="ad"
+
+                    JSON.stringify(action);
+                    actions.push(action)
+
+                    let data = 
+                    {
+                        "simulated" : false,
+                        "actions" : actions
+                    };
+
+                    $.ajax("/actions/"+pseudo, {
+                      type: "POST",
+                      data: JSON.stringify(data),
+                      contentType: "application/json",
+                    }).done(function(data) {
+                           getMapPlayer();
+                        })
+                    }
 
                 function $_GET(param) {
                     var vars = {};
@@ -170,8 +204,8 @@
                             <label id="meteo"></label><br>                   
                             <label>Budget disponible: </label>
                             <label id="budget"> </label><br>
-                            <label>localisation: </label><br>
-                            <label id="panneau"> </label><br>
+                            <label>Influence: </label><br>
+                            <label id="influence"> </label><br>
                     </div>        
             <?------------------colum1-------------------------------------------------------------------------------------------------------------------->
                     <div class="col-sm-5">
