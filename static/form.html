@@ -24,12 +24,7 @@
                                 $("#prevision").text(data["weather"][1]["weather"]+ "__" +  data["weather"][1]["dfn"]);
                             }
                         })
-                    $.ajax("/map/"+$_GET('pseudo'))
-                        .done(function(data){
-                            playerInfo = data["playerInfo"]
-                            budget = playerInfo["cash"]
-                            $("#budget").text(budget)
-                        })
+                    getMapPlayer();
                 }
 
 
@@ -39,13 +34,14 @@
               
                 function getMapPlayer(){
                     $.ajax("/map/"+$_GET('pseudo'))
-                        .done(function(data){
+                        .done(function(data){ 
+                            playerInfo = data["playerInfo"]
+                            budget = playerInfo["cash"]
+                            $("#budget").text(budget)
                             map = data["map"]
                             itemsByPlayer = map["itemsByPlayer"]
                             location = itemsByPlayer["location"]
                             $("#panneau").text(data["latitude"]+" "+data["longitude"]);
-
-
                         })
 
                 }
