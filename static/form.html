@@ -81,12 +81,10 @@
                               data: JSON.stringify(reponse),
                               contentType: "application/json",
                             }).done(function(data) {
-                                    window.alert(data["sufficientFunds"])
                                     if(data["sufficientFunds"]){
                                         getMapPlayer();
                                     }
-                                    else window.alert("fond insuffisant");
-                                    
+                                    else window.alert("fond insuffisant");   
                                 })
                         }   
                     }
@@ -178,16 +176,14 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficientFunds"]){
-                    $("#valideBoisson").text(data["totalCost"]);
-                }
-                else $("#valideBoisson").text("fond insuffisant");
-
-                if(simulated!=true && data["sufficientFunds"]){
-                    window.alert('Décisions prises et bien envoyés au serveur.')
+                if(simulated==false){
+                    if(data["sufficientFunds"])
+                        window.alert('Décisions prises et bien envoyés au serveur.');
+                    else window.alert("fond insuffisant("+data["totalCost"]+")");
                 } 
-                else
-                    window.alert('Visualitation seulement')
+                else if(data["sufficientFunds"])
+                    $("#valideBoisson").text(data["totalCost"]);
+                else window.alert("fond insuffisant ("+data["totalCost"]+")");
             })       
         } 
 
