@@ -120,9 +120,6 @@ def action_player(playerName):
 	db=Db()
 	reponse={}
 	
-	print("data")
-	print(data)
-	
 	actions = data["actions"]
 	for i in range(0,len(actions)) :
 		action = {}
@@ -131,6 +128,12 @@ def action_player(playerName):
 		if kind == "drinks":
 			print("drinks")
 			print(action["prepare"])
+			
+			for boisson, valeur in (action["prepare"]).items():
+				print("boucle")
+				print(boisson)
+				print(valeur)
+			
 			recetteJoueur = {}
 			recetteJoueur.append(action["prepare"])
 			recettes={}
