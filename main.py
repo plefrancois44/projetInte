@@ -121,7 +121,10 @@ def action_player(playerName):
 	reponse={}
 	actions = data["actions"]
 	for i in range(0,len(actions)) :
+		action = {}
 		action = actions[i]
+		print("kind")
+		print(action)
 		kind = action["kind"]
 		if kind == "drinks":
 			print("drinks")
