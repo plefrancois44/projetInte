@@ -113,9 +113,9 @@
                 if($("prixLimonade").val()<1)
                     bool = false
                 action.kind="drinks"
-                action.prepare = { "Limonade" : $("#nbLimonade").val()}
-                action.price={"Limonade" : $("#prixLimonade").val()}
-                actions.push(JSON.stringify(action));
+                action.prepare = JSON.stringify({ "Limonade" : $("#nbLimonade").val()})
+                action.price= JSON.stringify({"Limonade" : $("#prixLimonade").val()})
+                actions.push(action);
             }
             action = {};
             if($("#nbChocolat_chaud").val()>0){
