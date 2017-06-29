@@ -119,22 +119,21 @@ def action_player(playerName):
 	simulation=data["simulated"]
 	db=Db()
 	reponse={}
-	print(data)
-	print(data["actions"])
-	for i in range(0,len(data["actions"])) :
-		print(data[i]["actions"])
-		action = data[i]["actions"]
-		kind = action["kind"]
+	actions = data["actions"]
+	for i in range(0,len(actions)) :
+		print(actions[i])
+		action = actions[i]
+		kind = actions["kind"]
 		if kind == "drinks":
 			print("drinks")
-			print(action["prepare"])
+			print(actions["prepare"])
 			recetteJoueur = {}
-			recetteJoueur.append(action["prepare"])
+			recetteJoueur.append(actions["prepare"])
 			recettes={}
 			coutTotal=0
 			for recette in range(0,len(recetteJoueur)):
-				prepare = action["prepare"][recette]
-				nb = int(action["prepare"][recette])
+				prepare = actions["prepare"][recette]
+				nb = int(actions["prepare"][recette])
 				coutProd = 0.0
 				ingredient = {}
 				cout=[]
@@ -160,9 +159,9 @@ def action_player(playerName):
 					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
 						{'nom' : playerName,
 						'jour' : 1,
-						'prix' : action["price"][recette]["price"],
-						'quantite' : action["prepare"][recette]["quantite"],
-						'recette' : action["prepare"][recette]["boisson"]
+						'prix' : actions["price"][recette]["price"],
+						'quantite' : actions["prepare"][recette]["quantite"],
+						'recette' : actions["prepare"][recette]["boisson"]
 						})
 					
 					db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
@@ -183,7 +182,7 @@ def action_player(playerName):
 			return jsonResponse(reponse)
 
 		elif kind == "ad":
-			radius = action["radius"]
+			radius = actions["radius"]
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 				'nom' : playerName
 				})
