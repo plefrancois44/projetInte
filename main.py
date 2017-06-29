@@ -185,12 +185,24 @@ def action_player(playerName):
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 				'nom' : playerName
 				})
-			newBudget = budget[0]["jou_budget"] - (radius - 1) * 50
-			db.execute("UPDATE Joueur SET jou_rayon = @(newrayon), jou_budget=@(budget) WHERE jou_nom=@(nom)",{
-				'newrayon': radius ,
-				'budget': newBudget,
-				'nom' : playerName
+			cout = (radius - 1) * 50
+			newBudget = budget[0]["jou_budget"] - cout
+			
+			if newBudget > 0:
+				db.execute("UPDATE Joueur SET jou_rayon = @(newrayon), jou_budget=@(budget) WHERE jou_nom=@(nom)",{
+					'newrayon': radius ,
+					'budget': newBudget,
+					'nom' : playerName
 				})
+				reponse = {
+					"sufficientFunds" : True,
+					"totalCost" : cout
+				}
+			else:
+				reponse = {
+					"sufficientFunds" : False,
+					"totalCost" : cout
+				}
 			db.close()
 			return jsonResponse(reponse)	
 
