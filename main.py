@@ -779,6 +779,7 @@ def get_map():
 						{'nom' : playerName, 'jour' : jour}))
 		
 		recetteJoueur = db.select("SELECT * FROM Recette")
+		print(recetteJoueur)
 		for recette in range(0,len(recetteJoueur)):
 			ing = {}
 			ingredientAlcool =[]
@@ -788,8 +789,7 @@ def get_map():
 			alcool = False
 			froid = True
 			nomRecette =  recetteJoueur[recette]["rec_nom"]
-			
-			print(recetteJoueur[recette]["rec_nom"])
+		
 			
 			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
 				{'recette' : nomRecette, 'nom' : playerName}))
