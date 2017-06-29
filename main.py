@@ -130,7 +130,7 @@ def action_player(playerName):
 			print("drinks")
 			print(actions[i]["prepare"])
 			
-			for boisson, valeur in actions[i]["prepare"].items():
+			for boisson, valeur in actions[i]["prepare"][][]:
 				print("boucle")
 				print(boisson)
 				print(valeur)
