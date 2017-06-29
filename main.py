@@ -120,7 +120,7 @@ def action_player(playerName):
 	db=Db()
 	reponse={}
 	print(data)
-	
+	print(data["actions"])
 	for i in range(0,len(data["actions"])) :
 		action = data[i]["actions"]
 		kind = action["kind"]
