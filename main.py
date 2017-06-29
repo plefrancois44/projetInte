@@ -239,9 +239,9 @@ def post_players():
 			for ingredient in range(0,len(ingredientRecette)):
 
 				ingredientAlcool+=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ingredient]["ing_nom"]}))
-				if ingredientAlcool[ingredient]['ing_alcool'] == True & alcool == False :
+				if ingredientAlcool[ingredient]['ing_alcool'] == True:
 					alcool = True
-				if ingredientFroid[ingredient]['ing_froid'] == False & froid == True :
+				if ingredientFroid[ingredient]['ing_froid'] == False:
 					froid = False
 			
 			drinkInfo = {}
