@@ -362,7 +362,7 @@ def get_metrology():
 	db = Db()
 	meteo = db.select("SELECT met_heure_ecoule, met_matin, met_apres_midi FROM meteo ORDER BY met_jour DESC LIMIT 2")
 	forecast = []
-	reste = int(meteo[0]['met_heure_ecoule'] / 24.0)%1
+	reste = (meteo[0]['met_heure_ecoule'] / 24.0)%1
 		
 	if reste <=0.5:
 		forecasts = {}
@@ -376,7 +376,6 @@ def get_metrology():
 	else :
 		forecasts = {}
 		forecasts["dfn"] = 1
-		print(meteo)
 		forecasts["weather"] = meteo[0]['met_matin']
 		forecast.append(forecasts)
 		forecasts = {}
