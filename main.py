@@ -128,8 +128,8 @@ def action_player(playerName):
 		kind = actions[i]["kind"]
 		if kind == "drinks":
 			boisson = actions[i]["prepare"].keys()[0]
-			valeur = actions[i]["prepare"][boisson]
-			prix = actions[i]["price"].keys()[0]
+			valeur = int(actions[i]["prepare"][boisson])
+			prix = float(actions[i]["price"][boisson])
 			print(boisson)
 			print(valeur)
 			print(prix)
