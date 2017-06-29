@@ -124,7 +124,7 @@ def action_player(playerName):
 		action = {}
 		action = actions[i]
 		print("kind")
-		print(action)
+		print(action["kind"])
 		kind = action["kind"]
 		if kind == "drinks":
 			print("drinks")
