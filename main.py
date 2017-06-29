@@ -128,8 +128,8 @@ def action_player(playerName):
 			print("drinks")
 			print(actions[i]["prepare"])
 			
-			for boisson, valeur in actions[i]["prepare"].items():
-				for bois, prix in actions[i]["price"].items():
+			for boisson, valeur in actions[i]["prepare"].iteritems():
+				for bois, prix in actions[i]["price"].iteritems():
 					print("boucle")
 					print(boisson)
 					print(valeur)
