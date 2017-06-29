@@ -129,8 +129,9 @@ def action_player(playerName):
 		if kind == "drinks":
 			print("drinks")
 			print(actions[i]["prepare"])
-			
-			for boisson, valeur in actions[i]["prepare"][][]:
+			test = {}
+			test = actions[i]["prepare"]
+			for boisson, valeur in test.items():
 				print("boucle")
 				print(boisson)
 				print(valeur)
