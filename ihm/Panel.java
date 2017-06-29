@@ -14,6 +14,7 @@ import java.awt.Image;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimerTask;
 import javax.swing.ImageIcon;
 
 /**
@@ -51,9 +52,12 @@ public class Panel extends JPanel {
     
     int stand_x;
     int stand_y;
+    int stand_x_influence;
+    int stand_y_influence;
     int ad_x;
     int ad_y;
     int influence;
+    
     
     //Player[] spieler;
     Region region;
@@ -94,26 +98,49 @@ public class Panel extends JPanel {
             Map.Entry<String, MapItem[]> e = it.next();
             MapItem[] mapItems = e.getValue();
             for(MapItem mi : mapItems){
+                
+                
+                
+                influence = (int) mi.getInfluence() * 10;
+            
+                stand_x = (int) ((mi.getLocation().getLongitude() - 10) * 3);
+                stand_y = (int) ((mi.getLocation().getLatitude() - 10) * 3);
+                stand_x_influence = stand_x - (influence / 2) + 5;
+                stand_y_influence = stand_y - (influence / 2) + 5;
 
                 if("stand".equals(mi.getKind())){
-                    stand_x = ((int) mi.getLocation().getLongitude() + 10) * 3;
-                    stand_y = ((int) mi.getLocation().getLatitude() + 10) * 3;
+                    
+
+                    
+
+                 
+                    
                     spieler = mi.getOwner();
                     
-                    influence = (int) mi.getInfluence() * 20;
+                    //ZONE INFLUENCE
                     
                     g.setColor(Color.PINK);
+                    g.drawOval(stand_x_influence, stand_y_influence, influence, influence);
                     
                     
-                    g.fillOval(stand_x - 5, stand_y - 5, influence, influence);
+                    
+                    
+ 
+                    
+
+                    
+
                     
                     g.setColor(Color.BLACK);
                     g.fillOval(stand_x, stand_y, 10, 10);
-                    g.drawString(spieler, stand_x, stand_y - 5);
+
+                    g.drawString(spieler, stand_x + 5, stand_y );
                     
                     //Reinit
                     stand_x = 0;
                     stand_y = 0;
+                    
+                   
                     
                     
                     

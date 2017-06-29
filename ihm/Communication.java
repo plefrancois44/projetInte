@@ -64,79 +64,87 @@ public class Communication {
     
     public MapGame getMap() {
         try {
-            final Gson gson = new GsonBuilder().create();
-    
-    String jsonMap = this.sendGet("map");
-    JSONObject json = new JSONObject(jsonMap);
-    
-    //---------------récupération de region-----------------------------------
-    JSONObject regionJson =  (JSONObject) json.get("region");
-    Region region = gson.fromJson(regionJson.toString(), Region.class);
-    //------------------------------------------------------------------------
-    
-    //---------------récupération du rang-------------------------------------
-    JSONObject rankingJson =  (JSONObject) json.get("ranking");
-    int n = rankingJson.length();
-    String[] ranking = new String[n];
-    for(int i = 0; i<n; i++)
-   	 ranking[i] = (String) rankingJson.get(Integer.toString(i));
-    //------------------------------------------------------------------------
-    
-    //---------------récupération des joueurs---------------------------------
-    JSONObject playerInfoJson = new JSONObject(json.get("playerInfo").toString());
-    n = playerInfoJson.length();
-    Player[] playerTab = new Player[n];
-    
-    for(int i = 0; i<playerInfoJson.names().length(); i++){
-     	JSONObject player = new JSONObject(playerInfoJson.get(playerInfoJson.names().getString(i)).toString());
-     	float cash = Float.parseFloat(player.get("cash").toString());
-     	float profit = Float.parseFloat(player.get("profit").toString());
-     	int sales = Integer.parseInt(player.get("sales").toString());
-     	String pseudo = playerInfoJson.names().getString(i);
-    	 
-     	JSONArray drinks = new JSONArray(player.get("drinkOffered").toString());
-     	int nbDrinks = drinks.length();
-   	  Drink[] drinkOffered = new Drink[nbDrinks];
-   	  for(int j=0;j<nbDrinks;j++) // pour chaque boisson de la JsonArray, on stock dans un tableau de Drink
-   		  drinkOffered[j]=gson.fromJson(drinks.get(j).toString(),Drink.class);
+                final Gson gson = new GsonBuilder().create();
    	 
-     	Player p = new Player(cash,sales,profit,drinkOffered,pseudo);
-     	playerTab[i]=p;
-     	System.out.println(p.toString());
-    }
-    //------------------------------------------------------------------------
-    
-    //---------------récupération des boissons---------------------------------
-   	 JSONObject drinksByPlayerJson =  (JSONObject) json.get("drinksByPlayer");
-   	 Map<String, Drink[]> drinkByPlayer = new HashMap<String,Drink[]>() ;
-   	 n = drinksByPlayerJson.length();
-   	 for(int i=0; i<n; i++){
-   		 JSONArray drinkArray = drinksByPlayerJson.getJSONArray(playerTab[i].getPseudo()); //on commence par récupérer la JsonArray à partir du pseudo
-   		 int nbDrinks = drinkArray.length();
-   		 Drink[] drinks = new Drink[nbDrinks];
-   		 for(int j=0;j<nbDrinks;j++) // pour chaque boisson de la JsonArray, on stock dans un tableau de Drink
-   			 drinks[j]=gson.fromJson(drinkArray.get(j).toString(),Drink.class);
-   		 drinkByPlayer.put(playerTab[i].getPseudo(), drinks); // enfin, on associe la pseudo du joueur au tableau de boissons
-   	 }    
-    //------------------------------------------------------------------------
-    
-    //---------------récupération des items---------------------------------
-   	 JSONObject itemsByPlayerJson =  (JSONObject) json.get("itemsByPlayer");
-   	 Map<String, MapItem[]> itemsByPlayer = new HashMap<String, MapItem[]>() ;
-   		 n = itemsByPlayerJson.length();
+   	 String jsonMap = this.sendGet("map");
+   	 JSONObject map = new JSONObject(jsonMap);
+   	 JSONObject json = new JSONObject(map.get("map").toString());
+   	 
+   	 //---------------récupération de region-----------------------------------
+   	 JSONObject regionJson =  (JSONObject) json.get("region");
+   	 Region region = gson.fromJson(regionJson.toString(), Region.class);
+   	 //------------------------------------------------------------------------
+   	 
+   	 //---------------récupération du rang-------------------------------------
+   	 JSONArray rankingJson = new JSONArray(json.get("ranking").toString());
+   	 int n = rankingJson.length();
+   	 String[] ranking = new String[n];
+   	 for(int i = 0; i<n; i++)
+   		 ranking[i] = (String) rankingJson.get(i);
+   	 //------------------------------------------------------------------------
+   	 
+   	 //---------------récupération des joueurs---------------------------------
+   	 JSONObject playerInfoJson = new JSONObject(json.get("playerInfo").toString());
+   	 n = playerInfoJson.length();
+   	 Player[] playerTab = new Player[n];
+   	 
+   	 for(int i = 0; i<playerInfoJson.names().length(); i++){
+   	  	JSONObject player = new JSONObject(playerInfoJson.get(playerInfoJson.names().getString(i)).toString());
+   	  	float cash = Float.parseFloat(player.get("cash").toString());
+   	  	float profit = Float.parseFloat(player.get("profit").toString());
+   	  	int sales = Integer.parseInt(player.get("sales").toString());
+   	  	String pseudo = playerInfoJson.names().getString(i);
+   	 	 
+   	  	JSONArray drinks = new JSONArray(player.get("drinksOffered").toString());
+   	  	int nbDrinks = drinks.length();
+   		  Drink[] drinkOffered = new Drink[nbDrinks];
+   		  for(int j=0;j<nbDrinks;j++){ // pour chaque boisson de la JsonArray, on stock dans un tableau de Drink
+   			 Drink tmp =gson.fromJson(drinks.get(j).toString(),Drink.class);
+   			 tmp.setHasAlcool((boolean) ((JSONObject) drinks.get(j)).get("hasAlcohol"));
+   			 drinkOffered[j]=tmp;
+   		  }    
+   			 
+   		 
+   	  	Player p = new Player(cash,sales,profit,drinkOffered,pseudo);
+   	  	playerTab[i]=p;
+   	 }
+   	 //------------------------------------------------------------------------
+   	 
+   	 //---------------récupération des boissons---------------------------------
+   		 JSONObject drinksByPlayerJson =  new JSONObject(json.get("drinksByPlayer").toString());
+   		 Map<String, Drink[]> drinkByPlayer = new HashMap<String,Drink[]>() ;
+   		 n = drinksByPlayerJson.length();
    		 for(int i=0; i<n; i++){
-   			 JSONArray itemArray = itemsByPlayerJson.getJSONArray(playerTab[i].getPseudo()); //on commence par récupérer la JsonArray à partir du pseudo
-   			 int nbItems = itemArray.length();
-   			 MapItem[] mapItems = new MapItem[nbItems];
-   			 for(int j=0;j<nbItems;j++) // pour chaque items de la JsonArray, on stock dans un tableau de MapItem
-   				 mapItems[j]=gson.fromJson(itemArray.get(j).toString(),MapItem.class);
-   			 itemsByPlayer.put(playerTab[i].getPseudo(), mapItems); // enfin, on associe la pseudo du joueur au tableau d'Item
+   			 JSONArray drinkArray = drinksByPlayerJson.getJSONArray(playerTab[i].getPseudo()); //on commence par récupérer la JsonArray à partir du pseudo
+   			 int nbDrinks = drinkArray.length();
+   			 Drink[] drinks = new Drink[nbDrinks];
+   			 for(int j=0;j<nbDrinks;j++){ // pour chaque boisson de la JsonArray, on stock dans un tableau de Drink
+   				 Drink tmp = gson.fromJson(drinkArray.get(j).toString(),Drink.class);
+   				 tmp.setHasAlcool((boolean) ((JSONObject) drinkArray.get(j)).get("hasAlcohol"));
+   				 drinks[j]= tmp;
+   			 }
+   			 drinkByPlayer.put(playerTab[i].getPseudo(), drinks); // enfin, on associe la pseudo du joueur au tableau de boissons
    		 }    
-    //------------------------------------------------------------------------
-    
-    MapGame map = new MapGame(ranking,region,playerTab,drinkByPlayer,itemsByPlayer);
-    System.out.println(map.toString());
-    return map;
+   	 //------------------------------------------------------------------------
+   	 
+   	 //---------------récupération des items---------------------------------
+   		 JSONObject itemsByPlayerJson =  (JSONObject) json.get("itemsByPlayer");
+   		 Map<String, MapItem[]> itemsByPlayer = new HashMap<String, MapItem[]>() ;
+   			 n = itemsByPlayerJson.length();
+   			 for(int i=0; i<n; i++){
+   				 JSONArray itemArray = itemsByPlayerJson.getJSONArray(playerTab[i].getPseudo()); //on commence par récupérer la JsonArray à partir du pseudo
+   				 int nbItems = itemArray.length();
+   				 MapItem[] mapItems = new MapItem[nbItems];
+   				 for(int j=0;j<nbItems;j++) // pour chaque items de la JsonArray, on stock dans un tableau de MapItem
+   					 mapItems[j]=gson.fromJson(itemArray.get(j).toString(),MapItem.class);
+   				 itemsByPlayer.put(playerTab[i].getPseudo(), mapItems); // enfin, on associe la pseudo du joueur au tableau d'Item
+   			 }    
+   	 //------------------------------------------------------------------------
+   	 
+   	 MapGame mapGame = new MapGame(ranking,region,playerTab,drinkByPlayer,itemsByPlayer);
+   	 System.out.println(mapGame.drinksByPlayerToString());
+   	 return mapGame;
+
 
         } catch (Exception ex) {
             Logger.getLogger(Communication.class.getName()).log(Level.SEVERE, null, ex);
