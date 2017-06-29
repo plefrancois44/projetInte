@@ -183,7 +183,7 @@ def action_player(playerName):
 				}
 
 			db.close()
-			return jsonResponse(reponse)
+			retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 
 		elif kind == "ad":
 			radius = action["radius"]
@@ -209,7 +209,9 @@ def action_player(playerName):
 					"totalCost" : cout
 				}
 			db.close()
-			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})	
+			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
+		
+		return make_response(json.dumps("Pas implemente"), 400, {'Content-Type': 'application/json'})
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
