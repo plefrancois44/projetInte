@@ -78,15 +78,10 @@
                       contentType: "application/json",
                     }).done(function(data) {
                             if(data["sufficentFunds"]!=false){
-                                $("#valideBoisson").text(data["totalCost"]);
+                                getMapPlayer();
                             }
                             else $("#valideBoisson").text("fond insuffisant");
-                            if(simulated!=true){
-                                window.alert('Décisions prises et bien envoyés au serveur.')
-                            } 
-                            else
-                                window.alert('Visualitation seulement')
-                           getMapPlayer();
+                            
                         })
                     }
 
