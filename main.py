@@ -812,17 +812,12 @@ def get_map():
 					alcool = True
 				if ingredientAF[0]['ing_froid'] == False & froid == True :
 					froid = False
-			print(nomRecette)
-			print(prix)
-			print(alcool)
-			print(froid)
 			drinkInfo = {}
 			drinkInfo["name"] = nomRecette
 			drinkInfo["price"] = prix
 			drinkInfo["hasAlcohol"] = alcool
 			drinkInfo["isCold"] = froid
-			print(drinkInfo)
-			drinksInfos += drinkInfo
+			drinksInfos.append(drinkInfo)
 
 		riche=[]
 		ventes = []
