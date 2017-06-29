@@ -78,8 +78,8 @@
                               type: "POST",
                               data: JSON.stringify(data),
                               contentType: "application/json",
-                            }).done(function(data) {
-                                    if(Boolean(data["sufficentFunds"])){
+                            }).done(function(reponse) {
+                                    if(Boolean(reponse["sufficentFunds"])){
                                         getMapPlayer();
                                     }
                                     else window.alert("fond insuffisant");
