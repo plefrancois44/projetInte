@@ -79,7 +79,7 @@
                               data: JSON.stringify(data),
                               contentType: "application/json",
                             }).done(function(reponse) {
-                                    var bool = new Boolean(reponse["sufficentFunds"])
+                                    var bool = new Boolean(reponse[0]["sufficentFunds"])
                                     if(bool){
                                         getMapPlayer();
                                     }
