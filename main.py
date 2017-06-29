@@ -133,13 +133,10 @@ def action_player(playerName):
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
 		print(i)
-		print("avant if drinks")
 		if kind == "drinks":
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
 			prix = float(actions[i]["price"][boisson])
-			
-			print(i)
 			
 			coutProd = 0.0
 			coutTotal = 0.0
