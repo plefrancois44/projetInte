@@ -181,7 +181,7 @@ def action_player(playerName):
 						}
 
 			db.close()
-			retour = make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
+			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 
 		elif kind == "ad":
 			radius = action["radius"]
