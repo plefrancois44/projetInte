@@ -195,12 +195,12 @@ def action_player(playerName):
 					'nom' : playerName
 				})
 				reponse = {
-					"sufficientFunds" : "True",
+					"sufficientFunds" : True,
 					"totalCost" : cout
 				}
 			else:
 				reponse = {
-					"sufficientFunds" : "False",
+					"sufficientFunds" : False,
 					"totalCost" : cout
 				}
 			db.close()
