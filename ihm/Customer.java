@@ -189,9 +189,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=alcF;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=alcF;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 	
 				else if(sensibiliteFroid < sensibiliteChaud){
@@ -223,9 +228,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=alcC;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=alcC;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 				else if(sensibiliteChaud == sensibiliteFroid){
 					float rand = (float) Math.random();
@@ -258,9 +268,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=alcF;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=alcF;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 						
 					}
 					else if(rand<50){
@@ -290,9 +305,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=alcC;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=alcC;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 					}
 				}
 			}
@@ -325,9 +345,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=NalcF;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=NalcF;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 				
 				else if(sensibiliteFroid < sensibiliteChaud){
@@ -357,9 +382,14 @@ public class Customer {
 					}
 					//vendeur loin + boisson non alcoolisées + moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=NalcC;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=NalcC;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 				
 				else if(sensibiliteChaud == sensibiliteFroid){
@@ -393,9 +423,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=NalcF;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=NalcF;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 						
 					}
 					else if(rand<50){
@@ -425,9 +460,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=NalcC;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=NalcC;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 					}
 				}
 			}
@@ -464,9 +504,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=alcF;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=alcF;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 	
 				else if(sensibiliteFroid < sensibiliteChaud){
@@ -497,9 +542,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=alcC;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=alcC;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 				else if(sensibiliteChaud == sensibiliteFroid){
 					float rand = (float) Math.random();
@@ -532,9 +582,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=alcF;
-						return vendeurFinal;
+							if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=alcF;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 					}
 					else if(rand<50){
 						//aller chez la personne la moins loin, avec des boissons Alcoolisé chaude le moins cher
@@ -563,9 +618,14 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=alcC;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=alcC;
+							return vendeurFinal;
+						}
+						else{
+							return null;
+						}
 					}
 				}
 			}
@@ -599,9 +659,14 @@ public class Customer {
 					
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=NalcF;
-					return vendeurFinal;
+						if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=NalcF;
+						return vendeurFinal;
+					}
+					else{
+						return null;
+					}
 				}
 				
 				else if(sensibiliteFroid < sensibiliteChaud){
@@ -631,9 +696,12 @@ public class Customer {
 					}
 					//vendeur moins cher
 					String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-					vendeurFinal[0][0]=moinsCher;
-					vendeurFinal[0][1]=NalcC;
-					return vendeurFinal;
+					if (moinsCher != null){
+						vendeurFinal[0][0]=moinsCher;
+						vendeurFinal[0][1]=NalcC;
+						return vendeurFinal;
+					}
+					else return null;
 				}
 				
 				else if(sensibiliteChaud == sensibiliteFroid){
@@ -667,9 +735,12 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=NalcF;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=NalcF;
+							return vendeurFinal;
+						}
+						else return null;
 						
 					}
 					else if(rand<50){
@@ -699,9 +770,12 @@ public class Customer {
 						}
 						//vendeur moins cher
 						String moinsCher = vendeurMoinsCher(vendeur2,vendeur);
-						vendeurFinal[0][0]=moinsCher;
-						vendeurFinal[0][1]=NalcC;
-						return vendeurFinal;
+						if (moinsCher != null){
+							vendeurFinal[0][0]=moinsCher;
+							vendeurFinal[0][1]=NalcC;
+							return vendeurFinal;
+						}
+						else return null;
 					}
 				}
 			}
