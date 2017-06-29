@@ -638,6 +638,7 @@ def get_map():
 				print(ingredientRecette[ing]["ing_nom"])
 				print(ingredientAF[0]['ing_alcool'])
 				if ingredientAF[0]['ing_alcool'] == True :
+					print("ok alcool")
 					alcool = True
 				if ingredientAF[0]['ing_froid'] == False :
 					froid = False
