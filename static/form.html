@@ -58,7 +58,8 @@
                             itemsByPlayer = map["itemsByPlayer"]
                             influence = itemsByPlayer[pseudo][0]["influence"]
                         })
-                        if(confirm("voulez vous etendre votre influence pour "+influence*100))
+
+                        if(confirm("Voulez vous etendre votre influence pour "+influence*50+" euros ?"))
                         {
                             action.radius = influence+1
                             action.location = 0
