@@ -180,7 +180,7 @@ def action_player(playerName):
 			db.close()
 			return jsonResponse(reponse)
 
-		else if kind == "ad":
+		elif kind == "ad":
 			radius = action["radius"]
 			print(action["radius"])
 			db.execute("UPDATE Joueur SET jou_rayon = @(newrayon) WHERE jou_nom=@(nom)",{
@@ -188,12 +188,7 @@ def action_player(playerName):
 				'nom' : playerName
 				})
 			db.close()
-			return jsonResponse(reponse)
-
-		#else if(data["kind"]=="price")
-		return jsonResponse("NOK",403)
-
-	
+			return jsonResponse(reponse)	
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
