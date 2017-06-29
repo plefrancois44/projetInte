@@ -121,29 +121,19 @@ def action_player(playerName):
 	reponse={}
 	actions = []
 	actions = data["actions"]
-	
-	print("TEST")
-	print(data)
-	print(actions)
-	print(len(actions))
-	
+	coutTotal = 0.0
+		
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
-	jour = meteoJour[0]['met_jour']
-	
-	for i in range(0,len(actions)) :
-		print(actions[i])
-		print(i)	
+	jour = meteoJour[0]['met_jour']	
 		
 	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
-		print(i)
 		if kind == "drinks":
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
 			prix = float(actions[i]["price"][boisson])
 			
 			coutProd = 0.0
-			coutTotal = 0.0
 			ingredient = {}
 			cout=[]
 			recettes=(db.select("SELECT * FROM composer WHERE rec_nom=@(recette) AND jou_nom=@(nom)", 
@@ -192,7 +182,6 @@ def action_player(playerName):
 				}
 
 			db.close()
-			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 
 		elif kind == "ad":
 			radius = action["radius"]
@@ -218,9 +207,7 @@ def action_player(playerName):
 					"totalCost" : cout
 				}
 			db.close()
-			return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
-		
-		return make_response(json.dumps("Pas implemente"), 400, {'Content-Type': 'application/json'})
+	return make_response(json.dumps(reponse), 200, {'Content-Type': 'application/json'})
 
 #---- Route qui permet de rejoindre une partie
 # Route à tester
