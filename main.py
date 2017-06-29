@@ -147,22 +147,21 @@ def action_player(playerName):
 					coutProd = coutProd + (cout[ingredient]['ing_prix_unitaire'] * nb)	
 				coutTotal=coutTotal+coutProd
 
-				if simulation == False :
-					print("Insertion en base")
-					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
-					{'nom' : playerName,
-					'jour' : 1,
-					'prix' : action["price"][recette]["price"],
-					'quantite' : action["prepare"][recette]["quantite"],
-					'recette' : action["prepare"][recette]["boisson"]
-					})
-
 			budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 					'nom' : playerName
 					})	
 
 			if int(budget[0]['jou_budget'])>int(coutTotal):
 				if simulation == False :
+					print("Insertion en base")
+					db.execute("INSERT INTO produire (jou_nom,pro_jour,pro_prix_vente, pro_quantite, rec_nom) VALUES (@(nom),@(jour),@(prix),@(quantite),@(recette))", 
+						{'nom' : playerName,
+						'jour' : 1,
+						'prix' : action["price"][recette]["price"],
+						'quantite' : action["prepare"][recette]["quantite"],
+						'recette' : action["prepare"][recette]["boisson"]
+						})
+					
 					db.execute("UPDATE Joueur SET jou_budget = @(newBudget) WHERE jou_nom=@(nom)",{
 					'newBudget': budget[0]['jou_budget']-int(coutTotal) ,
 					'nom' : playerName
