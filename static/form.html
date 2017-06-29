@@ -27,7 +27,7 @@
                         getMapPlayer();
                 }
 
-                setInterval(function(){metrology()},10000);
+                setInterval(function(){metrology()},5000);
 
                 function calcul(timestamp){
                     return Math.floor(timestamp/24+1);
@@ -194,7 +194,7 @@
         </head>
 <?-------------------------------------------------------------------------------------------------------------------------------------------------------->
         
-        <body>
+        <body onload="metrology()">
             <?-- Titre de la page --------------------------------------------------------------------------------------------------------------------->
             <div id="main_title" class="jumbotron">
                 <h1>Lemonade Wars</h1>
@@ -225,16 +225,16 @@
                             <label id="boisson">Acheter boisson:</label><br>
                             <label value="Limonade">Limonade</label><br>
                             <label>Quantité : <input type='number' id="nbLimonade" placeholder="0"></label>
-                            <label>Prix : <input type='number' id="prixLimonade" placeholder="0"></label><br>
+                            <label>Prix : <input type='number' id="prixLimonade" placeholder="1"></label><br>
                             <label value="Chocolat_chaud">Chocolat Chaud</label><br>
                             <label>Quantité : <input type='number' id="nbChocolat_chaud" placeholder="0"></label>
-                            <label>Prix : <input type='number' id="prixChocolat_chaud" placeholder="0"></label><br>
+                            <label>Prix : <input type='number' id="prixChocolat_chaud" placeholder="1"></label><br>
                             <label value="Mojito">Mojito</label><br>
                             <label>Quantité : <input type='number' id="nbMojito" placeholder="0"></label>
-                            <label>Prix : <input type='number' id="prixMojito" placeholder="0"></label><br>
+                            <label>Prix : <input type='number' id="prixMojito" placeholder="1"></label><br>
                             <label value="Vin_chaud">Vin Chaud</label><br>
                             <label>Quantité : <input type='number' id="nbVin_chaud" placeholder="0"></label>
-                            <label>Prix : <input type='number' id="prixVin_chaud" placeholder="0"></label><br>
+                            <label>Prix : <input type='number' id="prixVin_chaud" placeholder="1"></label><br>
                             <label><input type="button" onclick="envoyerDecision(true)" name="verifier" value="Visualiser ses choix"></input></label>
                         </form>
                         
