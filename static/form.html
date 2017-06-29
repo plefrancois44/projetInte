@@ -81,8 +81,7 @@
                               data: JSON.stringify(reponse),
                               contentType: "application/json",
                             }).done(function(data) {
-                                    var bool = new Boolean(data["sufficentFunds"])
-                                    window.alert(data["sufficentFunds"])
+                                    var bool = new Boolean(data["sufficientFunds"])
                                     if(bool){
                                         getMapPlayer();
                                     }
@@ -179,7 +178,7 @@
           data: JSON.stringify(data),
           contentType: "application/json",
             }).done(function(data) {
-                if(data["sufficentFunds"]!=false){
+                if(data["sufficientFunds"]!=false){
                     $("#valideBoisson").text(data["totalCost"]);
                 }
                 else $("#valideBoisson").text("fond insuffisant");
