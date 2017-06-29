@@ -15,7 +15,7 @@
                         .done(function(data){
                             timestamp=data["timestamp"];
                             $("#metrology").text(calcul(timestamp));
-                             if(data["weather"][0]["dfn"]==0){
+                            if(data["weather"][0]["dfn"]==0){
                                 $("#meteo").text(data["weather"][0]["weather"]);
                                 $("#prevision").text(data["weather"][1]["weather"]);
                             }
@@ -23,7 +23,12 @@
                                 $("#meteo").text(data["weather"][1]["weather"]);
                                 $("#prevision").text(data["weather"][0]["weather"]);
                             }
-                            getMapPlayer();
+                        })
+                    $.ajax("/map/"+$_GET('pseudo'))
+                        .done(function(data){
+                            playerInfo = data["playerInfo"]
+                            budget = playerInfo["cash"]
+                            $("#budget").text(budget)
                         })
                 }
 
@@ -31,13 +36,15 @@
                     return Math.floor(timestamp/24+1);
                 }
               
-
                 function getMapPlayer(){
                     $.ajax("/map/"+$_GET('pseudo'))
                         .done(function(data){
-                            playerInfo = data["playerInfo"]
-                            budget = playerInfo["cash"]
-                            $("#budget").text(budget)
+                            map = data["map"]
+                            itemsByPlayer = map["itemsByPlayer"]
+                            location = itemsByPlayer["location"]
+                            $("#panneau").text(data["latitude"]+" "+data["longitude"]);
+
+
                         })
 
                 }
@@ -171,7 +178,7 @@
                             <label id="meteo"></label><br>                   
                             <label>Budget disponible: </label>
                             <label id="budget"> </label><br>
-                            <label>Panneaux possédés: </label><br>
+                            <label>location: </label><br>
                             <label id="panneau"> </label><br>
                     </div>        
             <?------------------colum1-------------------------------------------------------------------------------------------------------------------->
