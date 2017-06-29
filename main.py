@@ -877,7 +877,7 @@ def get_map():
 			playerInfo["profit"] = profit
 			playerInfo["drinksOffered"] = drinksInfos
 			
-			playerInfos.append({ playerName : playerInfo})
+			playerInfos += { playerName : playerInfo}
 
 	
 	
