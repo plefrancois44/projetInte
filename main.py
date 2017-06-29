@@ -808,12 +808,10 @@ def get_map():
 			ingredientRecette = recettes
 			for ing in range(0,len(ingredientRecette)):
 				ingredientAF=(db.select("SELECT ing_alcool, ing_froid FROM Ingredient WHERE ing_nom=@(ing)", {'ing' : ingredientRecette[ing]["ing_nom"]}))
-				#if ingredientAF[0]['ing_alcool'] == True & alcool == False :
-				#	alcool = True
-				#if ingredientAF[0]['ing_froid'] == False & froid == True :
-				#	froid = False
-				alcool += ingredientAF[0]['ing_alcool']
-				froid += ingredientAF[0]['ing_froid']
+				if ingredientAF[0]['ing_alcool'] == True :
+					alcool = True
+				if ingredientAF[0]['ing_froid'] == False :
+					froid = False
 			drinkInfo = {}
 			drinkInfo["name"] = nomRecette
 			drinkInfo["price"] = prix
@@ -870,7 +868,6 @@ def get_map():
 			mapItems["influence"] = ads[a]['pub_rayon']
 			mapItem.append(mapItems)
 			
-		#itemsByPlayer = { playerName : mapItem}
 		itemsByPlayers[playerName] = mapItem
 			
 		playerInfo = {}
