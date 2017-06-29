@@ -131,6 +131,10 @@ def action_player(playerName):
 	jour = meteoJour[0]['met_jour']
 	
 	for i in range(0,len(actions)) :
+		print(actions[i])
+		print(i)	
+		
+	for i in range(0,len(actions)) :
 		kind = actions[i]["kind"]
 		print(i)
 		if kind == "drinks":
