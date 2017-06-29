@@ -10,20 +10,36 @@
 
 <?------------------------------------------------- GET--------------------------------------------------------------------------------------------->
             <script>   
-                function metrology(){
+                 function metrology(){
                     $.ajax("/metrology")
                         .done(function(data){
                             timestamp=data["timestamp"];
-                            $("#metrology").text(calcul(timestamp))
+                            $("#metrology").text(calcul(timestamp));
                              if(data["weather"][0]["dfn"]==0){
-                                $("#meteo").text(data["weather"][0]["weather"])
-                                $("#prevision").text(data["weather"][1]["weather"])
+                                $("#meteo").text(data["weather"][0]["weather"]);
+                                $("#prevision").text(data["weather"][1]["weather"]);
                             }
                             else{
-                                $("#meteo").text(data["weather"][1]["weather"])
-                                $("#prevision").text(data["weather"][0]["weather"])
+                                $("#meteo").text(data["weather"][1]["weather"]);
+                                $("#prevision").text(data["weather"][0]["weather"]);
                             }
+                            getMapPlayer();
                         })
+                }
+
+                function calcul(timestamp){
+                    return Math.floor(timestamp/24+1);
+                }
+              
+
+                function getMapPlayer(){
+                    $.ajax("/map/"+$_GET('pseudo'))
+                        .done(function(data){
+                            playerInfo = data["playerInfo"]
+                            budget = playerInfo["cash"]
+                            $("#budget").text(budget)
+                        })
+
                 }
 
                 function calcul(timestamp){
