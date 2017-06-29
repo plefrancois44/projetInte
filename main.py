@@ -376,6 +376,7 @@ def get_metrology():
 	else :
 		forecasts = {}
 		forecasts["dfn"] = 1
+		print(meteo)
 		forecasts["weather"] = meteo[0]['met_matin']
 		forecast.append(forecasts)
 		forecasts = {}
