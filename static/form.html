@@ -153,7 +153,7 @@
                 };
                 $.ajax("/actions/"+pseudo, {
                   type: "POST",
-                  data: data,
+                  data: JSON.stringify(data),
                   contentType: "application/json",
                     }).done(function(data) {
                         if(simulated==false){
