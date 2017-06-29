@@ -758,6 +758,7 @@ def get_map():
 	drinksByPlayers = []
 	playerInfos = []
 	recettes = []
+	itemsByPlayers = []
 	profit = 0.0
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
@@ -872,8 +873,10 @@ def get_map():
 			mapItems["location"] = coordinatesA
 			mapItems["influence"] = ads[a]['pub_rayon']
 			mapItem.append(mapItems)
-		
-		
+			
+			itemsByPlayer = { playerName : mapItem}
+			itemsByPlayers.append(itemsByPlayer)
+			
 			playerInfo = {}
 			playerInfo["cash"] = budget[0]["jou_budget"]
 			playerInfo["sales"] = vente[0]["quantite"]
