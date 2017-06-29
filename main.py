@@ -675,6 +675,8 @@ def get_map():
 			drinkInfo["isCold"] = froid
 			drinksInfos.append(drinkInfo)
 
+		print(drinksInfos)
+			
 		drinksByPlayers[playerName] = drinksInfos
 		
 		riche=[]
