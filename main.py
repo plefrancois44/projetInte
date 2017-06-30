@@ -141,6 +141,8 @@ def sales():
 #---- Route qui gere les actions joueur
 @app.route('/actions/<playerName>', methods=['POST'])
 def action_player(playerName):
+	global playerName
+	print(playerNames)
 	data = request.get_json()
 	simulation=data["simulated"]
 	db=Db()
