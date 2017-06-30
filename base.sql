@@ -63,7 +63,7 @@ CREATE TABLE public.vendre(
         ven_quantite Int ,
         jou_nom      Varchar (25) NOT NULL ,
         rec_nom      Varchar (50) NOT NULL ,
-        PRIMARY KEY (jou_nom ,rec_nom )
+        PRIMARY KEY (jou_nom ,rec_nom, ven_jour )
 );
 
 CREATE TABLE public.produire(
