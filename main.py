@@ -157,7 +157,9 @@ def action_player(playerName):
 		if kind == "drinks":
 			boisson = actions[i]["prepare"].keys()[0]
 			valeur = int(actions[i]["prepare"][boisson])
-			prix = float(actions[i]["price"][boisson])
+			prix = 0
+			if actions[i]["price"][boisson]!="":
+				prix = float(actions[i]["price"][boisson])
 			
 			coutProd = 0.0
 			ingredient = {}
