@@ -85,7 +85,15 @@ def sales():
 	
 	meteoJour = db.select("SELECT met_jour FROM meteo WHERE met_apres_midi IS NOT NULL ORDER BY met_jour DESC LIMIT 1")
 	jour = meteoJour[0]['met_jour']
-	
+	prix=db.select("SELECT pro_prix_vente FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
+		 {
+			'nom' : data["player"],
+			'recette' : data["item"]
+		 })
+	print(prix)
+	budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
+			'nom' : data["player"]
+		})	
 	verif = db.select("SELECT * FROM vendre WHERE rec_nom=@(recette) AND ven_jour=@(jour) AND jou_nom=@(nom)",
 		{ 
 			'jour' : jour,
@@ -100,29 +108,15 @@ def sales():
 				    'nom' : data["player"],
 				    'recette' : data["item"]
 				   })
-		prix=db.select("SELECT pro_prix_vente FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
-			 {
-				'nom' : data["player"],
-				'recette' : data["item"]
-			 })
-		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : data["player"]
-			})	
+		newBudget = budget[0]['jou_budget']+prix[0]["pro_prix_vente"]
+		print(newBudget)
 		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
 			  {
 				  'nom' : data["player"],
-				  'budget': budget[0]['jou_budget']+prix[0]["pro_prix_vente"]
+				  'budget': newBudget
 			  })
 	else :
 		qte=int(verif[0]["ven_quantite"])
-		prix=db.select("SELECT pro_prix_vente FROM produire WHERE jou_nom=@(nom) AND rec_nom=@(recette)",
-			 {
-				'nom' : data["player"],
-				'recette' : data["item"]
-			 })
-		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : data["player"]
-			})	
 		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
 			  {
 				  'nom' : data["player"],
