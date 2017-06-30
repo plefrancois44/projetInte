@@ -90,7 +90,6 @@ def sales():
 			'nom' : data["player"],
 			'recette' : data["item"]
 		 })
-	print(prix)
 	budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
 			'nom' : data["player"]
 		})	
@@ -109,7 +108,6 @@ def sales():
 				    'recette' : data["item"]
 				   })
 		newBudget = budget[0]['jou_budget']+prix[0]["pro_prix_vente"]
-		print(newBudget)
 		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
 			  {
 				  'nom' : data["player"],
