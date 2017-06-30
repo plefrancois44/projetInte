@@ -219,22 +219,6 @@
                             <label>Prix : <input type='number' id="prixVin_chaud" placeholder="1"></label><br>
                             <label><input type="button" onclick="envoyerDecision(true)" name="verifier" value="Visualiser ses choix"></input></label>
                         </form>
-                        
-                        <form id="position">
-                            <label>Acheter un panneau publicitaire:</label><br>
-                            <canvas id="myMap" width="516" height="516"></canvas>
-                              <script>
-                              var canvas = document.getElementById('myMap');
-                              var context = canvas.getContext('2d');
-                              var imageObj = new Image();
-                              imageObj.onload = function() {
-                                context.drawImage(imageObj, 69, 50);
-                              };
-                              imageObj.src = 'static/map.jpg';
-                            </script>
-                            
-                            <label><input type="button" onclick="etendre()" name="add_panneau" value="Etendre la zone d'influence"></input></label><br>
-                        </form>                
                     </div>
                     <div class="col-sm-3">
                         <h2>Facture:</h2>
