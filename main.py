@@ -106,7 +106,7 @@ def sales():
 				'recette' : data["item"]
 			 })
 		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : playerName
+				'nom' : data["player"]
 			})	
 		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
 			  {
@@ -121,7 +121,7 @@ def sales():
 				'recette' : data["item"]
 			 })
 		budget = db.select("SELECT jou_budget FROM Joueur WHERE jou_nom=@(nom)",{
-				'nom' : playerName
+				'nom' : data["player"]
 			})	
 		db.execute("UPDATE Joueur SET jou_budget=@(budget) WHERE jou_nom=@(nom)",
 			  {
@@ -141,8 +141,6 @@ def sales():
 #---- Route qui gere les actions joueur
 @app.route('/actions/<playerName>', methods=['POST'])
 def action_player(playerName):
-	global playerName
-	print(playerNames)
 	data = request.get_json()
 	simulation=data["simulated"]
 	db=Db()
